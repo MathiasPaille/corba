@@ -1,0 +1,127 @@
+/*******************************
+ CONTRAT IDL SPECIFIANT LES METHODES DE LA GESTION DES VOEUX POUR L'ADMISSION POST-LICENCE
+********************************/
+module gestionVoeu
+{	
+	//Ensemble d'enumerations spécifiant des ensembles pour les structures qui suivent
+	enum Quartile{PREMIER_QUART, DEUXIEME_QUART, TROISIEME_QUART, QUATRIEME_QUART};
+	enum MoyenObtention{PREMIERE_SESSION, SECONDE_SESSION, REDOUBLEMENT};
+	enum EtatDecision{ADMIS, ATTENTE, REFUSE};
+	enum EtatVoeu{CREE, ACCEPTE, REFUSE, OUI_DEFINITIF, OUI_MAIS, NON_MAIS, NON_DEFINITIF};
+	enum EtatInscription{VALIDE, NON_VALIDE, CLOTURE};
+
+	/*Detail d'un semestre avec :
+	* - numSemestre = sa position dans le temps (premier, second semestre...)
+	* - quartile est le quart dans lequel il se trouve par rapport a ses camarades de promotion
+	*/
+	struct SemestreDetail{
+		string id;
+		float moyenne;
+		Quartile quartile;
+		MoyenObtention moyenObtention;
+		long numSemestre;
+	};
+
+	//Sequence des 6 semestres pour un étudiant pour une license
+	typedef sequence<SemestreDetail, 6> SemestreList;
+
+	//Structure d'un étudiant
+	struct EtudiantDetail{
+		string num_etudiant;
+		string nom;
+		string prenom;
+		string adresse;
+		long universite;
+		long license;
+		SemestreList listeSeum;
+	};
+	
+	//Structure d'un voeux pour un étudiant
+	struct VoeuxDetail{
+		long master;
+		long universite;
+		short classement;
+		EtudiantDetail etu;
+	};
+	
+	//Liste de voeux
+	typedef sequence<VoeuxDetail> VoeuxList;
+	
+	//Structure permettant de savoir a un instant t sont état en fonction des décisions des partis
+	struct CandidatureDetail{
+		VoeuxDetail voeuxDetail;
+		EtatInscription etatInscription;
+		EtatVoeu etatVoeu;
+		EtatDecision etatDecision;
+	};
+	
+	//Liste de candidature classique
+	typedef sequence<CandidatureDetail> CandidatureList;
+	
+	//Lien entre les masters et les universités
+	struct affiliationMaster {
+		long master;
+		long universite;
+	};
+
+	//Liste de lien entre les masters et les universités
+	typedef sequence<affiliationMaster> affiliationList;
+
+	//Ensemble d'exceptions
+	exception compteInconnu {
+		string raison; 
+		long id;
+	};
+    	exception malformedInformation {
+		string raison; 
+		long id;
+	};
+	exception diplomeInconnu {
+		string raison; 
+		long id;
+	};
+	exception voeuInconnu {
+		string raison; 
+		long id;
+	};
+
+	//Interface permettant l'accès a l'ensemble des données de l'étudiant
+	interface EtudiantFactory{
+		CandidatureList getCandidatures(in EtudiantDetail etu) raises (compteInconnu);
+		SemestreList getSemestres(in EtudiantDetail etu) raises (compteInconnu);
+		void creerCandidature(in CandidatureDetail candidature) raises (diplomeInconnu);
+		void modifierCandidature(in CandidatureDetail candidature, in EtatVoeu voeuEtu) raises (voeuInconnu);
+		EtudiantDetail connexion(in string num_etu, in string pwd) raises (compteInconnu);
+	};
+
+	//Permet d'accéder aux infos des candidatures et faire des choix pour chacunes par formation/université
+	interface Universite{
+		CandidatureList consulterCandidatures();
+		void modifierCandidature(in CandidatureDetail candidature, in EtatDecision etatDecision);
+	};
+	
+	//interface pour que le Rectorat puisse excercer sa fonction, récuperer des listes de voeux par étudiant ou par master
+	interface Rectorat{
+		void creerVoeux(in VoeuxDetail monVoeux);
+		VoeuxList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
+		VoeuxList recupererVoeuxEtudiant(in long num_etu) raises (compteInconnu);
+		CandidatureList recupererEtatCandidatures(in VoeuxList listeVoeux) raises (voeuInconnu);	
+		void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises (malformedInformation);
+
+	};
+
+	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master
+	interface Ministere{
+		void redistribuerCandidature(in CandidatureDetail CD);
+		void redistribuerVoeux(in VoeuxDetail VD);
+		affiliationList getAffiliations();
+	};
+	
+	//je ne sais plus a quoi sert la police académie
+	interface Academie{
+		void traiter(in CandidatureDetail CD);
+		void deciderCandidature(in string code, in string etat);
+		CandidatureList getCandidatures(in string code);
+		void creerCandidature(in EtudiantDetail EtuDetail, in VoeuxDetail VDetail);
+	};
+};
