@@ -1,8 +1,9 @@
 package ministere;
 
+import gestionVoeu.DiplomeDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeMap;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tools.Databases;
@@ -24,22 +25,22 @@ public class MinistereDatabase extends SQLConnexion {
         super(Databases.MINISTERE);
     }
     
-//    public TreeMap<Integer, String> getDiplomes(){
-//        TreeMap<Integer, String> diplomes = new TreeMap<>();
-//        try {
-//            ResultSet res = this.makeRequest("select * from diplomes order by id");
-//            if(res != null){
-//                while(res.next()){
-//                    Integer id = res.getInt("id");
-//                    String libelle = res.getString("libellé");
-//                    diplomes.put(id, libelle);
-//                }
-//                res.close();
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(MinistereBase.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return diplomes;
-//    }
+    public DiplomeDetail[] getDiplomes(){
+        ArrayList<DiplomeDetail> list = new ArrayList<>();
+        try{
+            ResultSet res = this.makeRequest("select * from diplomes order by id");
+            if(res != null){
+                while(res.next()){
+                    Integer id = res.getInt("id");
+                    String libelle = res.getString("libelle");
+                    list.add(new DiplomeDetail(id, libelle));
+                }
+                res.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MinistereDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (DiplomeDetail[]) list.toArray();
+    }
     
 }

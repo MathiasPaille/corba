@@ -32,10 +32,10 @@ import org.omg.CORBA.SystemException;
         }
 
         @Override
-        public affiliationMaster[] getAffiliations() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public DiplomeDetail[] getListDiplomes() {
+            return MinistereDatabase.getInstance().getDiplomes();
         }
-}
+    }
 
 public class MinistereServeur {
     

@@ -3,7 +3,6 @@ package etudiant;
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatVoeu;
-import gestionVoeu.VoeuxDetail;
 import java.awt.Color;
 
 /**
