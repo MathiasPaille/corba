@@ -5,7 +5,7 @@ package tools;
  * @author Yvan
  */
 public enum Databases {
-    MINISTERE("ministeres"),
+    MINISTERE("ministere"),
     RECTORAT("rectorat"),
     UNIVERSITE("universite");
    

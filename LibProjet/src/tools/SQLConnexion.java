@@ -22,8 +22,7 @@ public abstract class SQLConnexion {
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB
             connect = DriverManager
-                    .getConnection("jdbc:mysql://localhost/ministere?"
-                            + "user=localhost");
+                    .getConnection("jdbc:mysql://localhost/ministere?user=localhost");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SQLConnexion.class.getName()).log(Level.SEVERE, null, ex);
         }
