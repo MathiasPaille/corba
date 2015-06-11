@@ -25,7 +25,6 @@ class UniversiteImpl extends UniversitePOA {
     public void setORB(ORB orb_val) {
         orb = orb_val;
     }
-
     @Override
     public CandidatureDetail[] consulterCandidatures() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -33,6 +32,11 @@ class UniversiteImpl extends UniversitePOA {
 
     @Override
     public void modifierCandidature(CandidatureDetail candidature, EtatDecision etatDecision) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int[] getAffiliations() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
