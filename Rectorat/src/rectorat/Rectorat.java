@@ -50,6 +50,7 @@ class RectoratImpl extends RectoratPOA {
 
 public class Rectorat {
 
+
     /**
      * @param args the command line arguments
      */
