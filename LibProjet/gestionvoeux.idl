@@ -105,9 +105,8 @@ module gestionVoeu
 		void creerVoeux(in VoeuxDetail monVoeux);
 		VoeuxList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
 		VoeuxList recupererVoeuxEtudiant(in long num_etu) raises (compteInconnu);
-		CandidatureList recupererEtatCandidatures(in VoeuxList listeVoeux) raises (voeuInconnu);	
+		CandidatureList recupererEtatCandidatures(in VoeuxList listeVoeux) raises (voeuInconnu);
 		void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises (malformedInformation);
-
 	};
 
 	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master
