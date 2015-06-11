@@ -43,14 +43,13 @@ public class EtatVoeuHelper
     {
         if (_tc == null) {
             org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-            String []_members = new String[7];
+            String []_members = new String[6];
             _members[0] = "CREE";
             _members[1] = "ACCEPTE";
-            _members[2] = "REFUSE";
-            _members[3] = "OUI_DEFINITIF";
-            _members[4] = "OUI_MAIS";
-            _members[5] = "NON_MAIS";
-            _members[6] = "NON_DEFINITIF";
+            _members[2] = "OUI_DEFINITIF";
+            _members[3] = "OUI_MAIS";
+            _members[4] = "NON_MAIS";
+            _members[5] = "NON_DEFINITIF";
             _tc = orb.create_enum_tc(id(),"EtatVoeu",_members);
         }
         return _tc;
