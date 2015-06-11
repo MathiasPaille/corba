@@ -8,6 +8,11 @@ package gestionVoeu;
 public interface MinistereOperations
 {
     /**
+     * Operation getListDiplomes
+     */
+    public gestionVoeu.DiplomeDetail[] getListDiplomes();
+
+    /**
      * Operation redistribuerCandidature
      */
     public void redistribuerCandidature(gestionVoeu.CandidatureDetail CD);
@@ -16,10 +21,5 @@ public interface MinistereOperations
      * Operation redistribuerVoeux
      */
     public void redistribuerVoeux(gestionVoeu.VoeuxDetail VD);
-
-    /**
-     * Operation getAffiliations
-     */
-    public gestionVoeu.affiliationMaster[] getAffiliations();
 
 }

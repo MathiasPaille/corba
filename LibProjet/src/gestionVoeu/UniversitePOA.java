@@ -35,6 +35,8 @@ public abstract class UniversitePOA extends org.omg.PortableServer.Servant
 
         if (opName.equals("consulterCandidatures")) {
                 return _invoke_consulterCandidatures(_is, handler);
+        } else if (opName.equals("getAffiliations")) {
+                return _invoke_getAffiliations(_is, handler);
         } else if (opName.equals("modifierCandidature")) {
                 return _invoke_modifierCandidature(_is, handler);
         } else {
@@ -66,6 +68,19 @@ public abstract class UniversitePOA extends org.omg.PortableServer.Servant
         modifierCandidature(arg0_in, arg1_in);
 
         _output = handler.createReply();
+
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getAffiliations(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+
+        int[] _arg_result = getAffiliations();
+
+        _output = handler.createReply();
+        gestionVoeu.AffiliationMasterListHelper.write(_output,_arg_result);
 
         return _output;
     }

@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import tools.Databases;
 import tools.SQLConnexion;
 
+
 /**
  *
  * @author Yvan
@@ -38,6 +39,8 @@ public class RectoratDatabase extends SQLConnexion {
                     Integer res_etu_universite = res.getInt("etu_universite");
                     Integer res_etu_license = res.getInt("etu_license");
                     String res_etu_notes = res.getString("etu_notes");
+                    
+                    
                     
                     //e = new EtudiantDetail(res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, res_etu_notes);
                 }

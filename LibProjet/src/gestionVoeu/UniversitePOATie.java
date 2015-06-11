@@ -78,4 +78,12 @@ public class UniversitePOATie extends UniversitePOA
         _tie.modifierCandidature( candidature,  etatDecision);
     }
 
+    /**
+     * Operation getAffiliations
+     */
+    public int[] getAffiliations()
+    {
+        return _tie.getAffiliations();
+    }
+
 }

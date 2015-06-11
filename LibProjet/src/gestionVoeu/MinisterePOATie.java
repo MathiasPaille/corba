@@ -63,6 +63,14 @@ public class MinisterePOATie extends MinisterePOA
     }
 
     /**
+     * Operation getListDiplomes
+     */
+    public gestionVoeu.DiplomeDetail[] getListDiplomes()
+    {
+        return _tie.getListDiplomes();
+    }
+
+    /**
      * Operation redistribuerCandidature
      */
     public void redistribuerCandidature(gestionVoeu.CandidatureDetail CD)
@@ -76,14 +84,6 @@ public class MinisterePOATie extends MinisterePOA
     public void redistribuerVoeux(gestionVoeu.VoeuxDetail VD)
     {
         _tie.redistribuerVoeux( VD);
-    }
-
-    /**
-     * Operation getAffiliations
-     */
-    public gestionVoeu.affiliationMaster[] getAffiliations()
-    {
-        return _tie.getAffiliations();
     }
 
 }

@@ -33,8 +33,8 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler)
     {
 
-        if (opName.equals("getAffiliations")) {
-                return _invoke_getAffiliations(_is, handler);
+        if (opName.equals("getListDiplomes")) {
+                return _invoke_getListDiplomes(_is, handler);
         } else if (opName.equals("redistribuerCandidature")) {
                 return _invoke_redistribuerCandidature(_is, handler);
         } else if (opName.equals("redistribuerVoeux")) {
@@ -45,6 +45,19 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
     }
 
     // helper methods
+    private org.omg.CORBA.portable.OutputStream _invoke_getListDiplomes(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+
+        gestionVoeu.DiplomeDetail[] _arg_result = getListDiplomes();
+
+        _output = handler.createReply();
+        gestionVoeu.DiplomeListHelper.write(_output,_arg_result);
+
+        return _output;
+    }
+
     private org.omg.CORBA.portable.OutputStream _invoke_redistribuerCandidature(
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
@@ -67,19 +80,6 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
         redistribuerVoeux(arg0_in);
 
         _output = handler.createReply();
-
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_getAffiliations(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-
-        gestionVoeu.affiliationMaster[] _arg_result = getAffiliations();
-
-        _output = handler.createReply();
-        gestionVoeu.affiliationListHelper.write(_output,_arg_result);
 
         return _output;
     }

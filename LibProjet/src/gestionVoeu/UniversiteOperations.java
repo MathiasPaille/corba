@@ -17,4 +17,9 @@ public interface UniversiteOperations
      */
     public void modifierCandidature(gestionVoeu.CandidatureDetail candidature, gestionVoeu.EtatDecision etatDecision);
 
+    /**
+     * Operation getAffiliations
+     */
+    public int[] getAffiliations();
+
 }
