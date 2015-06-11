@@ -15,7 +15,6 @@ module gestionVoeu
 	* - quartile est le quart dans lequel il se trouve par rapport a ses camarades de promotion
 	*/
 	struct SemestreDetail{
-		string id;
 		float moyenne;
 		Quartile quartile;
 		MoyenObtention moyenObtention;

@@ -6,11 +6,6 @@ package gestionVoeu;
 public final class SemestreDetail implements org.omg.CORBA.portable.IDLEntity
 {
     /**
-     * Struct member id
-     */
-    public String id;
-
-    /**
      * Struct member moyenne
      */
     public float moyenne;
@@ -38,15 +33,13 @@ public final class SemestreDetail implements org.omg.CORBA.portable.IDLEntity
 
     /**
      * Constructor with fields initialization
-     * @param id id struct member
      * @param moyenne moyenne struct member
      * @param quartile quartile struct member
      * @param moyenObtention moyenObtention struct member
      * @param numSemestre numSemestre struct member
      */
-    public SemestreDetail(String id, float moyenne, gestionVoeu.Quartile quartile, gestionVoeu.MoyenObtention moyenObtention, int numSemestre)
+    public SemestreDetail(float moyenne, gestionVoeu.Quartile quartile, gestionVoeu.MoyenObtention moyenObtention, int numSemestre)
     {
-        this.id = id;
         this.moyenne = moyenne;
         this.quartile = quartile;
         this.moyenObtention = moyenObtention;

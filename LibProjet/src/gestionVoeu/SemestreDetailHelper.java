@@ -73,23 +73,20 @@ public class SemestreDetailHelper
                     return org.omg.CORBA.ORB.init().create_recursive_tc(id());
                 _working = true;
                 org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[5];
+                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[4];
 
                 _members[0] = new org.omg.CORBA.StructMember();
-                _members[0].name = "id";
-                _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
+                _members[0].name = "moyenne";
+                _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_float);
                 _members[1] = new org.omg.CORBA.StructMember();
-                _members[1].name = "moyenne";
-                _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_float);
+                _members[1].name = "quartile";
+                _members[1].type = gestionVoeu.QuartileHelper.type();
                 _members[2] = new org.omg.CORBA.StructMember();
-                _members[2].name = "quartile";
-                _members[2].type = gestionVoeu.QuartileHelper.type();
+                _members[2].name = "moyenObtention";
+                _members[2].type = gestionVoeu.MoyenObtentionHelper.type();
                 _members[3] = new org.omg.CORBA.StructMember();
-                _members[3].name = "moyenObtention";
-                _members[3].type = gestionVoeu.MoyenObtentionHelper.type();
-                _members[4] = new org.omg.CORBA.StructMember();
-                _members[4].name = "numSemestre";
-                _members[4].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
+                _members[3].name = "numSemestre";
+                _members[3].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
                 _tc = orb.create_struct_tc(id(),"SemestreDetail",_members);
                 _working = false;
             }
@@ -117,7 +114,6 @@ public class SemestreDetailHelper
     {
         gestionVoeu.SemestreDetail new_one = new gestionVoeu.SemestreDetail();
 
-        new_one.id = istream.read_string();
         new_one.moyenne = istream.read_float();
         new_one.quartile = gestionVoeu.QuartileHelper.read(istream);
         new_one.moyenObtention = gestionVoeu.MoyenObtentionHelper.read(istream);
@@ -133,7 +129,6 @@ public class SemestreDetailHelper
      */
     public static void write(org.omg.CORBA.portable.OutputStream ostream, gestionVoeu.SemestreDetail value)
     {
-        ostream.write_string(value.id);
         ostream.write_float(value.moyenne);
         gestionVoeu.QuartileHelper.write(ostream,value.quartile);
         gestionVoeu.MoyenObtentionHelper.write(ostream,value.moyenObtention);
