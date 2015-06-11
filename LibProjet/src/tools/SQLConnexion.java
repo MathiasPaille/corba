@@ -15,14 +15,16 @@ import java.util.logging.Logger;
 public abstract class SQLConnexion {
 
     private Connection connect = null;
+    private Statement statement = null;
 
     public SQLConnexion(Databases database) {
         try {
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB
-            connect = DriverManager
-                    .getConnection("jdbc:mysql://localhost/ministere?user=localhost");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/ministere?user=root");
+            // Statements allow to issue SQL queries to the database
+            statement = connect.createStatement();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(SQLConnexion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -31,6 +33,7 @@ public abstract class SQLConnexion {
     @Override
     public void finalize() {
         try {
+            statement.close();
             connect.close();
         } catch (SQLException ex) {
             Logger.getLogger(SQLConnexion.class.getName()).log(Level.SEVERE, null, ex);
@@ -38,17 +41,13 @@ public abstract class SQLConnexion {
     }
 
     public ResultSet makeRequest(String query) {
-        ResultSet resultSet = null;
+        if(connect == null || statement == null) return null;
         try {
-            // Statements allow to issue SQL queries to the database
-            Statement statement = connect.createStatement();
             // Result set get the result of the SQL query
-            resultSet = statement.executeQuery(query);
-            statement.close();
-
+            return statement.executeQuery(query);
         } catch (SQLException ex) {
             Logger.getLogger(SQLConnexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return resultSet;
+        return null;
     }
 }

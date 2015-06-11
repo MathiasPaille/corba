@@ -28,12 +28,14 @@ public class MinistereBase extends SQLConnexion {
         TreeMap<String, String> diplomes = new TreeMap<>();
         try {
             ResultSet res = this.makeRequest("select * from diplomes");
-            while(res.next()){
-                String id = res.getString("id");
-                String libelle = res.getString("libellé");
-                diplomes.put(id, libelle);
+            if(res != null){
+                while(res.next()){
+                    String id = res.getString("id");
+                    String libelle = res.getString("libellé");
+                    diplomes.put(id, libelle);
+                }
+                res.close();
             }
-            res.close();
         } catch (SQLException ex) {
             Logger.getLogger(MinistereBase.class.getName()).log(Level.SEVERE, null, ex);
         }
