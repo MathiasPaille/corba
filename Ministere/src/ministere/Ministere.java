@@ -1,9 +1,8 @@
 package ministere;
 
-<<<<<<< HEAD
+
 import java.util.TreeMap;
 
-=======
 import gestionVoeu.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
@@ -12,7 +11,6 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 import java.util.Properties;
 import org.omg.CORBA.SystemException;
->>>>>>> origin/master
 /**
  *
  * @author Yvan
