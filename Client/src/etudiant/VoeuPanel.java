@@ -1,6 +1,7 @@
 package etudiant;
 
 import gestionVoeu.CandidatureDetail;
+import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatVoeu;
 import gestionVoeu.VoeuxDetail;
 import java.awt.Color;
@@ -21,13 +22,36 @@ public class VoeuPanel extends javax.swing.JPanel {
         this.candidatureDetail = voeu;
         this.etudiantChoice = parent;
         initComponents();
-        Color color = Color.BLACK;
+        this.classementLabel.setText(""+this.candidatureDetail.voeuxDetail.classement);
+        Color colorFont;
         switch(candidatureDetail.etatVoeu.value()){
-            case EtatVoeu._CREE: color = Color.BLUE; break;
-            case EtatVoeu._ACCEPTE: color = Color.GREEN; break;
-            case EtatVoeu._REFUSE: color = Color.RED; break;
+            case EtatVoeu._CREE: colorFont = Color.BLUE; desactiverButtons(); break;
+            case EtatVoeu._ACCEPTE: colorFont = Color.GREEN; activerButtons(); break;
+            default: colorFont = Color.BLACK; desactiverButtons(); break;
         };
-        this.voeuDesc.setForeground(color);
+        this.voeuDesc.setForeground(colorFont);
+        Color colorBack;
+        switch(candidatureDetail.etatDecision.value()){
+            case EtatDecision._ADMIS: colorBack = Color.GREEN; break;
+            case EtatDecision._REFUSE: colorBack = Color.RED; break;
+            default: colorBack = Color.LIGHT_GRAY; break;
+        }
+        colorBack = new Color(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 100);
+        this.setBackground(colorBack);
+    }
+    
+    private void desactiverButtons(){
+        nonDefButton.setEnabled(false);
+        nonMaisButton.setEnabled(false);
+        ouiDefButton.setEnabled(false);
+        ouiMaisButton.setEnabled(false);
+    }
+    
+    private void activerButtons(){
+        nonDefButton.setEnabled(true);
+        nonMaisButton.setEnabled(true);
+        ouiDefButton.setEnabled(true);
+        ouiMaisButton.setEnabled(true);
     }
 
     /**
@@ -44,6 +68,7 @@ public class VoeuPanel extends javax.swing.JPanel {
         ouiDefButton = new javax.swing.JToggleButton();
         ouiMaisButton = new javax.swing.JToggleButton();
         nonMaisButton = new javax.swing.JToggleButton();
+        classementLabel = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(640, 36));
         setMinimumSize(new java.awt.Dimension(640, 36));
@@ -82,22 +107,28 @@ public class VoeuPanel extends javax.swing.JPanel {
             }
         });
 
+        classementLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(voeuDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(classementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(voeuDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ouiDefButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ouiMaisButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nonMaisButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nonDefButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ouiDefButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nonDefButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(ouiMaisButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nonMaisButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,15 +136,19 @@ public class VoeuPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(voeuDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nonDefButton)
                             .addComponent(ouiDefButton)
+                            .addComponent(nonDefButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nonMaisButton)
                             .addComponent(ouiMaisButton))
-                        .addGap(0, 27, Short.MAX_VALUE)))
+                        .addGap(0, 2, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(voeuDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(classementLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -136,6 +171,7 @@ public class VoeuPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel classementLabel;
     private javax.swing.JToggleButton nonDefButton;
     private javax.swing.JToggleButton nonMaisButton;
     private javax.swing.JToggleButton ouiDefButton;
