@@ -1,7 +1,9 @@
 package etudiant;
 
+import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatVoeu;
 import gestionVoeu.VoeuxDetail;
+import java.awt.Color;
 
 /**
  *
@@ -9,16 +11,23 @@ import gestionVoeu.VoeuxDetail;
  */
 public class VoeuPanel extends javax.swing.JPanel {
     
-    private VoeuxDetail voeuAffiche;
+    private CandidatureDetail candidatureDetail;
     private EtudiantChoice etudiantChoice;
 
     /**
      * Creates new form VoeuPanel
      */
-    public VoeuPanel(VoeuxDetail voeu, EtudiantChoice parent) {
-        this.voeuAffiche = voeu;
+    public VoeuPanel(CandidatureDetail voeu,  EtudiantChoice parent) {
+        this.candidatureDetail = voeu;
         this.etudiantChoice = parent;
         initComponents();
+        Color color = Color.BLACK;
+        switch(candidatureDetail.etatVoeu.value()){
+            case EtatVoeu._CREE: color = Color.BLUE; break;
+            case EtatVoeu._ACCEPTE: color = Color.GREEN; break;
+            case EtatVoeu._REFUSE: color = Color.RED; break;
+        };
+        this.voeuDesc.setForeground(color);
     }
 
     /**
@@ -94,30 +103,35 @@ public class VoeuPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(voeuDesc)
-                    .addComponent(nonDefButton)
-                    .addComponent(ouiDefButton)
-                    .addComponent(nonMaisButton)
-                    .addComponent(ouiMaisButton))
-                .addGap(2, 2, 2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(voeuDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nonDefButton)
+                            .addComponent(ouiDefButton)
+                            .addComponent(nonMaisButton)
+                            .addComponent(ouiMaisButton))
+                        .addGap(0, 27, Short.MAX_VALUE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void ouiDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouiDefButtonActionPerformed
-        this.etudiantChoice.makeChoice(voeuAffiche, EtatVoeu.OUI_DEFINITIF);
+        this.etudiantChoice.makeChoice(candidatureDetail, EtatVoeu.OUI_DEFINITIF);
     }//GEN-LAST:event_ouiDefButtonActionPerformed
 
     private void ouiMaisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ouiMaisButtonActionPerformed
-        this.etudiantChoice.makeChoice(voeuAffiche, EtatVoeu.OUI_MAIS);
+        this.etudiantChoice.makeChoice(candidatureDetail, EtatVoeu.OUI_MAIS);
     }//GEN-LAST:event_ouiMaisButtonActionPerformed
 
     private void nonMaisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonMaisButtonActionPerformed
-        this.etudiantChoice.makeChoice(voeuAffiche, EtatVoeu.NON_MAIS);
+        this.etudiantChoice.makeChoice(candidatureDetail, EtatVoeu.NON_MAIS);
     }//GEN-LAST:event_nonMaisButtonActionPerformed
 
     private void nonDefButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonDefButtonActionPerformed
-        this.etudiantChoice.makeChoice(voeuAffiche, EtatVoeu.NON_DEFINITIF);
+        this.etudiantChoice.makeChoice(candidatureDetail, EtatVoeu.NON_DEFINITIF);
     }//GEN-LAST:event_nonDefButtonActionPerformed
 
 

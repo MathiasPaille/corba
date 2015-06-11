@@ -5,8 +5,8 @@
  */
 package etudiant;
 
+import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatVoeu;
-import gestionVoeu.VoeuxDetail;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,7 +22,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
         initComponents();
     }
     
-    public void makeChoice(VoeuxDetail voeu, EtatVoeu choix){
+    public void makeChoice(CandidatureDetail voeu, EtatVoeu choix){
         
     }
     
