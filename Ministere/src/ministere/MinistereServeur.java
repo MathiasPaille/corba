@@ -10,38 +10,35 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 import java.util.Properties;
 import org.omg.CORBA.SystemException;
-
 /**
  *
  * @author Yvan
  */
-//IMPLEMENTATION DE LA CLASSE MINISTERE POA /!\ CODE METIER
-class MinistereImpl extends MinisterePOA {
+    //IMPLEMENTATION DE LA CLASSE MINISTERE POA /!\ CODE METIER
+    class MinistereImpl extends MinisterePOA {
+        private ORB orb;
 
-    private ORB orb;
+        public void setORB(ORB orb_val) {
+            orb = orb_val;
+        }
+        @Override
+        public void redistribuerCandidature(CandidatureDetail CD) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
 
-    public void setORB(ORB orb_val) {
-        orb = orb_val;
+        @Override
+        public void redistribuerVoeux(VoeuxDetail VD) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public DiplomeDetail[] getListDiplomes() {
+            return MinistereDatabase.getInstance().getDiplomes();
+        }
     }
-
-    @Override
-    public void redistribuerCandidature(CandidatureDetail CD) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void redistribuerVoeux(VoeuxDetail VD) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DiplomeDetail[] getListDiplomes() {
-        return MinistereDatabase.getInstance().getDiplomes();
-    }
-}
 
 public class MinistereServeur {
-
+    
     /**
      * @param args the command line arguments
      */
@@ -63,16 +60,23 @@ public class MinistereServeur {
             MinistereImpl ministereImpl = new MinistereImpl();
             ministereImpl.setORB(orb);
 
+            // obtention d'une référence sur l'objet servant
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(ministereImpl);
-
+            // la méthode narrow "caste" la référence à l'objet CORBA obtenue 
+            // en une référence dans son type propre
             Ministere href = MinistereHelper.narrow(ref);
 
-            NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
+            // Obtention d'une référence générique pour le service de nommage
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
+            // L'objet obtenu est un objet CORBA générique. Il est converti dans
+            // son type propre grâce à la classe HelloHelper générée par le compilateur
+            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
-            org.omg.CosNaming.NameComponent[] nameToRegister = new org.omg.CosNaming.NameComponent[1];
-            nameToRegister[0] = new NameComponent("Ministere", "");
+            // création du nom symbolique de l'objet servant
+            String nom = "Ministere";
+            NameComponent path[] = ncRef.to_name(nom);
             // Lier la référence de l'objet servant (instance de HelloImpl) à son nom symbolique    
-            nameRoot.rebind(nameToRegister, rootpoa.servant_to_reference(ministereImpl));
+            ncRef.rebind(path, href);
 
             System.out.println(" MinistereServer est prêt et attend une invocation de méthode");
             // mise en attente des invocations client

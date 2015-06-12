@@ -1,7 +1,6 @@
 package rectorat;
 
 import com.google.gson.Gson;
-import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtudiantDetail;
 import gestionVoeu.MoyenObtention;
 import gestionVoeu.Quartile;
@@ -33,7 +32,6 @@ public class RectoratDatabase extends SQLConnexion {
 
     /**
      * Get un etudiant en fonction de son mandat (xd) et de son numéro étudiant
-     *
      * @param mandant mandant correspondant au rectorat de de l'étudiant
      * @param etu_ine numéro ine de l'étudiant concerné par la requête
      * @return l'étudiant correspondant a son numéro ine
@@ -74,7 +72,6 @@ public class RectoratDatabase extends SQLConnexion {
 
     /**
      * Verification du password a la connexion d'un utilisateur
-     *
      * @param mandant mandant correspondant au rectorat de de l'étudiant
      * @param etu_ine numéro ine de l'étudiant concerné par la requête
      * @param pwd password de l'utilisateur
@@ -90,55 +87,22 @@ public class RectoratDatabase extends SQLConnexion {
                     ResultSet res = this.makeRequest("select password from etudiant where etudiant.mandant=" + mandant + " and etudiant.etu_ine=" + etu_ine);
                     if (res != null) {
                         while (res.next()) {
-                            res_etu_pwd = res.getString("password");
+                            res_etu_pwd = res.getString("password");                            
                         }
                         res.close();
                     }
                     //SI LE MDP EST BON, MON BOOL SE MET A TRUE
-                    if (res_etu_pwd.equals(pwd)) {
-                        monBool = true;
-                    }
+                   if (res_etu_pwd.equals(pwd)) {
+                       monBool = true;
+                   }
                 } catch (SQLException ex) {
-                    Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                  Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
         return monBool;
     }
 
-    /*public  getVoeuxParIne(int mandat, String ine_etu) {
-     EtudiantDetail e = null;
-     try {
-     ResultSet res = this.makeRequest("select * from etudiant where etudiant.mandant=" + mandant + " and etudiant.etu_ine=" + etu_ine);
-     if (res != null) {
-     while (res.next()) {
-     String res_etu_ine = res.getString("etu_ine");
-     String res_etu_nom = res.getString("etu_nom");
-     String res_etu_prenom = res.getString("etu_prenom");
-     String res_etu_adresse = res.getString("etu_adresse");
-     Integer res_etu_universite = res.getInt("etu_universite");
-     Integer res_etu_license = res.getInt("etu_license");
-     String res_etu_notes = res.getString("etu_notes");
-
-     semestreJson s = gson.fromJson(res_etu_notes, semestreJson.class);
-     //list est la liste des moyennes de semestres
-     SemestreDetail[] list = new SemestreDetail[6];
-     list[0] = s.getS1();
-     list[1] = s.getS2();
-     list[2] = s.getS3();
-     list[3] = s.getS4();
-     list[4] = s.getS5();
-     list[5] = s.getS6();
-
-     e = new EtudiantDetail(res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, list);
-     }
-     res.close();
-     }
-     } catch (SQLException ex) {
-     Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
-     }
-     return null;
-     }*/
     class semestreJson {
 
         class SemestreDetailJson {
