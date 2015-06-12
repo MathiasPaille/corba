@@ -73,12 +73,12 @@ public class MinistereServeur {
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
             // création du nom symbolique de l'objet servant
-            String nom = "Hello";
+            String nom = "Ministere";
             NameComponent path[] = ncRef.to_name(nom);
             // Lier la référence de l'objet servant (instance de HelloImpl) à son nom symbolique    
             ncRef.rebind(path, href);
 
-            System.out.println(" HelloServer est prêt et attend une invocation de méthode");
+            System.out.println(" MinistereServer est prêt et attend une invocation de méthode");
             // mise en attente des invocations client
             orb.run();
         } catch (Exception e) {
