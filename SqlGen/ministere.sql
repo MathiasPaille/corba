@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 12 Juin 2015 à 23:10
+-- Généré le :  Sam 13 Juin 2015 à 00:24
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -31,7 +31,7 @@ USE `ministere`;
 DROP TABLE IF EXISTS `diplomes`;
 CREATE TABLE IF NOT EXISTS `diplomes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `libellé` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `libelle` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `diplomes` (
 -- Contenu de la table `diplomes`
 --
 
-INSERT INTO `diplomes` (`id`, `libellé`) VALUES
+INSERT INTO `diplomes` (`id`, `libelle`) VALUES
 (1, 'MIAGE'),
 (2, 'STAPS'),
 (3, 'Management Spécialité Administration des Entreprises'),

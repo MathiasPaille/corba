@@ -14,33 +14,46 @@ import tools.SQLConnexion;
  * @author Yvan
  */
 public class MinistereDatabase extends SQLConnexion {
-    
+
     private static final MinistereDatabase INSTANCE = new MinistereDatabase();
-    
-    public static MinistereDatabase getInstance(){
+
+    public static MinistereDatabase getInstance() {
         return MinistereDatabase.INSTANCE;
     }
 
     private MinistereDatabase() {
         super(Databases.MINISTERE);
     }
-    
-    public DiplomeDetail[] getDiplomes(){
-        ArrayList<DiplomeDetail> list = new ArrayList<>();
-        try{
+
+    public DiplomeDetail[] getDiplomes() {
+        ArrayList<DiplomeDetail> list = new ArrayList<DiplomeDetail>();
+        DiplomeDetail[] dd = null;
+        int rowcount = 0;
+        try {
             ResultSet res = this.makeRequest("select * from diplomes order by id");
-            if(res != null){
-                while(res.next()){
+            if (res != null) {
+                //récupération de la taille du resultSet
+                if (res.last()) {
+                    rowcount = res.getRow();
+                    res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+                }
+                dd = new DiplomeDetail[rowcount];
+                System.out.println("taille de la liste : " + rowcount);
+
+                while (res.next()) {
                     Integer id = res.getInt("id");
                     String libelle = res.getString("libelle");
-                    list.add(new DiplomeDetail(id, libelle));
+
+                    System.out.println("index courant : " + res.getRow());
+                    dd[res.getRow() - 1] = new DiplomeDetail(id, libelle);
+
                 }
                 res.close();
             }
         } catch (SQLException ex) {
             Logger.getLogger(MinistereDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return (DiplomeDetail[]) list.toArray();
+        return (dd);
     }
-    
+
 }
