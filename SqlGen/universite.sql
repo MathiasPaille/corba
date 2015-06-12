@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 11 Juin 2015 à 17:39
+-- Généré le :  Ven 12 Juin 2015 à 23:10
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -34,11 +34,6 @@ CREATE TABLE IF NOT EXISTS `universite_diplome` (
   `dip_id` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Vider la table avant d'insérer `universite_diplome`
---
-
-TRUNCATE TABLE `universite_diplome`;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

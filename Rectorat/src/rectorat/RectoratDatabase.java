@@ -42,9 +42,7 @@ public class RectoratDatabase extends SQLConnexion {
                     String res_etu_adresse = res.getString("etu_adresse");
                     Integer res_etu_universite = res.getInt("etu_universite");
                     Integer res_etu_license = res.getInt("etu_license");
-                    String res_etu_notes = res.getString("etu_notes");
-                    //TODO FAIRE LES DESERIALIZER
-                    
+                    String res_etu_notes = res.getString("etu_notes");                    
                     
                     semestreJson s = gson.fromJson(res_etu_notes, semestreJson.class);
                     //list est la liste des moyennes de semestres
@@ -65,6 +63,25 @@ public class RectoratDatabase extends SQLConnexion {
         }
         return e;
     }
+    
+    public Boolean verifierPassword(int mandant, String etu_ine, String pwd) {
+        Boolean monBool = false;     
+        try {
+            ResultSet res = this.makeRequest("select password from etudiant where etudiant.mandant=" + mandant + " and etudiant.etu_ine="+ etu_ine);
+            if (res != null) {
+                while (res.next()) {
+                    
+                    String res_etu_pwd = res.getString("password");                 
+                }
+                res.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return monBool;
+    }
+    
+    
     
     class semestreJson {
         class SemestreDetailJson {

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 11 Juin 2015 à 17:37
+-- Généré le :  Ven 12 Juin 2015 à 23:10
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -35,11 +35,6 @@ CREATE TABLE IF NOT EXISTS `diplomes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
---
--- Vider la table avant d'insérer `diplomes`
---
-
-TRUNCATE TABLE `diplomes`;
 --
 -- Contenu de la table `diplomes`
 --
