@@ -12,7 +12,6 @@ import gestionVoeu.SemestreDetail;
 import gestionVoeu.VoeuxDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tools.Databases;
@@ -38,14 +37,13 @@ public class RectoratDatabase extends SQLConnexion {
     /**
      * Get un etudiant en fonction de son mandat (xd) et de son numéro étudiant
      *
-     * @param mandant mandant correspondant au rectorat de de l'étudiant
      * @param etu_ine numéro ine de l'étudiant concerné par la requête
      * @return l'étudiant correspondant a son numéro ine
      */
-    public EtudiantDetail getUnEtudiant(int mandant, String etu_ine) {
+    public EtudiantDetail getUnEtudiant(String etu_ine) {
         EtudiantDetail e = null;
         try {
-            ResultSet res = this.makeRequest("select * from etudiant where etudiant.mandant=" + mandant + " and etudiant.etu_ine=" + etu_ine);
+            ResultSet res = this.makeRequest("select * from etudiant where etudiant.mandant=" + RectoratServeur.getInstance().getMandant() + " and etudiant.etu_ine=" + etu_ine);
             if (res != null) {
                 while (res.next()) {
                     String res_etu_ine = res.getString("etu_ine");
@@ -79,19 +77,18 @@ public class RectoratDatabase extends SQLConnexion {
     /**
      * Verification du password a la connexion d'un utilisateur
      *
-     * @param mandant mandant correspondant au rectorat de de l'étudiant
      * @param etu_ine numéro ine de l'étudiant concerné par la requête
      * @param pwd password de l'utilisateur
      * @return si oui ou non, l'utilisateur peut se connecter. :)
      */
-    public EtudiantDetail verifierPassword(int mandant, String etu_ine, String pwd) {
+    public EtudiantDetail verifierPassword(String etu_ine, String pwd) {
         EtudiantDetail e = new EtudiantDetail();
         String res_etu_pwd;
         res_etu_pwd = "";
         if (!pwd.isEmpty()) {
             if (!etu_ine.isEmpty()) {
                 try {
-                    ResultSet res = this.makeRequest("select password from etudiant where etudiant.mandant=" + mandant + " and etudiant.etu_ine=" + etu_ine);
+                    ResultSet res = this.makeRequest("select password from etudiant where etudiant.mandant=" + RectoratServeur.getInstance().getMandant() + " and etudiant.etu_ine=" + etu_ine);
                     if (res != null) {
                         while (res.next()) {
                             res_etu_pwd = res.getString("password");
@@ -100,7 +97,7 @@ public class RectoratDatabase extends SQLConnexion {
                     }
                     //SI LE MDP EST BON, MON BOOL SE MET A TRUE
                     if (res_etu_pwd.equals(pwd)) {
-                        e = this.getUnEtudiant(mandant, etu_ine);
+                        e = this.getUnEtudiant(etu_ine);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,14 +109,13 @@ public class RectoratDatabase extends SQLConnexion {
 
     /**
      * Récupération d'une liste de candidature en fonction d'un numéro étudiant
-     * @param mandat rectorat correspondant
      * @param voeux_ine numéro ine de l'étudiant
      * @return la liste de candidature de l'étudiant 
      */
-    public CandidatureDetail[] recupererVoeuxEtudiant(int mandat, String voeux_ine) {
+    public CandidatureDetail[] recupererVoeuxEtudiant(String voeux_ine) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + mandat + " and voeux.voeux_ine=" + voeux_ine);
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_ine=" + voeux_ine);
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -136,7 +132,7 @@ public class RectoratDatabase extends SQLConnexion {
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
 
-                    EtudiantDetail e = this.getUnEtudiant(mandat, voeux_ine);
+                    EtudiantDetail e = this.getUnEtudiant(voeux_ine);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
@@ -149,10 +145,10 @@ public class RectoratDatabase extends SQLConnexion {
         return cc;
     }
     
-    public CandidatureDetail[] recupererVoeuxMaster(int mandat, int voeux_master) {
+    public CandidatureDetail[] recupererVoeuxMaster(int voeux_master) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + mandat + " and voeux.voeux_master=" + voeux_master);
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_master=" + voeux_master);
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -170,7 +166,7 @@ public class RectoratDatabase extends SQLConnexion {
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
 
-                    EtudiantDetail e = this.getUnEtudiant(mandat, res_voe_ine);
+                    EtudiantDetail e = this.getUnEtudiant(res_voe_ine);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));

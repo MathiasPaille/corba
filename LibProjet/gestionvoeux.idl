@@ -105,11 +105,11 @@ module gestionVoeu
 	
 	//interface pour que le Rectorat puisse excercer sa fonction, récuperer des listes de voeux par étudiant ou par master
 	interface Rectorat{		
-		EtudiantDetail connexion(in long mandant, in string num_etu, in string pwd) raises (compteInconnu);
+		EtudiantDetail connexion(in string num_etu, in string pwd) raises (compteInconnu);
 		void creerVoeux(in VoeuxDetail monVoeux);
-		CandidatureList recupererVoeuxMaster(in long mandant, in long master) raises (diplomeInconnu);
-		CandidatureList recupererVoeuxEtudiant(in long mandant, in string num_etu) raises (compteInconnu);
-		void modifierCandidatureEtat(in long mandant, in CandidatureDetail maCandidature) raises (malformedInformation);
+		CandidatureList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
+		CandidatureList recupererVoeuxEtudiant(in string num_etu) raises (compteInconnu);
+		void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises (malformedInformation);
 	};
 
 	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master

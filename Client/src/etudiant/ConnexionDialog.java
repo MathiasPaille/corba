@@ -21,6 +21,7 @@ public class ConnexionDialog extends javax.swing.JDialog {
     }
     
     private String[] showDialog(){
+        this.setLocationRelativeTo(null);
         setVisible(true);
         return content;
     }
@@ -29,7 +30,7 @@ public class ConnexionDialog extends javax.swing.JDialog {
      * Initialise un dialogue modal et bloquant
      * @return le mandant
      */
-    public static String[] getMandant(){
+    public static String[] getConnexionDetails(){
         return new ConnexionDialog(null, true).showDialog();
     }
 

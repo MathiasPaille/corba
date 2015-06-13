@@ -20,6 +20,7 @@ public class MandantDialog extends javax.swing.JDialog {
     }
     
     private String showDialog(){
+        this.setLocationRelativeTo(null);
         setVisible(true);
         return mandant;
     }

@@ -65,10 +65,10 @@ public class RectoratPOATie extends RectoratPOA
     /**
      * Operation connexion
      */
-    public gestionVoeu.EtudiantDetail connexion(int mandant, String num_etu, String pwd)
+    public gestionVoeu.EtudiantDetail connexion(String num_etu, String pwd)
         throws gestionVoeu.compteInconnu
     {
-        return _tie.connexion( mandant,  num_etu,  pwd);
+        return _tie.connexion( num_etu,  pwd);
     }
 
     /**
@@ -82,28 +82,28 @@ public class RectoratPOATie extends RectoratPOA
     /**
      * Operation recupererVoeuxMaster
      */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int mandant, int master)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
         throws gestionVoeu.diplomeInconnu
     {
-        return _tie.recupererVoeuxMaster( mandant,  master);
+        return _tie.recupererVoeuxMaster( master);
     }
 
     /**
      * Operation recupererVoeuxEtudiant
      */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(int mandant, String num_etu)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(String num_etu)
         throws gestionVoeu.compteInconnu
     {
-        return _tie.recupererVoeuxEtudiant( mandant,  num_etu);
+        return _tie.recupererVoeuxEtudiant( num_etu);
     }
 
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(int mandant, gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
         throws gestionVoeu.malformedInformation
     {
-        _tie.modifierCandidatureEtat( mandant,  maCandidature);
+        _tie.modifierCandidatureEtat( maCandidature);
     }
 
 }

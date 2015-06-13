@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 13 Juin 2015 à 03:12
+-- Généré le :  Sam 13 Juin 2015 à 03:38
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -33,6 +33,24 @@ CREATE TABLE IF NOT EXISTS `universite_diplome` (
   `mandant` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `dip_id` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `universite_diplome`
+--
+
+INSERT INTO `universite_diplome` (`mandant`, `dip_id`) VALUES
+('universite1', 1),
+('universite1', 2),
+('universite1', 3),
+('universite1', 4),
+('universite1', 5),
+('universite1', 6),
+('universite2', 7),
+('universite2', 8),
+('universite2', 9),
+('universite2', 10),
+('universite2', 11),
+('universite2', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

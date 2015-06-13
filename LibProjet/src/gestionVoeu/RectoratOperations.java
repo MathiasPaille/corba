@@ -10,7 +10,7 @@ public interface RectoratOperations
     /**
      * Operation connexion
      */
-    public gestionVoeu.EtudiantDetail connexion(int mandant, String num_etu, String pwd)
+    public gestionVoeu.EtudiantDetail connexion(String num_etu, String pwd)
         throws gestionVoeu.compteInconnu;
 
     /**
@@ -21,19 +21,19 @@ public interface RectoratOperations
     /**
      * Operation recupererVoeuxMaster
      */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int mandant, int master)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
         throws gestionVoeu.diplomeInconnu;
 
     /**
      * Operation recupererVoeuxEtudiant
      */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(int mandant, String num_etu)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(String num_etu)
         throws gestionVoeu.compteInconnu;
 
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(int mandant, gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
         throws gestionVoeu.malformedInformation;
 
 }

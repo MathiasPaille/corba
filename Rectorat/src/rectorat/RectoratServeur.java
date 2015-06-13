@@ -7,7 +7,13 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.omg.CORBA.SystemException;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
+import org.omg.PortableServer.POAPackage.ServantNotActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import tools.MandantDialog;
 
 /**
  *
@@ -23,8 +29,8 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public EtudiantDetail connexion(int mandant, String num_etu, String pwd) throws compteInconnu {
-        return RectoratDatabase.getInstance().verifierPassword(mandant, num_etu, pwd);
+    public EtudiantDetail connexion(String num_etu, String pwd) throws compteInconnu {
+        return RectoratDatabase.getInstance().verifierPassword(num_etu, pwd);
     }
 
     @Override
@@ -33,17 +39,17 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public CandidatureDetail[] recupererVoeuxMaster(int mandant, int master) throws diplomeInconnu {
-        return RectoratDatabase.getInstance().recupererVoeuxMaster(mandant, master);
+    public CandidatureDetail[] recupererVoeuxMaster(int master) throws diplomeInconnu {
+        return RectoratDatabase.getInstance().recupererVoeuxMaster(master);
     }
 
     @Override
-    public CandidatureDetail[] recupererVoeuxEtudiant(int mandant, String num_etu) throws compteInconnu {
-        return RectoratDatabase.getInstance().recupererVoeuxEtudiant(mandant, num_etu);
+    public CandidatureDetail[] recupererVoeuxEtudiant(String num_etu) throws compteInconnu {
+        return RectoratDatabase.getInstance().recupererVoeuxEtudiant(num_etu);
     }
 
     @Override
-    public void modifierCandidatureEtat(int mandant, CandidatureDetail maCandidature) throws malformedInformation {
+    public void modifierCandidatureEtat(CandidatureDetail maCandidature) throws malformedInformation {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -52,52 +58,64 @@ class RectoratImpl extends RectoratPOA {
 }
 
 public class RectoratServeur {
+    
+    private static final RectoratServeur INSTANCE = new RectoratServeur();
+    
+    private String mandant;
+
+    public static RectoratServeur getInstance() {
+        return RectoratServeur.INSTANCE;
+    }
+
+    private RectoratServeur() {
+        this.mandant = "";
+
+    }
+    
+    public void setMandant(String m){
+        this.mandant = m;
+    }
+    
+    public String getMandant(){
+        return this.mandant;
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        RectoratServeur.getInstance().setMandant(MandantDialog.getMandant());
+        
         try {
-            // Instancie et initialise l'ORB
+            // create and initialize the ORB
             ORB orb = ORB.init(args, null);
 
-            // obtention d'une référence sur le POA racine 
-            // un adapteur d'objet est un mécanisme qui connecte une requête 
-            // (utilisant une référence à un object) avec le code du service requis.
+            // get reference to rootpoa & activate the POAManager
             POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-            // activation du gestionnaire de POA qui devient prêt à traiter une requête
             rootpoa.the_POAManager().activate();
 
-            // Intancie le servant (l'objet requis) et l'enregistre auprès de l'ORB
-            // Le servant est une instance de la classe HelloImpl
-            // qui hérite de l'adaptateur d'objets portables sur différents ORB(classe HelloPOA)
+            // create servant and register it with the ORB
             RectoratImpl rectoratImpl = new RectoratImpl();
             rectoratImpl.setORB(orb);
 
-            // obtention d'une référence sur l'objet servant
+            // get object reference from the servant
+            
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(rectoratImpl);
-            // la méthode narrow "caste" la référence à l'objet CORBA obtenue 
-            // en une référence dans son type propre
-            Rectorat href = RectoratHelper.narrow(ref);
+            Universite href = UniversiteHelper.narrow(ref);
+            
+            NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
 
-            // Obtention d'une référence générique pour le service de nommage
-            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            // L'objet obtenu est un objet CORBA générique. Il est converti dans
-            // son type propre grâce à la classe HelloHelper générée par le compilateur
-            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
-            // création du nom symbolique de l'objet servant
-            String nom = "Hello";
-            NameComponent path[] = ncRef.to_name(nom);
+            org.omg.CosNaming.NameComponent[] nameToRegister = new org.omg.CosNaming.NameComponent[1];
+            nameToRegister[0] = new NameComponent(RectoratServeur.getInstance().getMandant(), "");
             // Lier la référence de l'objet servant (instance de HelloImpl) à son nom symbolique    
-            ncRef.rebind(path, href);
+            nameRoot.rebind(nameToRegister, rootpoa.servant_to_reference(rectoratImpl));
 
-            System.out.println(" HelloServer est prêt et attend une invocation de méthode");
+            System.out.println(" RectoratServer " + RectoratServeur.getInstance().getMandant() + " est prêt et attend une invocation de méthode");
             // mise en attente des invocations client
             orb.run();
-        } catch (Exception e) {
-            System.err.println("ERROR: " + e);
-            e.printStackTrace(System.out);
+        } catch (org.omg.CORBA.ORBPackage.InvalidName | AdapterInactive | ServantNotActive | WrongPolicy | InvalidName | NotFound | CannotProceed ex) {
+            Logger.getLogger(RectoratServeur.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         System.out.println("Server Exiting ...");
