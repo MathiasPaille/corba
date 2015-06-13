@@ -178,7 +178,33 @@ public class RectoratDatabase extends SQLConnexion {
         }
         return cc;
     }
-
+    
+    public void creerVoeux(VoeuxDetail monVoeux) {
+            ResultSet res = this.makeRequest("INSERT INTO voeux (mandant, voeux_ine, voeux_master, voeux_universite, voeux_classement, voeux_inscription, voeux_etat_voeu, voeux_decision VALUES"
+                    + " ("
+                        + RectoratServeur.getInstance().getMandant() 
+                        +", "+ monVoeux.etu.num_etudiant 
+                        +", "+ monVoeux.master 
+                        +", "+ monVoeux.universite 
+                        +", "+ monVoeux.classement 
+                        +", "+ 1 
+                        +", "+ 0 
+                        +", "+ 1 
+                    +")");
+    }
+    
+    public void modifierCandidatureEtat(CandidatureDetail maCandidature) {
+            ResultSet res = this.makeRequest("UPDATE voeux SET "
+                    + "voeux_inscription=" + maCandidature.etatInscription.value() 
+                    + ", voeux_etat_voeu=" + maCandidature.etatVoeu.value()
+                    + ", voeux_decision=" + maCandidature.etatDecision.value()
+                    + ", voeux_classement=" + maCandidature.voeuxDetail.classement
+                    + " where mandant=" + RectoratServeur.getInstance().getMandant() 
+                    + " and voeux_ine=" + maCandidature.voeuxDetail.etu.num_etudiant
+                    + " and voeux_master=" + maCandidature.voeuxDetail.master
+                    + " and voeux_universite=" + maCandidature.voeuxDetail.universite);
+    }
+    
     class semestreJson {
 
         class SemestreDetailJson {

@@ -35,7 +35,7 @@ class RectoratImpl extends RectoratPOA {
 
     @Override
     public void creerVoeux(VoeuxDetail monVoeux) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RectoratDatabase.getInstance().creerVoeux(monVoeux);
     }
 
     @Override
@@ -50,7 +50,7 @@ class RectoratImpl extends RectoratPOA {
 
     @Override
     public void modifierCandidatureEtat(CandidatureDetail maCandidature) throws malformedInformation {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RectoratDatabase.getInstance().modifierCandidatureEtat(maCandidature);
     }
 
 
