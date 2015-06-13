@@ -1,4 +1,4 @@
-package universite;
+package tools;
 
 /**
  * Dialogue Custom d'entrée d'un mandant

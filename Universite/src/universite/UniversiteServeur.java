@@ -1,5 +1,6 @@
 package universite;
 
+import tools.MandantDialog;
 import gestionVoeu.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
