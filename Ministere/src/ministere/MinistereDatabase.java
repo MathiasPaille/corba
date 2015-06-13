@@ -3,7 +3,6 @@ package ministere;
 import gestionVoeu.DiplomeDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tools.Databases;
@@ -26,27 +25,21 @@ public class MinistereDatabase extends SQLConnexion {
     }
 
     public DiplomeDetail[] getDiplomes() {
-        ArrayList<DiplomeDetail> list = new ArrayList<DiplomeDetail>();
         DiplomeDetail[] dd = null;
-        int rowcount = 0;
         try {
             ResultSet res = this.makeRequest("select * from diplomes order by id");
             if (res != null) {
+                int rowcount = 0;
                 //récupération de la taille du resultSet
                 if (res.last()) {
                     rowcount = res.getRow();
                     res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
                 }
                 dd = new DiplomeDetail[rowcount];
-                System.out.println("taille de la liste : " + rowcount);
-
                 while (res.next()) {
                     Integer id = res.getInt("id");
                     String libelle = res.getString("libelle");
-
-                    System.out.println("index courant : " + res.getRow());
                     dd[res.getRow() - 1] = new DiplomeDetail(id, libelle);
-
                 }
                 res.close();
             }

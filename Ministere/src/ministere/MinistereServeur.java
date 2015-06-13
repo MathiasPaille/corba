@@ -1,15 +1,18 @@
 package ministere;
 
-import java.util.TreeMap;
-
 import gestionVoeu.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
-import java.util.Properties;
-import org.omg.CORBA.SystemException;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
+import org.omg.PortableServer.POAPackage.ServantNotActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 /**
  *
@@ -50,16 +53,9 @@ public class MinistereServeur {
             // Instancie et initialise l'ORB
             ORB orb = ORB.init(args, null);
 
-            // obtention d'une référence sur le POA racine 
-            // un adapteur d'objet est un mécanisme qui connecte une requête 
-            // (utilisant une référence à un object) avec le code du service requis.
             POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-            // activation du gestionnaire de POA qui devient prêt à traiter une requête
             rootpoa.the_POAManager().activate();
 
-            // Intancie le servant (l'objet requis) et l'enregistre auprès de l'ORB
-            // Le servant est une instance de la classe HelloImpl
-            // qui hérite de l'adaptateur d'objets portables sur différents ORB(classe HelloPOA)
             MinistereImpl ministereImpl = new MinistereImpl();
             ministereImpl.setORB(orb);
 
@@ -77,11 +73,9 @@ public class MinistereServeur {
             System.out.println(" MinistereServer est prêt et attend une invocation de méthode");
             // mise en attente des invocations client
             orb.run();
-        } catch (Exception e) {
-            System.err.println("ERROR: " + e);
-            e.printStackTrace(System.out);
+        } catch (InvalidName | AdapterInactive | ServantNotActive | WrongPolicy | NotFound | CannotProceed | org.omg.CosNaming.NamingContextPackage.InvalidName ex) {
+            Logger.getLogger(MinistereServeur.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         System.out.println("Server Exiting ...");
     }
 
