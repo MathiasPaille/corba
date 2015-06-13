@@ -8,6 +8,12 @@ package gestionVoeu;
 public interface RectoratOperations
 {
     /**
+     * Operation connexion
+     */
+    public gestionVoeu.EtudiantDetail connexion(int mandant, String num_etu, String pwd)
+        throws gestionVoeu.compteInconnu;
+
+    /**
      * Operation creerVoeux
      */
     public void creerVoeux(gestionVoeu.VoeuxDetail monVoeux);
@@ -15,25 +21,19 @@ public interface RectoratOperations
     /**
      * Operation recupererVoeuxMaster
      */
-    public gestionVoeu.VoeuxDetail[] recupererVoeuxMaster(int master)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int mandant, int master)
         throws gestionVoeu.diplomeInconnu;
 
     /**
      * Operation recupererVoeuxEtudiant
      */
-    public gestionVoeu.VoeuxDetail[] recupererVoeuxEtudiant(int num_etu)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(int mandant, String num_etu)
         throws gestionVoeu.compteInconnu;
-
-    /**
-     * Operation recupererEtatCandidatures
-     */
-    public gestionVoeu.CandidatureDetail[] recupererEtatCandidatures(gestionVoeu.VoeuxDetail[] listeVoeux)
-        throws gestionVoeu.voeuInconnu;
 
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(int mandant, gestionVoeu.CandidatureDetail maCandidature)
         throws gestionVoeu.malformedInformation;
 
 }

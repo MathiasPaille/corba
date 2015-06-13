@@ -33,12 +33,12 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler)
     {
 
-        if (opName.equals("creerVoeux")) {
+        if (opName.equals("connexion")) {
+                return _invoke_connexion(_is, handler);
+        } else if (opName.equals("creerVoeux")) {
                 return _invoke_creerVoeux(_is, handler);
         } else if (opName.equals("modifierCandidatureEtat")) {
                 return _invoke_modifierCandidatureEtat(_is, handler);
-        } else if (opName.equals("recupererEtatCandidatures")) {
-                return _invoke_recupererEtatCandidatures(_is, handler);
         } else if (opName.equals("recupererVoeuxEtudiant")) {
                 return _invoke_recupererVoeuxEtudiant(_is, handler);
         } else if (opName.equals("recupererVoeuxMaster")) {
@@ -49,6 +49,30 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
     }
 
     // helper methods
+    private org.omg.CORBA.portable.OutputStream _invoke_connexion(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+        int arg0_in = _is.read_long();
+        String arg1_in = _is.read_string();
+        String arg2_in = _is.read_string();
+
+        try
+        {
+            gestionVoeu.EtudiantDetail _arg_result = connexion(arg0_in, arg1_in, arg2_in);
+
+            _output = handler.createReply();
+            gestionVoeu.EtudiantDetailHelper.write(_output,_arg_result);
+
+        }
+        catch (gestionVoeu.compteInconnu _exception)
+        {
+            _output = handler.createExceptionReply();
+            gestionVoeu.compteInconnuHelper.write(_output,_exception);
+        }
+        return _output;
+    }
+
     private org.omg.CORBA.portable.OutputStream _invoke_creerVoeux(
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
@@ -67,13 +91,14 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
         int arg0_in = _is.read_long();
+        int arg1_in = _is.read_long();
 
         try
         {
-            gestionVoeu.VoeuxDetail[] _arg_result = recupererVoeuxMaster(arg0_in);
+            gestionVoeu.CandidatureDetail[] _arg_result = recupererVoeuxMaster(arg0_in, arg1_in);
 
             _output = handler.createReply();
-            gestionVoeu.VoeuxListHelper.write(_output,_arg_result);
+            gestionVoeu.CandidatureListHelper.write(_output,_arg_result);
 
         }
         catch (gestionVoeu.diplomeInconnu _exception)
@@ -89,13 +114,14 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
         int arg0_in = _is.read_long();
+        String arg1_in = _is.read_string();
 
         try
         {
-            gestionVoeu.VoeuxDetail[] _arg_result = recupererVoeuxEtudiant(arg0_in);
+            gestionVoeu.CandidatureDetail[] _arg_result = recupererVoeuxEtudiant(arg0_in, arg1_in);
 
             _output = handler.createReply();
-            gestionVoeu.VoeuxListHelper.write(_output,_arg_result);
+            gestionVoeu.CandidatureListHelper.write(_output,_arg_result);
 
         }
         catch (gestionVoeu.compteInconnu _exception)
@@ -106,37 +132,16 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
         return _output;
     }
 
-    private org.omg.CORBA.portable.OutputStream _invoke_recupererEtatCandidatures(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        gestionVoeu.VoeuxDetail[] arg0_in = gestionVoeu.VoeuxListHelper.read(_is);
-
-        try
-        {
-            gestionVoeu.CandidatureDetail[] _arg_result = recupererEtatCandidatures(arg0_in);
-
-            _output = handler.createReply();
-            gestionVoeu.CandidatureListHelper.write(_output,_arg_result);
-
-        }
-        catch (gestionVoeu.voeuInconnu _exception)
-        {
-            _output = handler.createExceptionReply();
-            gestionVoeu.voeuInconnuHelper.write(_output,_exception);
-        }
-        return _output;
-    }
-
     private org.omg.CORBA.portable.OutputStream _invoke_modifierCandidatureEtat(
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        gestionVoeu.CandidatureDetail arg0_in = gestionVoeu.CandidatureDetailHelper.read(_is);
+        int arg0_in = _is.read_long();
+        gestionVoeu.CandidatureDetail arg1_in = gestionVoeu.CandidatureDetailHelper.read(_is);
 
         try
         {
-            modifierCandidatureEtat(arg0_in);
+            modifierCandidatureEtat(arg0_in, arg1_in);
 
             _output = handler.createReply();
 

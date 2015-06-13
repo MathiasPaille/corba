@@ -23,18 +23,8 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public VoeuxDetail[] recupererVoeuxMaster(int master) throws diplomeInconnu {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public VoeuxDetail[] recupererVoeuxEtudiant(int num_etu) throws compteInconnu {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public CandidatureDetail[] recupererEtatCandidatures(VoeuxDetail[] listeVoeux) throws voeuInconnu {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public EtudiantDetail connexion(int mandant, String num_etu, String pwd) throws compteInconnu {
+        return RectoratDatabase.getInstance().verifierPassword(mandant, num_etu, pwd);
     }
 
     @Override
@@ -43,9 +33,22 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public void modifierCandidatureEtat(CandidatureDetail maCandidature) throws malformedInformation {
+    public CandidatureDetail[] recupererVoeuxMaster(int mandant, int master) throws diplomeInconnu {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public CandidatureDetail[] recupererVoeuxEtudiant(int mandant, String num_etu) throws compteInconnu {
+        return RectoratDatabase.getInstance().recupererVoeuxEtudiant(mandant, num_etu);
+    }
+
+    @Override
+    public void modifierCandidatureEtat(int mandant, CandidatureDetail maCandidature) throws malformedInformation {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+
 }
 
 public class RectoratServeur {

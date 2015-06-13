@@ -21,6 +21,64 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
     private final static Class _opsClass = gestionVoeu.RectoratOperations.class;
 
     /**
+     * Operation connexion
+     */
+    public gestionVoeu.EtudiantDetail connexion(int mandant, String num_etu, String pwd)
+        throws gestionVoeu.compteInconnu
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("connexion",true);
+                    _output.write_long(mandant);
+                    _output.write_string(num_etu);
+                    _output.write_string(pwd);
+                    _input = this._invoke(_output);
+                    gestionVoeu.EtudiantDetail _arg_ret = gestionVoeu.EtudiantDetailHelper.read(_input);
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    if (_exception_id.equals(gestionVoeu.compteInconnuHelper.id()))
+                    {
+                        throw gestionVoeu.compteInconnuHelper.read(_exception.getInputStream());
+                    }
+
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("connexion",_opsClass);
+                if (_so == null)
+                   continue;
+                gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
+                try
+                {
+                    return _self.connexion( mandant,  num_etu,  pwd);
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
      * Operation creerVoeux
      */
     public void creerVoeux(gestionVoeu.VoeuxDetail monVoeux)
@@ -73,7 +131,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation recupererVoeuxMaster
      */
-    public gestionVoeu.VoeuxDetail[] recupererVoeuxMaster(int master)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int mandant, int master)
         throws gestionVoeu.diplomeInconnu
     {
         while(true)
@@ -84,9 +142,10 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("recupererVoeuxMaster",true);
+                    _output.write_long(mandant);
                     _output.write_long(master);
                     _input = this._invoke(_output);
-                    gestionVoeu.VoeuxDetail[] _arg_ret = gestionVoeu.VoeuxListHelper.read(_input);
+                    gestionVoeu.CandidatureDetail[] _arg_ret = gestionVoeu.CandidatureListHelper.read(_input);
                     return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
@@ -116,7 +175,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
                 try
                 {
-                    return _self.recupererVoeuxMaster( master);
+                    return _self.recupererVoeuxMaster( mandant,  master);
                 }
                 finally
                 {
@@ -129,7 +188,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation recupererVoeuxEtudiant
      */
-    public gestionVoeu.VoeuxDetail[] recupererVoeuxEtudiant(int num_etu)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(int mandant, String num_etu)
         throws gestionVoeu.compteInconnu
     {
         while(true)
@@ -140,9 +199,10 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("recupererVoeuxEtudiant",true);
-                    _output.write_long(num_etu);
+                    _output.write_long(mandant);
+                    _output.write_string(num_etu);
                     _input = this._invoke(_output);
-                    gestionVoeu.VoeuxDetail[] _arg_ret = gestionVoeu.VoeuxListHelper.read(_input);
+                    gestionVoeu.CandidatureDetail[] _arg_ret = gestionVoeu.CandidatureListHelper.read(_input);
                     return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
@@ -172,63 +232,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
                 try
                 {
-                    return _self.recupererVoeuxEtudiant( num_etu);
-                }
-                finally
-                {
-                    _servant_postinvoke(_so);
-                }
-            }
-        }
-    }
-
-    /**
-     * Operation recupererEtatCandidatures
-     */
-    public gestionVoeu.CandidatureDetail[] recupererEtatCandidatures(gestionVoeu.VoeuxDetail[] listeVoeux)
-        throws gestionVoeu.voeuInconnu
-    {
-        while(true)
-        {
-            if (!this._is_local())
-            {
-                org.omg.CORBA.portable.InputStream _input = null;
-                try
-                {
-                    org.omg.CORBA.portable.OutputStream _output = this._request("recupererEtatCandidatures",true);
-                    gestionVoeu.VoeuxListHelper.write(_output,listeVoeux);
-                    _input = this._invoke(_output);
-                    gestionVoeu.CandidatureDetail[] _arg_ret = gestionVoeu.CandidatureListHelper.read(_input);
-                    return _arg_ret;
-                }
-                catch(org.omg.CORBA.portable.RemarshalException _exception)
-                {
-                    continue;
-                }
-                catch(org.omg.CORBA.portable.ApplicationException _exception)
-                {
-                    String _exception_id = _exception.getId();
-                    if (_exception_id.equals(gestionVoeu.voeuInconnuHelper.id()))
-                    {
-                        throw gestionVoeu.voeuInconnuHelper.read(_exception.getInputStream());
-                    }
-
-                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
-                }
-                finally
-                {
-                    this._releaseReply(_input);
-                }
-            }
-            else
-            {
-                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("recupererEtatCandidatures",_opsClass);
-                if (_so == null)
-                   continue;
-                gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
-                try
-                {
-                    return _self.recupererEtatCandidatures( listeVoeux);
+                    return _self.recupererVoeuxEtudiant( mandant,  num_etu);
                 }
                 finally
                 {
@@ -241,7 +245,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(int mandant, gestionVoeu.CandidatureDetail maCandidature)
         throws gestionVoeu.malformedInformation
     {
         while(true)
@@ -252,6 +256,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("modifierCandidatureEtat",true);
+                    _output.write_long(mandant);
                     gestionVoeu.CandidatureDetailHelper.write(_output,maCandidature);
                     _input = this._invoke(_output);
                     return;
@@ -283,7 +288,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
                 try
                 {
-                    _self.modifierCandidatureEtat( maCandidature);
+                    _self.modifierCandidatureEtat( mandant,  maCandidature);
                     return;
                 }
                 finally
