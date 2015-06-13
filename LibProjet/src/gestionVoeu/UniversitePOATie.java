@@ -63,22 +63,6 @@ public class UniversitePOATie extends UniversitePOA
     }
 
     /**
-     * Operation consulterCandidatures
-     */
-    public gestionVoeu.CandidatureDetail[] consulterCandidatures()
-    {
-        return _tie.consulterCandidatures();
-    }
-
-    /**
-     * Operation modifierCandidature
-     */
-    public void modifierCandidature(gestionVoeu.CandidatureDetail candidature, gestionVoeu.EtatDecision etatDecision)
-    {
-        _tie.modifierCandidature( candidature,  etatDecision);
-    }
-
-    /**
      * Operation getAffiliations
      */
     public int[] getAffiliations()

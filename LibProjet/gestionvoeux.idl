@@ -98,8 +98,6 @@ module gestionVoeu
 
 	//Permet d'accéder aux infos des candidatures et faire des choix pour chacunes par formation/université
 	interface Universite{
-		CandidatureList consulterCandidatures();
-		void modifierCandidature(in CandidatureDetail candidature, in EtatDecision etatDecision);
 		AffiliationMasterList getAffiliations();
 	};
 	

@@ -28,6 +28,11 @@ class MinistereImpl extends MinisterePOA {
     }
 
     @Override
+    public DiplomeDetail[] getListDiplomes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void redistribuerCandidature(CandidatureDetail CD) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -35,11 +40,6 @@ class MinistereImpl extends MinisterePOA {
     @Override
     public void redistribuerVoeux(VoeuxDetail VD) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DiplomeDetail[] getListDiplomes() {
-        return MinistereDatabase.getInstance().getDiplomes();
     }
 }
 

@@ -33,45 +33,14 @@ public abstract class UniversitePOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler)
     {
 
-        if (opName.equals("consulterCandidatures")) {
-                return _invoke_consulterCandidatures(_is, handler);
-        } else if (opName.equals("getAffiliations")) {
+        if (opName.equals("getAffiliations")) {
                 return _invoke_getAffiliations(_is, handler);
-        } else if (opName.equals("modifierCandidature")) {
-                return _invoke_modifierCandidature(_is, handler);
         } else {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
         }
     }
 
     // helper methods
-    private org.omg.CORBA.portable.OutputStream _invoke_consulterCandidatures(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-
-        gestionVoeu.CandidatureDetail[] _arg_result = consulterCandidatures();
-
-        _output = handler.createReply();
-        gestionVoeu.CandidatureListHelper.write(_output,_arg_result);
-
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_modifierCandidature(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        gestionVoeu.CandidatureDetail arg0_in = gestionVoeu.CandidatureDetailHelper.read(_is);
-        gestionVoeu.EtatDecision arg1_in = gestionVoeu.EtatDecisionHelper.read(_is);
-
-        modifierCandidature(arg0_in, arg1_in);
-
-        _output = handler.createReply();
-
-        return _output;
-    }
-
     private org.omg.CORBA.portable.OutputStream _invoke_getAffiliations(
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
