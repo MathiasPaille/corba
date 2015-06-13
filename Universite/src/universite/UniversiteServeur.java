@@ -1,6 +1,8 @@
 package universite;
 
 import gestionVoeu.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 // Importation du service de nommage.
 import org.omg.CosNaming.*;
 // Package contenant les exceptions lancées par le service de nommage.
@@ -10,7 +12,9 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
-import java.util.Properties;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
+import org.omg.PortableServer.POAPackage.ServantNotActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 
 /**
@@ -37,26 +41,40 @@ class UniversiteImpl extends UniversitePOA {
 
     @Override
     public int[] getAffiliations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return UniversiteDatabase.getInstance().getAffiliations();
     }
 }
 
 public class UniversiteServeur {
 
     private static final UniversiteServeur INSTANCE = new UniversiteServeur();
+    
+    private String mandant;
 
     public static UniversiteServeur getInstance() {
         return UniversiteServeur.INSTANCE;
     }
 
     private UniversiteServeur() {
+        this.mandant = "";
 
+    }
+    
+    public void setMandant(String m){
+        this.mandant = m;
+    }
+    
+    public String getMandant(){
+        return this.mandant;
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        UniversiteServeur.getInstance().setMandant(MandantDialog.getMandant());
+        
         try {
             // create and initialize the ORB
             ORB orb = ORB.init(args, null);
@@ -73,27 +91,19 @@ public class UniversiteServeur {
             
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(universiteImpl);
             Universite href = UniversiteHelper.narrow(ref);
+            
+            NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
 
-            // get the root naming context
-            // NameService invokes the name service
-            org.omg.CORBA.Object objRef
-                    = orb.resolve_initial_references("NameService");
-            // Use NamingContextExt which is part of the Interoperable
-            // Naming Service (INS) specification.
-            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
+            org.omg.CosNaming.NameComponent[] nameToRegister = new org.omg.CosNaming.NameComponent[1];
+            nameToRegister[0] = new NameComponent(UniversiteServeur.getInstance().getMandant(), "");
+            // Lier la référence de l'objet servant (instance de HelloImpl) à son nom symbolique    
+            nameRoot.rebind(nameToRegister, rootpoa.servant_to_reference(universiteImpl));
 
-            // bind the Object Reference in Naming
-            String name = "Hello";
-            NameComponent path[] = ncRef.to_name(name);
-            ncRef.rebind(path, href);
-
-            System.out.println("Server ready and waiting ...");
-
-            // wait for invocations from clients
+            System.out.println(" UniversiteServer " + UniversiteServeur.getInstance().getMandant() + " est prêt et attend une invocation de méthode");
+            // mise en attente des invocations client
             orb.run();
-        } catch (Exception e) {
-            System.err.println("ERROR: " + e);
-            e.printStackTrace(System.out);
+        } catch (org.omg.CORBA.ORBPackage.InvalidName | AdapterInactive | ServantNotActive | WrongPolicy | InvalidName | NotFound | CannotProceed ex) {
+            Logger.getLogger(UniversiteServeur.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         System.out.println("Server Exiting ...");
