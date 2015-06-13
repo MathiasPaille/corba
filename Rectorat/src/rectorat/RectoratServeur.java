@@ -34,7 +34,7 @@ class RectoratImpl extends RectoratPOA {
 
     @Override
     public CandidatureDetail[] recupererVoeuxMaster(int mandant, int master) throws diplomeInconnu {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return RectoratDatabase.getInstance().recupererVoeuxMaster(mandant, master);
     }
 
     @Override

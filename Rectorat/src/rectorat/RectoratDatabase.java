@@ -24,7 +24,7 @@ import tools.SQLConnexion;
  */
 public class RectoratDatabase extends SQLConnexion {
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     private static final RectoratDatabase INSTANCE = new RectoratDatabase();
 
     public static RectoratDatabase getInstance() {
@@ -137,6 +137,40 @@ public class RectoratDatabase extends SQLConnexion {
                     Integer res_voe_decision = res.getInt("voeux_decision");
 
                     EtudiantDetail e = this.getUnEtudiant(mandat, voeux_ine);
+                    VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
+
+                    cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
+                }
+                res.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cc;
+    }
+    
+    public CandidatureDetail[] recupererVoeuxMaster(int mandat, int voeux_master) {
+        CandidatureDetail[] cc = null;
+        try {
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + mandat + " and voeux.voeux_master=" + voeux_master);
+            if (res != null) {
+                int rowcount = 0;
+                //récupération de la taille du resultSet
+                if (res.last()) {
+                    rowcount = res.getRow();
+                    res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+                }
+                cc = new CandidatureDetail[rowcount];
+                while (res.next()) {
+                    String res_voe_ine = res.getString("voeux_ine");
+                    Integer res_voe_master = res.getInt("voeux_master");
+                    Integer res_voe_universite = res.getInt("voeux_universite");
+                    Short res_voe_classement = res.getShort("voeux_classement");
+                    Integer res_voe_inscription = res.getInt("voeux_inscription");
+                    Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
+                    Integer res_voe_decision = res.getInt("voeux_decision");
+
+                    EtudiantDetail e = this.getUnEtudiant(mandat, res_voe_ine);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
