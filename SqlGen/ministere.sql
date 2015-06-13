@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 13 Juin 2015 à 00:24
+-- Généré le :  Sam 13 Juin 2015 à 16:45
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -51,6 +51,26 @@ INSERT INTO `diplomes` (`id`, `libelle`) VALUES
 (9, 'Histoire de la musique'),
 (10, 'Ornithorynquologie'),
 (11, 'Cinéma');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rectorats`
+--
+
+DROP TABLE IF EXISTS `rectorats`;
+CREATE TABLE IF NOT EXISTS `rectorats` (
+  `rectorats_id` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `rectorats`
+--
+
+INSERT INTO `rectorats` (`rectorats_id`) VALUES
+('rectorat1'),
+('rectorat2'),
+('rectorat3');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -53,8 +53,10 @@ class RectoratImpl extends RectoratPOA {
         RectoratDatabase.getInstance().modifierCandidatureEtat(maCandidature);
     }
 
-
-
+    @Override
+    public void redistribuerCandidature(int mandant, CandidatureDetail CD) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 
 public class RectoratServeur {

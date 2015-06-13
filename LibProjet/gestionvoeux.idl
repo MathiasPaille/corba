@@ -86,6 +86,9 @@ module gestionVoeu
 		string raison; 
 		long id;
 	};
+	
+	//liste de rectorats
+	typedef sequence<string> ListeRectorat;
 
 	//Interface permettant l'accès a l'ensemble des données de l'étudiant
 	interface EtudiantFactory{
@@ -108,13 +111,13 @@ module gestionVoeu
 		CandidatureList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
 		CandidatureList recupererVoeuxEtudiant(in string num_etu) raises (compteInconnu);
 		void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises (malformedInformation);
+		void redistribuerCandidature(in long mandant, in CandidatureDetail CD);
 	};
 
 	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master
 	interface Ministere{
 		DiplomeList getListDiplomes();
-		void redistribuerCandidature(in CandidatureDetail CD);
-		void redistribuerVoeux(in VoeuxDetail VD);
+		ListeRectorat getListRectorats();
 	};
 	
 	//je ne sais plus a quoi sert la police académie

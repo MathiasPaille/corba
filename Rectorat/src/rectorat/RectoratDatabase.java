@@ -145,6 +145,11 @@ public class RectoratDatabase extends SQLConnexion {
         return cc;
     }
     
+    /**
+     * Récuperer les voeux avec un code master
+     * @param voeux_master permet de récuperer l'id du voeux master sur lequel on veut faire la selection
+     * @return la liste des voeux correspondant au master
+     */
     public CandidatureDetail[] recupererVoeuxMaster(int voeux_master) {
         CandidatureDetail[] cc = null;
         try {
@@ -179,6 +184,10 @@ public class RectoratDatabase extends SQLConnexion {
         return cc;
     }
     
+    /**
+     * Permet de créer un voeux
+     * @param monVoeux le voeux que l'on veut créer. Par défaut les états de bases sont= inscription:1:non_valide etatvoeu:0:créé decision:1:attente
+     */
     public void creerVoeux(VoeuxDetail monVoeux) {
             ResultSet res = this.makeRequest("INSERT INTO voeux (mandant, voeux_ine, voeux_master, voeux_universite, voeux_classement, voeux_inscription, voeux_etat_voeu, voeux_decision VALUES"
                     + " ("
@@ -193,12 +202,31 @@ public class RectoratDatabase extends SQLConnexion {
                     +")");
     }
     
+    /**
+     * Modifie une candidature avec une candidature en entrée : permet de modifier les états du voeu
+     * @param maCandidature la candidature passée en parametre doit contenir les nouveaux états
+     */
     public void modifierCandidatureEtat(CandidatureDetail maCandidature) {
             ResultSet res = this.makeRequest("UPDATE voeux SET "
                     + "voeux_inscription=" + maCandidature.etatInscription.value() 
                     + ", voeux_etat_voeu=" + maCandidature.etatVoeu.value()
                     + ", voeux_decision=" + maCandidature.etatDecision.value()
                     + ", voeux_classement=" + maCandidature.voeuxDetail.classement
+                    + " where mandant=" + RectoratServeur.getInstance().getMandant() 
+                    + " and voeux_ine=" + maCandidature.voeuxDetail.etu.num_etudiant
+                    + " and voeux_master=" + maCandidature.voeuxDetail.master
+                    + " and voeux_universite=" + maCandidature.voeuxDetail.universite);
+    }
+    
+    /**
+     * Permet de modifier le mandant d'une candidature afin qu'elle puisse être retrouvée par un autre rectorat
+     * @param mandant le mandant, ou le rectorat
+     * @param maCandidature la candidature passée pour savoir ou modifier le mandant
+     */
+    public void redistribuerCandidature(String mandant, CandidatureDetail maCandidature) {
+            ResultSet res = this.makeRequest("UPDATE voeux SET "
+                    + "mandant=" + mandant
+                    + ",voeux_inscription=" + maCandidature.etatInscription.value()
                     + " where mandant=" + RectoratServeur.getInstance().getMandant() 
                     + " and voeux_ine=" + maCandidature.voeuxDetail.etu.num_etudiant
                     + " and voeux_master=" + maCandidature.voeuxDetail.master

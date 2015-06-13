@@ -70,9 +70,9 @@ public class _MinistereStub extends org.omg.CORBA.portable.ObjectImpl
     }
 
     /**
-     * Operation redistribuerCandidature
+     * Operation getListRectorats
      */
-    public void redistribuerCandidature(gestionVoeu.CandidatureDetail CD)
+    public String[] getListRectorats()
     {
         while(true)
         {
@@ -81,10 +81,10 @@ public class _MinistereStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.InputStream _input = null;
                 try
                 {
-                    org.omg.CORBA.portable.OutputStream _output = this._request("redistribuerCandidature",true);
-                    gestionVoeu.CandidatureDetailHelper.write(_output,CD);
+                    org.omg.CORBA.portable.OutputStream _output = this._request("getListRectorats",true);
                     _input = this._invoke(_output);
-                    return;
+                    String[] _arg_ret = gestionVoeu.ListeRectoratHelper.read(_input);
+                    return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
                 {
@@ -102,64 +102,13 @@ public class _MinistereStub extends org.omg.CORBA.portable.ObjectImpl
             }
             else
             {
-                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("redistribuerCandidature",_opsClass);
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("getListRectorats",_opsClass);
                 if (_so == null)
                    continue;
                 gestionVoeu.MinistereOperations _self = (gestionVoeu.MinistereOperations) _so.servant;
                 try
                 {
-                    _self.redistribuerCandidature( CD);
-                    return;
-                }
-                finally
-                {
-                    _servant_postinvoke(_so);
-                }
-            }
-        }
-    }
-
-    /**
-     * Operation redistribuerVoeux
-     */
-    public void redistribuerVoeux(gestionVoeu.VoeuxDetail VD)
-    {
-        while(true)
-        {
-            if (!this._is_local())
-            {
-                org.omg.CORBA.portable.InputStream _input = null;
-                try
-                {
-                    org.omg.CORBA.portable.OutputStream _output = this._request("redistribuerVoeux",true);
-                    gestionVoeu.VoeuxDetailHelper.write(_output,VD);
-                    _input = this._invoke(_output);
-                    return;
-                }
-                catch(org.omg.CORBA.portable.RemarshalException _exception)
-                {
-                    continue;
-                }
-                catch(org.omg.CORBA.portable.ApplicationException _exception)
-                {
-                    String _exception_id = _exception.getId();
-                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
-                }
-                finally
-                {
-                    this._releaseReply(_input);
-                }
-            }
-            else
-            {
-                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("redistribuerVoeux",_opsClass);
-                if (_so == null)
-                   continue;
-                gestionVoeu.MinistereOperations _self = (gestionVoeu.MinistereOperations) _so.servant;
-                try
-                {
-                    _self.redistribuerVoeux( VD);
-                    return;
+                    return _self.getListRectorats();
                 }
                 finally
                 {

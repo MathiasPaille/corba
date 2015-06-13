@@ -71,19 +71,11 @@ public class MinisterePOATie extends MinisterePOA
     }
 
     /**
-     * Operation redistribuerCandidature
+     * Operation getListRectorats
      */
-    public void redistribuerCandidature(gestionVoeu.CandidatureDetail CD)
+    public String[] getListRectorats()
     {
-        _tie.redistribuerCandidature( CD);
-    }
-
-    /**
-     * Operation redistribuerVoeux
-     */
-    public void redistribuerVoeux(gestionVoeu.VoeuxDetail VD)
-    {
-        _tie.redistribuerVoeux( VD);
+        return _tie.getListRectorats();
     }
 
 }

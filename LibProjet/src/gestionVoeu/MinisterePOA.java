@@ -35,10 +35,8 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
 
         if (opName.equals("getListDiplomes")) {
                 return _invoke_getListDiplomes(_is, handler);
-        } else if (opName.equals("redistribuerCandidature")) {
-                return _invoke_redistribuerCandidature(_is, handler);
-        } else if (opName.equals("redistribuerVoeux")) {
-                return _invoke_redistribuerVoeux(_is, handler);
+        } else if (opName.equals("getListRectorats")) {
+                return _invoke_getListRectorats(_is, handler);
         } else {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
         }
@@ -58,28 +56,15 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
         return _output;
     }
 
-    private org.omg.CORBA.portable.OutputStream _invoke_redistribuerCandidature(
+    private org.omg.CORBA.portable.OutputStream _invoke_getListRectorats(
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        gestionVoeu.CandidatureDetail arg0_in = gestionVoeu.CandidatureDetailHelper.read(_is);
 
-        redistribuerCandidature(arg0_in);
-
-        _output = handler.createReply();
-
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_redistribuerVoeux(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        gestionVoeu.VoeuxDetail arg0_in = gestionVoeu.VoeuxDetailHelper.read(_is);
-
-        redistribuerVoeux(arg0_in);
+        String[] _arg_result = getListRectorats();
 
         _output = handler.createReply();
+        gestionVoeu.ListeRectoratHelper.write(_output,_arg_result);
 
         return _output;
     }

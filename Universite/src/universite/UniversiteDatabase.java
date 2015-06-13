@@ -23,6 +23,10 @@ public class UniversiteDatabase extends SQLConnexion {
         super(Databases.UNIVERSITE);
     }
     
+    /**
+     * Cette méthode permet de récupérer les différentes affiliations de l'universitée courante
+     * @return un ensemble d'entier correspondant aux affiliations
+     */
     public int[] getAffiliations(){
         int[] aff = null;
         try {

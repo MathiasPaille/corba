@@ -106,4 +106,12 @@ public class RectoratPOATie extends RectoratPOA
         _tie.modifierCandidatureEtat( maCandidature);
     }
 
+    /**
+     * Operation redistribuerCandidature
+     */
+    public void redistribuerCandidature(int mandant, gestionVoeu.CandidatureDetail CD)
+    {
+        _tie.redistribuerCandidature( mandant,  CD);
+    }
+
 }

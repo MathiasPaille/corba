@@ -13,13 +13,8 @@ public interface MinistereOperations
     public gestionVoeu.DiplomeDetail[] getListDiplomes();
 
     /**
-     * Operation redistribuerCandidature
+     * Operation getListRectorats
      */
-    public void redistribuerCandidature(gestionVoeu.CandidatureDetail CD);
-
-    /**
-     * Operation redistribuerVoeux
-     */
-    public void redistribuerVoeux(gestionVoeu.VoeuxDetail VD);
+    public String[] getListRectorats();
 
 }

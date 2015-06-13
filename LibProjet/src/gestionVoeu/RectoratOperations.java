@@ -36,4 +36,9 @@ public interface RectoratOperations
     public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
         throws gestionVoeu.malformedInformation;
 
+    /**
+     * Operation redistribuerCandidature
+     */
+    public void redistribuerCandidature(int mandant, gestionVoeu.CandidatureDetail CD);
+
 }

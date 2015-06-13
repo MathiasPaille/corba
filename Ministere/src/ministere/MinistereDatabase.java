@@ -24,6 +24,10 @@ public class MinistereDatabase extends SQLConnexion {
         super(Databases.MINISTERE);
     }
 
+    /**
+     * Methode de ministere pour récuperer tout les diplomes
+     * @return retourne la liste de diplomes
+     */
     public DiplomeDetail[] getDiplomes() {
         DiplomeDetail[] dd = null;
         try {
@@ -48,5 +52,31 @@ public class MinistereDatabase extends SQLConnexion {
         }
         return (dd);
     }
-
+    
+     /**
+     * Permet de récupérer la liste des rectorats
+     * @return la liste totale et complète des rectorats.
+     */
+    public String[] getRectorats(){
+        String[] ss = null;
+        try {
+            ResultSet res = this.makeRequest("select * from rectorats");
+            if (res != null) {
+                int rowcount = 0;
+                //récupération de la taille du resultSet
+                if (res.last()) {
+                    rowcount = res.getRow();
+                    res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+                }
+                ss = new String[rowcount];
+                while (res.next()) {
+                    ss[res.getRow() - 1] = res.getString("rectorats_id");
+                }
+                res.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MinistereDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ss;
+    }
 }
