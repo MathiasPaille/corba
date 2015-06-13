@@ -29,7 +29,7 @@ class MinistereImpl extends MinisterePOA {
 
     @Override
     public DiplomeDetail[] getListDiplomes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return MinistereDatabase.getInstance().getDiplomes();
     }
 
     @Override
