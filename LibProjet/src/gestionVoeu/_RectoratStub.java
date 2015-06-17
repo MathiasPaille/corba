@@ -128,62 +128,6 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
     }
 
     /**
-     * Operation recupererVoeuxMaster
-     */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
-        throws gestionVoeu.diplomeInconnu
-    {
-        while(true)
-        {
-            if (!this._is_local())
-            {
-                org.omg.CORBA.portable.InputStream _input = null;
-                try
-                {
-                    org.omg.CORBA.portable.OutputStream _output = this._request("recupererVoeuxMaster",true);
-                    _output.write_long(master);
-                    _input = this._invoke(_output);
-                    gestionVoeu.CandidatureDetail[] _arg_ret = gestionVoeu.CandidatureListHelper.read(_input);
-                    return _arg_ret;
-                }
-                catch(org.omg.CORBA.portable.RemarshalException _exception)
-                {
-                    continue;
-                }
-                catch(org.omg.CORBA.portable.ApplicationException _exception)
-                {
-                    String _exception_id = _exception.getId();
-                    if (_exception_id.equals(gestionVoeu.diplomeInconnuHelper.id()))
-                    {
-                        throw gestionVoeu.diplomeInconnuHelper.read(_exception.getInputStream());
-                    }
-
-                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
-                }
-                finally
-                {
-                    this._releaseReply(_input);
-                }
-            }
-            else
-            {
-                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("recupererVoeuxMaster",_opsClass);
-                if (_so == null)
-                   continue;
-                gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
-                try
-                {
-                    return _self.recupererVoeuxMaster( master);
-                }
-                finally
-                {
-                    _servant_postinvoke(_so);
-                }
-            }
-        }
-    }
-
-    /**
      * Operation recupererVoeuxEtudiant
      */
     public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(String num_etu)
@@ -230,6 +174,111 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     return _self.recupererVoeuxEtudiant( num_etu);
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
+     * Operation recupererUniversite
+     */
+    public String[] recupererUniversite()
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("recupererUniversite",true);
+                    _input = this._invoke(_output);
+                    String[] _arg_ret = gestionVoeu.ListeUniversiteHelper.read(_input);
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("recupererUniversite",_opsClass);
+                if (_so == null)
+                   continue;
+                gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
+                try
+                {
+                    return _self.recupererUniversite();
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
+     * Operation recupererVoeuxMaster
+     */
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
+        throws gestionVoeu.diplomeInconnu
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("recupererVoeuxMaster",true);
+                    _output.write_long(master);
+                    _input = this._invoke(_output);
+                    gestionVoeu.CandidatureDetail[] _arg_ret = gestionVoeu.CandidatureListHelper.read(_input);
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    if (_exception_id.equals(gestionVoeu.diplomeInconnuHelper.id()))
+                    {
+                        throw gestionVoeu.diplomeInconnuHelper.read(_exception.getInputStream());
+                    }
+
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("recupererVoeuxMaster",_opsClass);
+                if (_so == null)
+                   continue;
+                gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
+                try
+                {
+                    return _self.recupererVoeuxMaster( master);
                 }
                 finally
                 {

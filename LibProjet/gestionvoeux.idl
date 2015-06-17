@@ -30,8 +30,8 @@ module gestionVoeu
 		string nom;
 		string prenom;
 		string adresse;
-		long universite;
-		long license;
+		string universite;
+		string license;
 		SemestreList listeSeum;
 	};
 	
@@ -103,15 +103,20 @@ module gestionVoeu
 	interface Universite{
 		AffiliationMasterList getAffiliations();
 	};
+
+        typedef sequence<string> ListeUniversite;
 	
 	//interface pour que le Rectorat puisse excercer sa fonction, récuperer des listes de voeux par étudiant ou par master
 	interface Rectorat{		
 		EtudiantDetail connexion(in string num_etu, in string pwd) raises (compteInconnu);
 		void creerVoeux(in VoeuxDetail monVoeux);
-		CandidatureList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
 		CandidatureList recupererVoeuxEtudiant(in string num_etu) raises (compteInconnu);
+                ListeUniversite recupererUniversite();
+                
+                //à voir
+		CandidatureList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
 		void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises (malformedInformation);
-		void redistribuerCandidature(in long mandant, in CandidatureDetail CD);
+		void redistribuerCandidature(in long mandant, in CandidatureDetail CD);                
 	};
 
 	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master

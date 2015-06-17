@@ -6,10 +6,8 @@ import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.omg.CORBA.SystemException;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
@@ -57,6 +55,11 @@ class RectoratImpl extends RectoratPOA {
     public void redistribuerCandidature(int mandant, CandidatureDetail CD) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String[] recupererUniversite() {
+        return RectoratDatabase.getInstance().getUniversites();
+    }
 }
 
 public class RectoratServeur {
@@ -64,6 +67,7 @@ public class RectoratServeur {
     private static final RectoratServeur INSTANCE = new RectoratServeur();
     
     private String mandant;
+    private Ministere ministere;
 
     public static RectoratServeur getInstance() {
         return RectoratServeur.INSTANCE;
@@ -71,7 +75,26 @@ public class RectoratServeur {
 
     private RectoratServeur() {
         this.mandant = "";
-
+        //faire la connexion
+        try {
+            String[] args = new String[0];
+            
+            // Intialisation de l'orb
+            org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args,null);
+            // Recuperation du naming service
+            org.omg.CosNaming.NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
+            
+            //Recherche du ministère
+            // Construction du nom a rechercher
+            org.omg.CosNaming.NameComponent[] nameToFind = new org.omg.CosNaming.NameComponent[1];
+            nameToFind[0] = new org.omg.CosNaming.NameComponent("Ministere","");
+            // Recherche aupres du naming service
+            org.omg.CORBA.Object distantMinistere = nameRoot.resolve(nameToFind);
+            // Casting de l'objet CORBA au type convertisseur euro
+            this.ministere = MinistereHelper.narrow(distantMinistere);
+        } catch (org.omg.CORBA.ORBPackage.InvalidName | NotFound | CannotProceed | org.omg.CosNaming.NamingContextPackage.InvalidName ex) {
+            Logger.getLogger(RectoratServeur.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
     
     public void setMandant(String m){
@@ -87,7 +110,9 @@ public class RectoratServeur {
      */
     public static void main(String[] args) {
         
-        RectoratServeur.getInstance().setMandant(MandantDialog.getMandant());
+        while ("".equals(RectoratServeur.getInstance().getMandant())){
+            RectoratServeur.getInstance().setMandant(MandantDialog.getMandant());
+        }
         
         try {
             // create and initialize the ORB
@@ -104,7 +129,6 @@ public class RectoratServeur {
             // get object reference from the servant
             
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(rectoratImpl);
-            Universite href = UniversiteHelper.narrow(ref);
             
             NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
 

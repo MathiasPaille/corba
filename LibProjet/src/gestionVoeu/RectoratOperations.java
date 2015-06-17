@@ -19,16 +19,21 @@ public interface RectoratOperations
     public void creerVoeux(gestionVoeu.VoeuxDetail monVoeux);
 
     /**
-     * Operation recupererVoeuxMaster
-     */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
-        throws gestionVoeu.diplomeInconnu;
-
-    /**
      * Operation recupererVoeuxEtudiant
      */
     public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(String num_etu)
         throws gestionVoeu.compteInconnu;
+
+    /**
+     * Operation recupererUniversite
+     */
+    public String[] recupererUniversite();
+
+    /**
+     * Operation recupererVoeuxMaster
+     */
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
+        throws gestionVoeu.diplomeInconnu;
 
     /**
      * Operation modifierCandidatureEtat

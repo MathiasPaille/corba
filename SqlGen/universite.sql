@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 13 Juin 2015 à 03:38
+-- Généré le :  Mer 17 Juin 2015 à 04:25
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `universite`
 --
-CREATE DATABASE IF NOT EXISTS `universite` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `universite` DEFAULT CHARACTER SET latin1 COLLATE latin1_general_ci;
 USE `universite`;
 
 -- --------------------------------------------------------
@@ -30,9 +30,9 @@ USE `universite`;
 
 DROP TABLE IF EXISTS `universite_diplome`;
 CREATE TABLE IF NOT EXISTS `universite_diplome` (
-  `mandant` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `mandant` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `dip_id` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Contenu de la table `universite_diplome`

@@ -80,21 +80,29 @@ public class RectoratPOATie extends RectoratPOA
     }
 
     /**
-     * Operation recupererVoeuxMaster
-     */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
-        throws gestionVoeu.diplomeInconnu
-    {
-        return _tie.recupererVoeuxMaster( master);
-    }
-
-    /**
      * Operation recupererVoeuxEtudiant
      */
     public gestionVoeu.CandidatureDetail[] recupererVoeuxEtudiant(String num_etu)
         throws gestionVoeu.compteInconnu
     {
         return _tie.recupererVoeuxEtudiant( num_etu);
+    }
+
+    /**
+     * Operation recupererUniversite
+     */
+    public String[] recupererUniversite()
+    {
+        return _tie.recupererUniversite();
+    }
+
+    /**
+     * Operation recupererVoeuxMaster
+     */
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
+        throws gestionVoeu.diplomeInconnu
+    {
+        return _tie.recupererVoeuxMaster( master);
     }
 
     /**

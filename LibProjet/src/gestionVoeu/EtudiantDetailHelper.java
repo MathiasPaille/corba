@@ -89,10 +89,10 @@ public class EtudiantDetailHelper
                 _members[3].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[4] = new org.omg.CORBA.StructMember();
                 _members[4].name = "universite";
-                _members[4].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
+                _members[4].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[5] = new org.omg.CORBA.StructMember();
                 _members[5].name = "license";
-                _members[5].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
+                _members[5].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[6] = new org.omg.CORBA.StructMember();
                 _members[6].name = "listeSeum";
                 _members[6].type = gestionVoeu.SemestreListHelper.type();
@@ -127,8 +127,8 @@ public class EtudiantDetailHelper
         new_one.nom = istream.read_string();
         new_one.prenom = istream.read_string();
         new_one.adresse = istream.read_string();
-        new_one.universite = istream.read_long();
-        new_one.license = istream.read_long();
+        new_one.universite = istream.read_string();
+        new_one.license = istream.read_string();
         new_one.listeSeum = gestionVoeu.SemestreListHelper.read(istream);
 
         return new_one;
@@ -145,8 +145,8 @@ public class EtudiantDetailHelper
         ostream.write_string(value.nom);
         ostream.write_string(value.prenom);
         ostream.write_string(value.adresse);
-        ostream.write_long(value.universite);
-        ostream.write_long(value.license);
+        ostream.write_string(value.universite);
+        ostream.write_string(value.license);
         gestionVoeu.SemestreListHelper.write(ostream,value.listeSeum);
     }
 

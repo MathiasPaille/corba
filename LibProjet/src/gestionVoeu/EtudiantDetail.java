@@ -30,12 +30,12 @@ public final class EtudiantDetail implements org.omg.CORBA.portable.IDLEntity
     /**
      * Struct member universite
      */
-    public int universite;
+    public String universite;
 
     /**
      * Struct member license
      */
-    public int license;
+    public String license;
 
     /**
      * Struct member listeSeum
@@ -58,7 +58,7 @@ public final class EtudiantDetail implements org.omg.CORBA.portable.IDLEntity
      * @param license license struct member
      * @param listeSeum listeSeum struct member
      */
-    public EtudiantDetail(String num_etudiant, String nom, String prenom, String adresse, int universite, int license, gestionVoeu.SemestreDetail[] listeSeum)
+    public EtudiantDetail(String num_etudiant, String nom, String prenom, String adresse, String universite, String license, gestionVoeu.SemestreDetail[] listeSeum)
     {
         this.num_etudiant = num_etudiant;
         this.nom = nom;

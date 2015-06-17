@@ -2,6 +2,7 @@ package rectorat;
 
 import com.google.gson.Gson;
 import gestionVoeu.CandidatureDetail;
+import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatInscription;
 import gestionVoeu.EtatVoeu;
@@ -10,6 +11,7 @@ import gestionVoeu.MoyenObtention;
 import gestionVoeu.Quartile;
 import gestionVoeu.SemestreDetail;
 import gestionVoeu.VoeuxDetail;
+import gestionVoeu.compteInconnu;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -33,6 +35,33 @@ public class RectoratDatabase extends SQLConnexion {
     private RectoratDatabase() {
         super(Databases.RECTORAT);
     }
+    
+    /**
+     * Retourne la liste des universités du rectorat
+     * @return liste des universités du rectorat
+     */
+    public String[] getUniversites() {
+        String[] list = null;
+        try {
+            ResultSet res = this.makeRequest("select universite_id from rectorat_universite where mandant = '" + RectoratServeur.getInstance().getMandant() + "'");
+            if (res != null) {
+                int rowcount = 0;
+                //récupération de la taille du resultSet
+                if (res.last()) {
+                    rowcount = res.getRow();
+                    res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+                }
+                list = new String[rowcount];
+                while (res.next()) {
+                    list[res.getRow() - 1] = res.getString("universite_id");;
+                }
+                res.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     /**
      * Get un etudiant en fonction de son mandat (xd) et de son numéro étudiant
@@ -43,15 +72,15 @@ public class RectoratDatabase extends SQLConnexion {
     public EtudiantDetail getUnEtudiant(String etu_ine) {
         EtudiantDetail e = null;
         try {
-            ResultSet res = this.makeRequest("select * from etudiant where etudiant.mandant=" + RectoratServeur.getInstance().getMandant() + " and etudiant.etu_ine=" + etu_ine);
+            ResultSet res = this.makeRequest("select * from etudiant where mandant = '" + RectoratServeur.getInstance().getMandant() + "' and etu_ine = '" + etu_ine + "'");
             if (res != null) {
                 while (res.next()) {
                     String res_etu_ine = res.getString("etu_ine");
                     String res_etu_nom = res.getString("etu_nom");
                     String res_etu_prenom = res.getString("etu_prenom");
                     String res_etu_adresse = res.getString("etu_adresse");
-                    Integer res_etu_universite = res.getInt("etu_universite");
-                    Integer res_etu_license = res.getInt("etu_license");
+                    String res_etu_universite = res.getString("etu_universite");
+                    String res_etu_license = res.getString("etu_license");
                     String res_etu_notes = res.getString("etu_notes");
 
                     semestreJson s = gson.fromJson(res_etu_notes, semestreJson.class);
@@ -80,15 +109,16 @@ public class RectoratDatabase extends SQLConnexion {
      * @param etu_ine numéro ine de l'étudiant concerné par la requête
      * @param pwd password de l'utilisateur
      * @return si oui ou non, l'utilisateur peut se connecter. :)
+     * @throws gestionVoeu.compteInconnu
      */
-    public EtudiantDetail verifierPassword(String etu_ine, String pwd) {
+    public EtudiantDetail verifierPassword(String etu_ine, String pwd) throws compteInconnu {
         EtudiantDetail e = new EtudiantDetail();
         String res_etu_pwd;
         res_etu_pwd = "";
         if (!pwd.isEmpty()) {
             if (!etu_ine.isEmpty()) {
                 try {
-                    ResultSet res = this.makeRequest("select password from etudiant where etudiant.mandant=" + RectoratServeur.getInstance().getMandant() + " and etudiant.etu_ine=" + etu_ine);
+                    ResultSet res = this.makeRequest("select password from etudiant where mandant = '" + RectoratServeur.getInstance().getMandant() + "' and etu_ine = '" + etu_ine + "'");
                     if (res != null) {
                         while (res.next()) {
                             res_etu_pwd = res.getString("password");
@@ -98,11 +128,15 @@ public class RectoratDatabase extends SQLConnexion {
                     //SI LE MDP EST BON, MON BOOL SE MET A TRUE
                     if (res_etu_pwd.equals(pwd)) {
                         e = this.getUnEtudiant(etu_ine);
+                    } else {
+                        throw new compteInconnu("Mot de passe incorrect", 1);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(RectoratDatabase.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        } else {
+            throw new compteInconnu("Mot de passe vide", 0);
         }
         return e;
     }
@@ -115,7 +149,7 @@ public class RectoratDatabase extends SQLConnexion {
     public CandidatureDetail[] recupererVoeuxEtudiant(String voeux_ine) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_ine=" + voeux_ine);
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = " + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_ine = " + voeux_ine);
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -153,7 +187,7 @@ public class RectoratDatabase extends SQLConnexion {
     public CandidatureDetail[] recupererVoeuxMaster(int voeux_master) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant=" + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_master=" + voeux_master);
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = " + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_master = " + voeux_master);
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -208,14 +242,14 @@ public class RectoratDatabase extends SQLConnexion {
      */
     public void modifierCandidatureEtat(CandidatureDetail maCandidature) {
             ResultSet res = this.makeRequest("UPDATE voeux SET "
-                    + "voeux_inscription=" + maCandidature.etatInscription.value() 
-                    + ", voeux_etat_voeu=" + maCandidature.etatVoeu.value()
-                    + ", voeux_decision=" + maCandidature.etatDecision.value()
-                    + ", voeux_classement=" + maCandidature.voeuxDetail.classement
-                    + " where mandant=" + RectoratServeur.getInstance().getMandant() 
-                    + " and voeux_ine=" + maCandidature.voeuxDetail.etu.num_etudiant
-                    + " and voeux_master=" + maCandidature.voeuxDetail.master
-                    + " and voeux_universite=" + maCandidature.voeuxDetail.universite);
+                    + "voeux_inscription = " + maCandidature.etatInscription.value() 
+                    + ", voeux_etat_voeu = " + maCandidature.etatVoeu.value()
+                    + ", voeux_decision = " + maCandidature.etatDecision.value()
+                    + ", voeux_classement = " + maCandidature.voeuxDetail.classement
+                    + " where mandant = " + RectoratServeur.getInstance().getMandant() 
+                    + " and voeux_ine = " + maCandidature.voeuxDetail.etu.num_etudiant
+                    + " and voeux_master = " + maCandidature.voeuxDetail.master
+                    + " and voeux_universite = " + maCandidature.voeuxDetail.universite);
     }
     
     /**
@@ -225,12 +259,12 @@ public class RectoratDatabase extends SQLConnexion {
      */
     public void redistribuerCandidature(String mandant, CandidatureDetail maCandidature) {
             ResultSet res = this.makeRequest("UPDATE voeux SET "
-                    + "mandant=" + mandant
-                    + ",voeux_inscription=" + maCandidature.etatInscription.value()
-                    + " where mandant=" + RectoratServeur.getInstance().getMandant() 
-                    + " and voeux_ine=" + maCandidature.voeuxDetail.etu.num_etudiant
-                    + " and voeux_master=" + maCandidature.voeuxDetail.master
-                    + " and voeux_universite=" + maCandidature.voeuxDetail.universite);
+                    + "mandant = " + mandant
+                    + ",voeux_inscription = " + maCandidature.etatInscription.value()
+                    + " where mandant = " + RectoratServeur.getInstance().getMandant() 
+                    + " and voeux_ine = " + maCandidature.voeuxDetail.etu.num_etudiant
+                    + " and voeux_master = " + maCandidature.voeuxDetail.master
+                    + " and voeux_universite = " + maCandidature.voeuxDetail.universite);
     }
     
     class semestreJson {

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 13 Juin 2015 à 16:45
+-- Généré le :  Mer 17 Juin 2015 à 04:25
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `ministere`
 --
-CREATE DATABASE IF NOT EXISTS `ministere` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `ministere` DEFAULT CHARACTER SET latin1 COLLATE latin1_general_ci;
 USE `ministere`;
 
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `diplomes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `libelle` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
 
 --
 -- Contenu de la table `diplomes`
@@ -60,8 +60,8 @@ INSERT INTO `diplomes` (`id`, `libelle`) VALUES
 
 DROP TABLE IF EXISTS `rectorats`;
 CREATE TABLE IF NOT EXISTS `rectorats` (
-  `rectorats_id` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `rectorats_id` varchar(20) COLLATE latin1_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Contenu de la table `rectorats`
@@ -69,8 +69,7 @@ CREATE TABLE IF NOT EXISTS `rectorats` (
 
 INSERT INTO `rectorats` (`rectorats_id`) VALUES
 ('rectorat1'),
-('rectorat2'),
-('rectorat3');
+('rectorat2');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

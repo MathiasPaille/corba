@@ -16,6 +16,8 @@ public class VoeuPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form VoeuPanel
+     * @param voeu
+     * @param parent
      */
     public VoeuPanel(CandidatureDetail voeu,  EtudiantChoice parent) {
         this.candidatureDetail = voeu;
@@ -27,7 +29,7 @@ public class VoeuPanel extends javax.swing.JPanel {
             case EtatVoeu._CREE: colorFont = Color.BLUE; desactiverButtons(); break;
             case EtatVoeu._ACCEPTE: colorFont = Color.GREEN; activerButtons(); break;
             default: colorFont = Color.BLACK; desactiverButtons(); break;
-        };
+        }
         this.voeuDesc.setForeground(colorFont);
         Color colorBack;
         switch(candidatureDetail.etatDecision.value()){
@@ -37,6 +39,7 @@ public class VoeuPanel extends javax.swing.JPanel {
         }
         colorBack = new Color(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 100);
         this.setBackground(colorBack);
+        this.etudiantChoice.addVoeuPanel(this);
     }
     
     private void desactiverButtons(){

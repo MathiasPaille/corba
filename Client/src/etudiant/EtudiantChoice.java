@@ -2,6 +2,7 @@ package etudiant;
 
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatVoeu;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,6 +16,27 @@ public class EtudiantChoice extends javax.swing.JPanel {
      */
     public EtudiantChoice() {
         initComponents();
+        this.ineField.setText(Etudiant.getInstance().getDetails().num_etudiant);
+        this.nomField.setText(Etudiant.getInstance().getDetails().nom);
+        this.prenomField.setText(Etudiant.getInstance().getDetails().prenom);
+        this.adresseField.setText(Etudiant.getInstance().getDetails().adresse);
+        this.universiteField.setText(Etudiant.getInstance().getDetails().universite);
+        this.licenseField.setText(Etudiant.getInstance().getDetails().license);
+        
+        for (CandidatureDetail voeu : Etudiant.getInstance().getListeVoeux()) {
+            new VoeuPanel(voeu, this);
+        }
+        
+        DefaultListModel modelRectorat = new DefaultListModel();
+        for(String rect : Etudiant.getInstance().getRectorats()){
+            modelRectorat.addElement(rect);
+        }
+        this.rectoratList.setModel(modelRectorat);
+        
+    }
+    
+    public void addVoeuPanel(VoeuPanel pan){
+        this.seeChoices.add(pan);
     }
     
     public void makeChoice(CandidatureDetail voeu, EtatVoeu choix){
@@ -52,6 +74,18 @@ public class EtudiantChoice extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         textOut = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        ineField = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        nomField = new javax.swing.JLabel();
+        prenomField = new javax.swing.JLabel();
+        adresseField = new javax.swing.JLabel();
+        universiteField = new javax.swing.JLabel();
+        licenseField = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(900, 650));
         setMinimumSize(new java.awt.Dimension(900, 650));
@@ -62,27 +96,12 @@ public class EtudiantChoice extends javax.swing.JPanel {
         rootTabPane.addTab("Voir ses voeux", seeChoices);
 
         rectoratList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        rectoratList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(rectoratList);
 
         universityList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        universityList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(universityList);
 
         formationList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        formationList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(formationList);
 
         addChoice.setText("Ajouter le voeu");
@@ -100,7 +119,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(createVoeuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, createVoeuLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -117,7 +136,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
                 .addGroup(createVoeuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
                 .addGap(11, 11, 11)
                 .addComponent(addChoice)
                 .addContainerGap())
@@ -136,17 +155,41 @@ public class EtudiantChoice extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         rootTabPane.addTab("tab3", jPanel1);
+
+        jLabel1.setText("INE:");
+
+        ineField.setText("jLabel2");
+
+        jLabel3.setText("Nom:");
+
+        jLabel4.setText("Prénom:");
+
+        jLabel5.setText("Adresse:");
+
+        jLabel6.setText("Université:");
+
+        jLabel7.setText("License:");
+
+        nomField.setText("jLabel8");
+
+        prenomField.setText("jLabel9");
+
+        adresseField.setText("jLabel10");
+
+        universiteField.setText("jLabel11");
+
+        licenseField.setText("jLabel12");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -154,12 +197,58 @@ public class EtudiantChoice extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(rootTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(26, 26, 26))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rootTabPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ineField, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                            .addComponent(nomField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(prenomField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(adresseField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(licenseField, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                    .addComponent(universiteField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(rootTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(ineField)
+                    .addComponent(jLabel5)
+                    .addComponent(adresseField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6)
+                    .addComponent(nomField)
+                    .addComponent(universiteField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel7)
+                    .addComponent(prenomField)
+                    .addComponent(licenseField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addComponent(rootTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 678, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -173,17 +262,29 @@ public class EtudiantChoice extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addChoice;
+    private javax.swing.JLabel adresseField;
     private javax.swing.JPanel createVoeu;
     private javax.swing.JList formationList;
+    private javax.swing.JLabel ineField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel licenseField;
+    private javax.swing.JLabel nomField;
+    private javax.swing.JLabel prenomField;
     private javax.swing.JList rectoratList;
     private javax.swing.JTabbedPane rootTabPane;
     private javax.swing.JScrollPane seeChoices;
     private javax.swing.JTextArea textOut;
+    private javax.swing.JLabel universiteField;
     private javax.swing.JList universityList;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,11 +13,12 @@ public class ConnexionDialog extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private ConnexionDialog(java.awt.Frame parent, boolean modal) {
+    private ConnexionDialog(java.awt.Frame parent, boolean modal, boolean isRectoratActive) {
         super(parent, modal);
         content = new String[3];
         for(int i = 0; i < content.length; i++) content[i] = "";
         initComponents();
+        this.rectoratField.setEnabled(!isRectoratActive);
     }
     
     private String[] showDialog(){
@@ -30,8 +31,8 @@ public class ConnexionDialog extends javax.swing.JDialog {
      * Initialise un dialogue modal et bloquant
      * @return le mandant
      */
-    public static String[] getConnexionDetails(){
-        return new ConnexionDialog(null, true).showDialog();
+    public static String[] getConnexionDetails(boolean isRectoratActive){
+        return new ConnexionDialog(null, true, isRectoratActive).showDialog();
     }
 
     /**
