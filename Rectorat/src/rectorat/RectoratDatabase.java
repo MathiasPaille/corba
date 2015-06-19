@@ -2,7 +2,6 @@ package rectorat;
 
 import com.google.gson.Gson;
 import gestionVoeu.CandidatureDetail;
-import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatInscription;
 import gestionVoeu.EtatVoeu;
@@ -52,7 +51,7 @@ public class RectoratDatabase extends SQLConnexion {
                     res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
                 }
                 list = new String[rowcount];
-                while (res.next()) {
+                while (rowcount > 0 && res.next()) {
                     list[res.getRow() - 1] = res.getString("universite_id");;
                 }
                 res.close();
@@ -149,7 +148,7 @@ public class RectoratDatabase extends SQLConnexion {
     public CandidatureDetail[] recupererVoeuxEtudiant(String voeux_ine) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = " + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_ine = " + voeux_ine);
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = '" + RectoratServeur.getInstance().getMandant() + "' and voeux.voeux_ine = '" + voeux_ine +"'");
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -158,7 +157,7 @@ public class RectoratDatabase extends SQLConnexion {
                     res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
                 }
                 cc = new CandidatureDetail[rowcount];
-                while (res.next()) {
+                while (rowcount > 0 && res.next()) {
                     Integer res_voe_master = res.getInt("voeux_master");
                     Integer res_voe_universite = res.getInt("voeux_universite");
                     Short res_voe_classement = res.getShort("voeux_classement");
@@ -169,7 +168,12 @@ public class RectoratDatabase extends SQLConnexion {
                     EtudiantDetail e = this.getUnEtudiant(voeux_ine);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
 
-                    cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
+                    cc[res.getRow() - 1] = new CandidatureDetail(
+                            v,
+                            EtatInscription.from_int(res_voe_inscription),
+                            EtatVoeu.from_int(res_voe_etat_voeu),
+                            EtatDecision.from_int(res_voe_decision)
+                    );
                 }
                 res.close();
             }
@@ -187,7 +191,7 @@ public class RectoratDatabase extends SQLConnexion {
     public CandidatureDetail[] recupererVoeuxMaster(int voeux_master) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = " + RectoratServeur.getInstance().getMandant() + " and voeux.voeux_master = " + voeux_master);
+            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = '" + RectoratServeur.getInstance().getMandant() + "' and voeux.voeux_master = '" + voeux_master + "'");
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -196,7 +200,7 @@ public class RectoratDatabase extends SQLConnexion {
                     res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
                 }
                 cc = new CandidatureDetail[rowcount];
-                while (res.next()) {
+                while (rowcount > 0 && res.next()) {
                     String res_voe_ine = res.getString("voeux_ine");
                     Integer res_voe_master = res.getInt("voeux_master");
                     Integer res_voe_universite = res.getInt("voeux_universite");
@@ -224,16 +228,16 @@ public class RectoratDatabase extends SQLConnexion {
      */
     public void creerVoeux(VoeuxDetail monVoeux) {
             ResultSet res = this.makeRequest("INSERT INTO voeux (mandant, voeux_ine, voeux_master, voeux_universite, voeux_classement, voeux_inscription, voeux_etat_voeu, voeux_decision VALUES"
-                    + " ("
+                    + " ('"
                         + RectoratServeur.getInstance().getMandant() 
-                        +", "+ monVoeux.etu.num_etudiant 
-                        +", "+ monVoeux.master 
-                        +", "+ monVoeux.universite 
-                        +", "+ monVoeux.classement 
-                        +", "+ 1 
-                        +", "+ 0 
-                        +", "+ 1 
-                    +")");
+                        +"', '"+ monVoeux.etu.num_etudiant 
+                        +"', '"+ monVoeux.master 
+                        +"', '"+ monVoeux.universite 
+                        +"', '"+ monVoeux.classement 
+                        +"', '"+ 1 
+                        +"', '"+ 0 
+                        +"', '"+ 1 
+                    +"')");
     }
     
     /**
@@ -242,14 +246,15 @@ public class RectoratDatabase extends SQLConnexion {
      */
     public void modifierCandidatureEtat(CandidatureDetail maCandidature) {
             ResultSet res = this.makeRequest("UPDATE voeux SET "
-                    + "voeux_inscription = " + maCandidature.etatInscription.value() 
-                    + ", voeux_etat_voeu = " + maCandidature.etatVoeu.value()
-                    + ", voeux_decision = " + maCandidature.etatDecision.value()
-                    + ", voeux_classement = " + maCandidature.voeuxDetail.classement
-                    + " where mandant = " + RectoratServeur.getInstance().getMandant() 
-                    + " and voeux_ine = " + maCandidature.voeuxDetail.etu.num_etudiant
-                    + " and voeux_master = " + maCandidature.voeuxDetail.master
-                    + " and voeux_universite = " + maCandidature.voeuxDetail.universite);
+                    + "voeux_inscription = '" + maCandidature.etatInscription.value() 
+                    + "', voeux_etat_voeu = '" + maCandidature.etatVoeu.value()
+                    + "', voeux_decision = '" + maCandidature.etatDecision.value()
+                    + "', voeux_classement = '" + maCandidature.voeuxDetail.classement
+                    + "' where mandant = '" + RectoratServeur.getInstance().getMandant() 
+                    + "' and voeux_ine = '" + maCandidature.voeuxDetail.etu.num_etudiant
+                    + "' and voeux_master = '" + maCandidature.voeuxDetail.master
+                    + "' and voeux_universite = '" + maCandidature.voeuxDetail.universite
+                    + "'");
     }
     
     /**
@@ -259,12 +264,13 @@ public class RectoratDatabase extends SQLConnexion {
      */
     public void redistribuerCandidature(String mandant, CandidatureDetail maCandidature) {
             ResultSet res = this.makeRequest("UPDATE voeux SET "
-                    + "mandant = " + mandant
-                    + ",voeux_inscription = " + maCandidature.etatInscription.value()
-                    + " where mandant = " + RectoratServeur.getInstance().getMandant() 
-                    + " and voeux_ine = " + maCandidature.voeuxDetail.etu.num_etudiant
-                    + " and voeux_master = " + maCandidature.voeuxDetail.master
-                    + " and voeux_universite = " + maCandidature.voeuxDetail.universite);
+                    + "mandant = '" + mandant
+                    + "', voeux_inscription = '" + maCandidature.etatInscription.value()
+                    + "' where mandant = '" + RectoratServeur.getInstance().getMandant() 
+                    + "' and voeux_ine = '" + maCandidature.voeuxDetail.etu.num_etudiant
+                    + "' and voeux_master = '" + maCandidature.voeuxDetail.master
+                    + "' and voeux_universite = '" + maCandidature.voeuxDetail.universite
+                    + "'");
     }
     
     class semestreJson {

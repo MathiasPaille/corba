@@ -4,6 +4,8 @@ import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatVoeu;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -32,6 +34,58 @@ public class EtudiantChoice extends javax.swing.JPanel {
             modelRectorat.addElement(rect);
         }
         this.rectoratList.setModel(modelRectorat);
+        this.rectoratList.addListSelectionListener(new RectoratListListener());
+    }
+    
+    class RectoratListListener implements ListSelectionListener{
+
+        private String lastMember = null;
+        
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            if(!lse.getValueIsAdjusting()){
+                String str = (String) rectoratList.getModel().getElementAt(lse.getFirstIndex());
+                String str2 = (String) rectoratList.getModel().getElementAt(lse.getLastIndex());
+                if(str == null ? lastMember != null : !str.equals(lastMember)){
+                    lastMember = str;
+                } else {
+                    lastMember = str2;
+                }
+                DefaultListModel modelUniversite = new DefaultListModel();
+                for(String univ : Etudiant.getInstance().getUniversitesList(lastMember)){
+                    modelUniversite.addElement(univ);
+                }
+                universityList.setModel(modelUniversite);
+                for(ListSelectionListener el : universityList.getListSelectionListeners()){
+                    universityList.removeListSelectionListener(el);
+                }
+                universityList.addListSelectionListener(new UniversiteListListener());
+            }
+        }
+        
+    }
+    
+    class UniversiteListListener implements ListSelectionListener {
+
+        private String lastMember = null;
+        
+        @Override
+        public void valueChanged(ListSelectionEvent lse) {
+            if(!lse.getValueIsAdjusting()){
+                String str = (String) universityList.getModel().getElementAt(lse.getFirstIndex());
+                String str2 = (String) universityList.getModel().getElementAt(lse.getLastIndex());
+                if(str == null ? lastMember != null : !str.equals(lastMember)){
+                    lastMember = str;
+                } else {
+                    lastMember = str2;
+                }
+                DefaultListModel modelFormation = new DefaultListModel();
+                for(String form : Etudiant.getInstance().getFormationsList(lastMember)){
+                    modelFormation.addElement(form);
+                }
+                formationList.setModel(modelFormation);
+            }
+        }
         
     }
     
@@ -96,12 +150,15 @@ public class EtudiantChoice extends javax.swing.JPanel {
         rootTabPane.addTab("Voir ses voeux", seeChoices);
 
         rectoratList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rectoratList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(rectoratList);
 
         universityList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        universityList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(universityList);
 
         formationList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        formationList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setViewportView(formationList);
 
         addChoice.setText("Ajouter le voeu");
@@ -247,7 +304,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
                     .addComponent(jLabel7)
                     .addComponent(prenomField)
                     .addComponent(licenseField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(rootTabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 678, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
