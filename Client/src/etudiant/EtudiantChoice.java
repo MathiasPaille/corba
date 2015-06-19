@@ -35,6 +35,9 @@ public class EtudiantChoice extends javax.swing.JPanel {
         for (CandidatureDetail voeu : Etudiant.getInstance().getListeVoeux()) {
             new VoeuPanel(voeu, this);
         }
+        this.rectoratList.setCellRenderer(new IDValueCustomRenderer());
+        this.universityList.setCellRenderer(new IDValueCustomRenderer());
+        this.formationList.setCellRenderer(new IDValueCustomRenderer());
         
         DefaultListModel<IDValue> modelRectorat = new DefaultListModel();
         for(RectoratDetail rect : Etudiant.getInstance().getRectorats()){
@@ -51,8 +54,8 @@ public class EtudiantChoice extends javax.swing.JPanel {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
             if(!lse.getValueIsAdjusting()){
-                String str = (String) rectoratList.getModel().getElementAt(lse.getFirstIndex());
-                String str2 = (String) rectoratList.getModel().getElementAt(lse.getLastIndex());
+                String str = ((IDValue) rectoratList.getModel().getElementAt(lse.getFirstIndex())).ID;
+                String str2 = ((IDValue) rectoratList.getModel().getElementAt(lse.getLastIndex())).ID;
                 if(str == null ? lastMember != null : !str.equals(lastMember)){
                     lastMember = str;
                 } else {
@@ -80,8 +83,8 @@ public class EtudiantChoice extends javax.swing.JPanel {
         @Override
         public void valueChanged(ListSelectionEvent lse) {
             if(!lse.getValueIsAdjusting()){
-                String str = (String) universityList.getModel().getElementAt(lse.getFirstIndex());
-                String str2 = (String) universityList.getModel().getElementAt(lse.getLastIndex());
+                String str = ((IDValue) universityList.getModel().getElementAt(lse.getFirstIndex())).ID;
+                String str2 = ((IDValue) universityList.getModel().getElementAt(lse.getLastIndex())).ID;
                 if(str == null ? lastMember != null : !str.equals(lastMember)){
                     lastMember = str;
                 } else {

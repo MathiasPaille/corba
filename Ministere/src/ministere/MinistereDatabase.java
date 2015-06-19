@@ -50,7 +50,7 @@ public class MinistereDatabase extends SQLConnexion {
                     
                     //Initialisation d'une liste et récupération d'un json pour savoir les prérequis
                     DiplomeJson dj = gson.fromJson(diplomes, DiplomeJson.class);
-                    int lenghtOfListe = dj.diplomList.length;                   
+                    int lenghtOfListe = dj.diplomList.length;
                     String listDip[] = new String[lenghtOfListe];
                     System.arraycopy(dj.diplomList, 0, listDip, 0, lenghtOfListe);                    
                     dd[res.getRow() - 1] = new DiplomeDetail(id, libelle, listDip);
@@ -94,6 +94,10 @@ public class MinistereDatabase extends SQLConnexion {
 
     public class DiplomeJson{
         public String[] diplomList;
+        
+        public DiplomeJson(int index){
+            diplomList = new String[index];
+        }
         
         public String getTheDipl(int index){
             return diplomList[index];
