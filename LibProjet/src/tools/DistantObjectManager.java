@@ -63,11 +63,7 @@ public class DistantObjectManager {
                 objectToFind[0] = new NameComponent(name, "");
                 org.omg.CORBA.Object distantObject = this.nameRoot.resolve(objectToFind);
                 this.references.put(name, distantObject);
-            } catch (NotFound ex) {
-                Logger.getLogger(DistantObjectManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (CannotProceed ex) {
-                Logger.getLogger(DistantObjectManager.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (org.omg.CosNaming.NamingContextPackage.InvalidName ex) {
+            } catch (NotFound | CannotProceed | org.omg.CosNaming.NamingContextPackage.InvalidName ex) {
                 Logger.getLogger(DistantObjectManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         } 
