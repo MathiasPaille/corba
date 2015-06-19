@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Client :  127.0.0.1
--- Généré le :  Mer 17 Juin 2015 à 04:25
--- Version du serveur :  5.6.17
--- Version de PHP :  5.5.12
+-- Host: localhost
+-- Generation Time: Jun 19, 2015 at 03:25 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de données :  `ministere`
+-- Database: `ministere`
 --
 CREATE DATABASE IF NOT EXISTS `ministere` DEFAULT CHARACTER SET latin1 COLLATE latin1_general_ci;
 USE `ministere`;
@@ -25,37 +25,38 @@ USE `ministere`;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `diplomes`
+-- Table structure for table `diplomes`
 --
 
 DROP TABLE IF EXISTS `diplomes`;
 CREATE TABLE IF NOT EXISTS `diplomes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `libelle` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `dip_prerequis` varchar(10000) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
 
 --
--- Contenu de la table `diplomes`
+-- Dumping data for table `diplomes`
 --
 
-INSERT INTO `diplomes` (`id`, `libelle`) VALUES
-(1, 'MIAGE'),
-(2, 'STAPS'),
-(3, 'Management Spécialité Administration des Entreprises'),
-(4, 'Droit'),
-(5, 'Psychologie'),
-(6, 'Biologie'),
-(7, 'Nanorobotique et augmentation humaine appliquée'),
-(8, 'Arts plastiques'),
-(9, 'Histoire de la musique'),
-(10, 'Ornithorynquologie'),
-(11, 'Cinéma');
+INSERT INTO `diplomes` (`id`, `libelle`, `dip_prerequis`) VALUES
+(1, 'MIAGE', '{"d1":"L3 MIAGE",\r\n"d2":"Licence pro"}'),
+(2, 'STAPS', '{"d1":"Glandage",\r\n"d2":"L3 Dressage de pingouins"}'),
+(3, 'Management Spécialité Administration des Entreprises', '{"d1":"Licence manager",\r\n"d2":"Licence assistant manager",\r\n"d3":"Licence grh"}'),
+(4, 'Droit', '{"d1":"Licence droit"}'),
+(5, 'Psychologie', '{"d1":"Licence psychologie"}'),
+(6, 'Biologie', '{"d1":"Licence biologie",\r\n"d2":"Licence pro"}'),
+(7, 'Nanorobotique et augmentation humaine appliquée', '{"d1":"Licence nanorobotique",\r\n"d2":"Licence pro"}'),
+(8, 'Arts plastiques', '{"d1":"Licence arts"}'),
+(9, 'Histoire de la musique', '{"d1":"Licence hard-rock",\r\n"d2":"Licence blues"}'),
+(10, 'Ornithorynquologie', '{"d1":"Licence Ornithorynquologie",\r\n"d2":"Licence pro"}'),
+(11, 'Cinéma', '{"d1":"Licence cinema"}');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `rectorats`
+-- Table structure for table `rectorats`
 --
 
 DROP TABLE IF EXISTS `rectorats`;
@@ -64,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `rectorats` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Contenu de la table `rectorats`
+-- Dumping data for table `rectorats`
 --
 
 INSERT INTO `rectorats` (`rectorats_id`) VALUES

@@ -1,5 +1,6 @@
 package ministere;
 
+import com.google.gson.Gson;
 import gestionVoeu.DiplomeDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ import tools.SQLConnexion;
  */
 public class MinistereDatabase extends SQLConnexion {
 
+    private final Gson gson = new Gson();
     private static final MinistereDatabase INSTANCE = new MinistereDatabase();
 
     public static MinistereDatabase getInstance() {
@@ -43,7 +45,14 @@ public class MinistereDatabase extends SQLConnexion {
                 while (res.next()) {
                     Integer id = res.getInt("id");
                     String libelle = res.getString("libelle");
-                    dd[res.getRow() - 1] = new DiplomeDetail(id, libelle);
+                    String diplomes = res.getString("dip_prerequis");
+                    
+                    //Initialisation d'une liste et récupération d'un json pour savoir les prérequis
+                    DiplomeJson dj = gson.fromJson(diplomes, DiplomeJson.class);
+                    int index = dj.diplomList.length;                   
+                    String listDip[] = new String[index];
+                    
+                    dd[res.getRow() - 1] = new DiplomeDetail(id, libelle, listDip);
                 }
                 res.close();
             }
@@ -79,4 +88,13 @@ public class MinistereDatabase extends SQLConnexion {
         }
         return ss;
     }
+
+    public class DiplomeJson{
+        public String[] diplomList;
+        
+        public String getTheDipl(int index){
+            return diplomList[index];
+        }
+    }
+
 }

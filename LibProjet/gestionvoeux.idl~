@@ -24,9 +24,6 @@ module gestionVoeu
 	//Sequence des 6 semestres pour un étudiant pour une license
 	typedef sequence<SemestreDetail, 6> SemestreList;
 
-	//liste de diplômes
-	typedef sequence<string> ListeLicence;
-
 	//Structure d'un étudiant
 	struct EtudiantDetail{
 		string num_etudiant;
@@ -93,6 +90,9 @@ module gestionVoeu
 	
 	//liste de rectorats
 	typedef sequence<string> ListeRectorat;
+
+	//liste de diplômes
+	typedef sequence<string> ListeLicence;
 
 	//Interface permettant l'accès a l'ensemble des données de l'étudiant
 	interface EtudiantFactory{

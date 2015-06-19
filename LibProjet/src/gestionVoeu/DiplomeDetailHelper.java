@@ -73,7 +73,7 @@ public class DiplomeDetailHelper
                     return org.omg.CORBA.ORB.init().create_recursive_tc(id());
                 _working = true;
                 org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[2];
+                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[3];
 
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "id";
@@ -81,6 +81,9 @@ public class DiplomeDetailHelper
                 _members[1] = new org.omg.CORBA.StructMember();
                 _members[1].name = "libelle";
                 _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
+                _members[2] = new org.omg.CORBA.StructMember();
+                _members[2].name = "listeDip";
+                _members[2].type = gestionVoeu.ListeLicenceHelper.type();
                 _tc = orb.create_struct_tc(id(),"DiplomeDetail",_members);
                 _working = false;
             }
@@ -110,6 +113,7 @@ public class DiplomeDetailHelper
 
         new_one.id = istream.read_long();
         new_one.libelle = istream.read_string();
+        new_one.listeDip = gestionVoeu.ListeLicenceHelper.read(istream);
 
         return new_one;
     }
@@ -123,6 +127,7 @@ public class DiplomeDetailHelper
     {
         ostream.write_long(value.id);
         ostream.write_string(value.libelle);
+        gestionVoeu.ListeLicenceHelper.write(ostream,value.listeDip);
     }
 
 }
