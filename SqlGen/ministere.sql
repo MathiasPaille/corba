@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 19, 2015 at 03:25 PM
+-- Generation Time: Jun 19, 2015 at 04:25 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.9
 
@@ -41,17 +41,17 @@ CREATE TABLE IF NOT EXISTS `diplomes` (
 --
 
 INSERT INTO `diplomes` (`id`, `libelle`, `dip_prerequis`) VALUES
-(1, 'MIAGE', '{"d1":"L3 MIAGE",\r\n"d2":"Licence pro"}'),
-(2, 'STAPS', '{"d1":"Glandage",\r\n"d2":"L3 Dressage de pingouins"}'),
-(3, 'Management Spécialité Administration des Entreprises', '{"d1":"Licence manager",\r\n"d2":"Licence assistant manager",\r\n"d3":"Licence grh"}'),
-(4, 'Droit', '{"d1":"Licence droit"}'),
-(5, 'Psychologie', '{"d1":"Licence psychologie"}'),
-(6, 'Biologie', '{"d1":"Licence biologie",\r\n"d2":"Licence pro"}'),
-(7, 'Nanorobotique et augmentation humaine appliquée', '{"d1":"Licence nanorobotique",\r\n"d2":"Licence pro"}'),
-(8, 'Arts plastiques', '{"d1":"Licence arts"}'),
-(9, 'Histoire de la musique', '{"d1":"Licence hard-rock",\r\n"d2":"Licence blues"}'),
-(10, 'Ornithorynquologie', '{"d1":"Licence Ornithorynquologie",\r\n"d2":"Licence pro"}'),
-(11, 'Cinéma', '{"d1":"Licence cinema"}');
+(1, 'MIAGE', '{"requis":["L3 MIAGE","Licence pro"]}'),
+(2, 'STAPS', '{"requis":["Glandage","L3 Dressage de pingouins"]}'),
+(3, 'Management Spécialité Administration des Entreprises', '{"requis":["Licence manager","Licence assistant manager","Licence grh"]}'),
+(4, 'Droit', '{"requis":["Licence droit"]}'),
+(5, 'Psychologie', '{"requis":["Licence psychologie"]}'),
+(6, 'Biologie', '{"requis":["Licence biologie","Licence pro"]}'),
+(7, 'Nanorobotique et augmentation humaine appliquée', '{"requis":["Licence nanorobotique","Licence pro"]}'),
+(8, 'Arts plastiques', '{"requis":["Licence arts"]}'),
+(9, 'Histoire de la musique', '{"requis":["Licence hard-rock","Licence blues"]}'),
+(10, 'Ornithorynquologie', '{"requis":["Licence Ornithorynquologie","Licence pro"]}'),
+(11, 'Cinéma', '{"requis":["Licence cinema"]}');
 
 -- --------------------------------------------------------
 
