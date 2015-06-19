@@ -10,6 +10,8 @@ import gestionVoeu.RectoratHelper;
 import gestionVoeu.Universite;
 import gestionVoeu.UniversiteHelper;
 import gestionVoeu.compteInconnu;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -19,6 +21,7 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
+import tools.ConverterArrayCORBA;
 
 /**
  *
@@ -103,7 +106,7 @@ public class Etudiant {
         return new String[0];
     }
     
-    public String[] getFormationsList(String univ){
+    public DiplomeDetail[] getFormationsList(String univ){
         try {
             //recherche du rectorat
             NameComponent[] universiteToFind = new NameComponent[1];
@@ -112,19 +115,17 @@ public class Etudiant {
             Universite res = UniversiteHelper.narrow(distantUniversite);
             DiplomeDetail[] diplomes = ministere.getListDiplomes();
             int[] diplomesReal = res.getAffiliations();
-            String[] resultat = new String[diplomesReal.length];
+            DiplomeDetail[] diplomesRecu = new DiplomeDetail[diplomesReal.length];
             for(int i = 0; i < diplomesReal.length; i++){
-                for(DiplomeDetail det : diplomes){
-                    if(det.id == diplomesReal[i]){
-                        resultat[i] = det.libelle;
-                    }
+                for(DiplomeDetail d : diplomes){
+                    if(d.id == diplomesReal[i]) diplomesRecu[i] = d;
                 }
             }
-            return resultat;
+            return diplomesRecu;
         } catch (NotFound | CannotProceed | InvalidName ex) {
             Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new String[0];
+        return new DiplomeDetail[0];
     }
     
     public void ajoutDetails(EtudiantDetail det){

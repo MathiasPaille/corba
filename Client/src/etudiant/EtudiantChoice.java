@@ -1,7 +1,9 @@
 package etudiant;
 
 import gestionVoeu.CandidatureDetail;
+import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatVoeu;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -56,6 +58,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
                     modelUniversite.addElement(univ);
                 }
                 universityList.setModel(modelUniversite);
+                formationList.setModel(new DefaultListModel());
                 for(ListSelectionListener el : universityList.getListSelectionListeners()){
                     universityList.removeListSelectionListener(el);
                 }
@@ -80,8 +83,8 @@ public class EtudiantChoice extends javax.swing.JPanel {
                     lastMember = str2;
                 }
                 DefaultListModel modelFormation = new DefaultListModel();
-                for(String form : Etudiant.getInstance().getFormationsList(lastMember)){
-                    modelFormation.addElement(form);
+                for(DiplomeDetail form : Etudiant.getInstance().getFormationsList(lastMember)){
+                    modelFormation.addElement(form.libelle);
                 }
                 formationList.setModel(modelFormation);
             }
