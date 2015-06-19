@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 17 Juin 2015 à 04:25
+-- Généré le :  Ven 19 Juin 2015 à 17:10
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -62,6 +62,7 @@ DROP TABLE IF EXISTS `rectorat_universite`;
 CREATE TABLE IF NOT EXISTS `rectorat_universite` (
   `mandant` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `universite_id` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `universite_name` varchar(250) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`mandant`,`universite_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
@@ -69,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `rectorat_universite` (
 -- Contenu de la table `rectorat_universite`
 --
 
-INSERT INTO `rectorat_universite` (`mandant`, `universite_id`) VALUES
-('rectorat1', 'universite1'),
-('rectorat2', 'universite2');
+INSERT INTO `rectorat_universite` (`mandant`, `universite_id`, `universite_name`) VALUES
+('rectorat1', 'universite1', 'Université Paul Sabatier'),
+('rectorat2', 'universite2', 'Université Moulticoultourelle d''Antarctique');
 
 -- --------------------------------------------------------
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Jun 19, 2015 at 04:25 PM
--- Server version: 5.5.43-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.9
+-- Client :  127.0.0.1
+-- Généré le :  Ven 19 Juin 2015 à 17:10
+-- Version du serveur :  5.6.17
+-- Version de PHP :  5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `ministere`
+-- Base de données :  `ministere`
 --
 CREATE DATABASE IF NOT EXISTS `ministere` DEFAULT CHARACTER SET latin1 COLLATE latin1_general_ci;
 USE `ministere`;
@@ -25,7 +25,7 @@ USE `ministere`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `diplomes`
+-- Structure de la table `diplomes`
 --
 
 DROP TABLE IF EXISTS `diplomes`;
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `diplomes` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12 ;
 
 --
--- Dumping data for table `diplomes`
+-- Contenu de la table `diplomes`
 --
 
 INSERT INTO `diplomes` (`id`, `libelle`, `dip_prerequis`) VALUES
@@ -56,21 +56,23 @@ INSERT INTO `diplomes` (`id`, `libelle`, `dip_prerequis`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rectorats`
+-- Structure de la table `rectorats`
 --
 
 DROP TABLE IF EXISTS `rectorats`;
 CREATE TABLE IF NOT EXISTS `rectorats` (
-  `rectorats_id` varchar(20) COLLATE latin1_general_ci NOT NULL
+  `rectorats_id` varchar(20) COLLATE latin1_general_ci NOT NULL,
+  `rectorats_name` varchar(250) COLLATE latin1_general_ci NOT NULL,
+  PRIMARY KEY (`rectorats_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Dumping data for table `rectorats`
+-- Contenu de la table `rectorats`
 --
 
-INSERT INTO `rectorats` (`rectorats_id`) VALUES
-('rectorat1'),
-('rectorat2');
+INSERT INTO `rectorats` (`rectorats_id`, `rectorats_name`) VALUES
+('rectorat1', 'Midi-Pyrénées'),
+('rectorat2', 'Norfendre');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

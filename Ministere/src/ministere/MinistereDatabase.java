@@ -5,6 +5,7 @@ import gestionVoeu.DiplomeDetail;
 import gestionVoeu.RectoratDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import tools.Databases;
@@ -50,9 +51,9 @@ public class MinistereDatabase extends SQLConnexion {
                     
                     //Initialisation d'une liste et récupération d'un json pour savoir les prérequis
                     DiplomeJson dj = gson.fromJson(diplomes, DiplomeJson.class);
-                    int lenghtOfListe = dj.diplomList.length;
+                    int lenghtOfListe = dj.requis.size();
                     String listDip[] = new String[lenghtOfListe];
-                    System.arraycopy(dj.diplomList, 0, listDip, 0, lenghtOfListe);                    
+                    System.arraycopy(dj.requis.toArray(), 0, listDip, 0, lenghtOfListe);                    
                     dd[res.getRow() - 1] = new DiplomeDetail(id, libelle, listDip);
                 }
                 res.close();
@@ -93,14 +94,14 @@ public class MinistereDatabase extends SQLConnexion {
     }
 
     public class DiplomeJson{
-        public String[] diplomList;
+        public ArrayList<String> requis;
         
         public DiplomeJson(int index){
-            diplomList = new String[index];
+            requis = new ArrayList<>();
         }
         
         public String getTheDipl(int index){
-            return diplomList[index];
+            return requis.get(index);
         }
     }
 
