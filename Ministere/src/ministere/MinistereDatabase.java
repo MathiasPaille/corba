@@ -2,6 +2,7 @@ package ministere;
 
 import com.google.gson.Gson;
 import gestionVoeu.DiplomeDetail;
+import gestionVoeu.RectoratDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -66,8 +67,8 @@ public class MinistereDatabase extends SQLConnexion {
      * Permet de récupérer la liste des rectorats
      * @return la liste totale et complète des rectorats.
      */
-    public String[] getRectorats(){
-        String[] ss = null;
+    public RectoratDetail[] getRectorats(){
+        RectoratDetail[] ss = null;
         try {
             ResultSet res = this.makeRequest("select * from rectorats");
             if (res != null) {
@@ -77,9 +78,11 @@ public class MinistereDatabase extends SQLConnexion {
                     rowcount = res.getRow();
                     res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
                 }
-                ss = new String[rowcount];
+                ss = new RectoratDetail[rowcount];
                 while (res.next()) {
-                    ss[res.getRow() - 1] = res.getString("rectorats_id");
+                    String id = res.getString("rectorats_id");
+                    String name = res.getString("rectorats_name");
+                    ss[res.getRow() - 1] = new RectoratDetail(id, name);
                 }
                 res.close();
             }

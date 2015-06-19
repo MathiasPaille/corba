@@ -1,58 +1,58 @@
 package gestionVoeu;
 
 /**
- * Holder class for : ListeRectorat
+ * Holder class for : RectoratDetail
  * 
  * @author OpenORB Compiler
  */
-final public class ListeRectoratHolder
+final public class RectoratDetailHolder
         implements org.omg.CORBA.portable.Streamable
 {
     /**
-     * Internal ListeRectorat value
+     * Internal RectoratDetail value
      */
-    public gestionVoeu.RectoratDetail[] value;
+    public gestionVoeu.RectoratDetail value;
 
     /**
      * Default constructor
      */
-    public ListeRectoratHolder()
+    public RectoratDetailHolder()
     { }
 
     /**
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public ListeRectoratHolder(gestionVoeu.RectoratDetail[] initial)
+    public RectoratDetailHolder(gestionVoeu.RectoratDetail initial)
     {
         value = initial;
     }
 
     /**
-     * Read ListeRectorat from a marshalled stream
+     * Read RectoratDetail from a marshalled stream
      * @param istream the input stream
      */
     public void _read(org.omg.CORBA.portable.InputStream istream)
     {
-        value = ListeRectoratHelper.read(istream);
+        value = RectoratDetailHelper.read(istream);
     }
 
     /**
-     * Write ListeRectorat into a marshalled stream
+     * Write RectoratDetail into a marshalled stream
      * @param ostream the output stream
      */
     public void _write(org.omg.CORBA.portable.OutputStream ostream)
     {
-        ListeRectoratHelper.write(ostream,value);
+        RectoratDetailHelper.write(ostream,value);
     }
 
     /**
-     * Return the ListeRectorat TypeCode
+     * Return the RectoratDetail TypeCode
      * @return a TypeCode
      */
     public org.omg.CORBA.TypeCode _type()
     {
-        return ListeRectoratHelper.type();
+        return RectoratDetailHelper.type();
     }
 
 }

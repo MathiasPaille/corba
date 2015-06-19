@@ -25,9 +25,9 @@ public interface RectoratOperations
         throws gestionVoeu.compteInconnu;
 
     /**
-     * Operation recupererUniversite
+     * Operation recupererUniversites
      */
-    public String[] recupererUniversite();
+    public gestionVoeu.UniversiteDetail[] recupererUniversites();
 
     /**
      * Operation recupererVoeuxMaster
@@ -40,10 +40,5 @@ public interface RectoratOperations
      */
     public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
         throws gestionVoeu.malformedInformation;
-
-    /**
-     * Operation redistribuerCandidature
-     */
-    public void redistribuerCandidature(int mandant, gestionVoeu.CandidatureDetail CD);
 
 }

@@ -89,11 +89,11 @@ public class RectoratPOATie extends RectoratPOA
     }
 
     /**
-     * Operation recupererUniversite
+     * Operation recupererUniversites
      */
-    public String[] recupererUniversite()
+    public gestionVoeu.UniversiteDetail[] recupererUniversites()
     {
-        return _tie.recupererUniversite();
+        return _tie.recupererUniversites();
     }
 
     /**
@@ -112,14 +112,6 @@ public class RectoratPOATie extends RectoratPOA
         throws gestionVoeu.malformedInformation
     {
         _tie.modifierCandidatureEtat( maCandidature);
-    }
-
-    /**
-     * Operation redistribuerCandidature
-     */
-    public void redistribuerCandidature(int mandant, gestionVoeu.CandidatureDetail CD)
-    {
-        _tie.redistribuerCandidature( mandant,  CD);
     }
 
 }

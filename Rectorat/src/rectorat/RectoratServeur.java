@@ -44,12 +44,7 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public void redistribuerCandidature(int mandant, CandidatureDetail CD) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String[] recupererUniversite() {
+    public UniversiteDetail[] recupererUniversites() {
         return RectoratDatabase.getInstance().getUniversites();
     }
 }

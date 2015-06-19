@@ -72,7 +72,7 @@ public class _MinistereStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation getListRectorats
      */
-    public String[] getListRectorats()
+    public gestionVoeu.RectoratDetail[] getListRectorats()
     {
         while(true)
         {
@@ -83,7 +83,7 @@ public class _MinistereStub extends org.omg.CORBA.portable.ObjectImpl
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("getListRectorats",true);
                     _input = this._invoke(_output);
-                    String[] _arg_ret = gestionVoeu.ListeRectoratHelper.read(_input);
+                    gestionVoeu.RectoratDetail[] _arg_ret = gestionVoeu.ListeRectoratHelper.read(_input);
                     return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)

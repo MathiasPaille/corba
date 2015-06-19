@@ -61,7 +61,7 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
 
-        String[] _arg_result = getListRectorats();
+        gestionVoeu.RectoratDetail[] _arg_result = getListRectorats();
 
         _output = handler.createReply();
         gestionVoeu.ListeRectoratHelper.write(_output,_arg_result);

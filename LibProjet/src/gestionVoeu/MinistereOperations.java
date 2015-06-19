@@ -15,6 +15,6 @@ public interface MinistereOperations
     /**
      * Operation getListRectorats
      */
-    public String[] getListRectorats();
+    public gestionVoeu.RectoratDetail[] getListRectorats();
 
 }

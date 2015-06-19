@@ -23,7 +23,7 @@ class MinistereImpl extends MinisterePOA {
     }
 
     @Override
-    public String[] getListRectorats() {
+    public RectoratDetail[] getListRectorats() {
         return MinistereDatabase.getInstance().getRectorats();
     }
 }

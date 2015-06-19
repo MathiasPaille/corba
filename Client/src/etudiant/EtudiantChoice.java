@@ -3,6 +3,8 @@ package etudiant;
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatVoeu;
+import gestionVoeu.RectoratDetail;
+import gestionVoeu.UniversiteDetail;
 import java.awt.Component;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -34,9 +36,9 @@ public class EtudiantChoice extends javax.swing.JPanel {
             new VoeuPanel(voeu, this);
         }
         
-        DefaultListModel modelRectorat = new DefaultListModel();
-        for(String rect : Etudiant.getInstance().getRectorats()){
-            modelRectorat.addElement(rect);
+        DefaultListModel<IDValue> modelRectorat = new DefaultListModel();
+        for(RectoratDetail rect : Etudiant.getInstance().getRectorats()){
+            modelRectorat.addElement(new IDValue(rect.id, rect.name));
         }
         this.rectoratList.setModel(modelRectorat);
         this.rectoratList.addListSelectionListener(new RectoratListListener());
@@ -56,9 +58,9 @@ public class EtudiantChoice extends javax.swing.JPanel {
                 } else {
                     lastMember = str2;
                 }
-                DefaultListModel modelUniversite = new DefaultListModel();
-                for(String univ : Etudiant.getInstance().getUniversitesList(lastMember)){
-                    modelUniversite.addElement(univ);
+                DefaultListModel<IDValue> modelUniversite = new DefaultListModel();
+                for(UniversiteDetail univ : Etudiant.getInstance().getUniversitesList(lastMember)){
+                    modelUniversite.addElement(new IDValue(univ.id, univ.name));
                 }
                 universityList.setModel(modelUniversite);
                 formationList.setModel(new DefaultListModel());
@@ -318,10 +320,10 @@ public class EtudiantChoice extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addChoiceActionPerformed
-        String rectorat = (String) rectoratList.getSelectedValue();
-        String university = (String) universityList.getSelectedValue();
+        IDValue rectorat = (IDValue) rectoratList.getSelectedValue();
+        IDValue university = (IDValue) universityList.getSelectedValue();
         IDValue formation = (IDValue) formationList.getSelectedValue();
-        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat + " - Université: " + university + " - Formation: " + formation.ID);
+        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat.ID + " - Université: " + university.ID + " - Formation: " + formation.ID);
         
     }//GEN-LAST:event_addChoiceActionPerformed
 

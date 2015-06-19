@@ -90,50 +90,41 @@ module gestionVoeu
 		string raison; 
 		long id;
 	};
-	
-	//liste de rectorats
-	typedef sequence<string> ListeRectorat;
 
-	//Interface permettant l'accès a l'ensemble des données de l'étudiant
-	interface EtudiantFactory{
-		CandidatureList getCandidatures(in EtudiantDetail etu) raises (compteInconnu);
-		SemestreList getSemestres(in EtudiantDetail etu) raises (compteInconnu);
-		void creerCandidature(in CandidatureDetail candidature) raises (diplomeInconnu);
-		void modifierCandidature(in CandidatureDetail candidature, in EtatVoeu voeuEtu) raises (voeuInconnu);
-		EtudiantDetail connexion(in string num_etu, in string pwd) raises (compteInconnu);
-	};
+        //identification universite
+        struct UniversiteDetail{
+                string id;
+                string name;
+        };
+        //liste d'universités
+        typedef sequence<UniversiteDetail> ListeUniversite;
+        
+        //identification rectorat
+        struct RectoratDetail{
+                string id;
+                string name;
+        };
+	//liste de rectorats
+	typedef sequence<RectoratDetail> ListeRectorat;
 
 	//Permet d'accéder aux infos des candidatures et faire des choix pour chacunes par formation/université
 	interface Universite{
 		AffiliationMasterList getAffiliations();
 	};
-
-        typedef sequence<string> ListeUniversite;
 	
 	//interface pour que le Rectorat puisse excercer sa fonction, récuperer des listes de voeux par étudiant ou par master
 	interface Rectorat{		
 		EtudiantDetail connexion(in string num_etu, in string pwd) raises (compteInconnu);
 		void creerVoeux(in VoeuxDetail monVoeux);
 		CandidatureList recupererVoeuxEtudiant(in string num_etu) raises (compteInconnu);
-                ListeUniversite recupererUniversite();
-                
-                //à voir
-		CandidatureList recupererVoeuxMaster(in long master) raises (diplomeInconnu);
-		void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises (malformedInformation);
-		void redistribuerCandidature(in long mandant, in CandidatureDetail CD);                
+                ListeUniversite recupererUniversites();
+                CandidatureList recupererVoeuxMaster(in long master) raises(diplomeInconnu);
+                void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises(malformedInformation);
 	};
 
 	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master
 	interface Ministere{
 		DiplomeList getListDiplomes();
 		ListeRectorat getListRectorats();
-	};
-	
-	//je ne sais plus a quoi sert la police académie
-	interface Academie{
-		void traiter(in CandidatureDetail CD);
-		void deciderCandidature(in string code, in string etat);
-		CandidatureList getCandidatures(in string code);
-		void creerCandidature(in EtudiantDetail EtuDetail, in VoeuxDetail VDetail);
 	};
 };

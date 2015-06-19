@@ -9,6 +9,7 @@ import gestionVoeu.EtudiantDetail;
 import gestionVoeu.MoyenObtention;
 import gestionVoeu.Quartile;
 import gestionVoeu.SemestreDetail;
+import gestionVoeu.UniversiteDetail;
 import gestionVoeu.VoeuxDetail;
 import gestionVoeu.compteInconnu;
 import java.sql.ResultSet;
@@ -39,10 +40,10 @@ public class RectoratDatabase extends SQLConnexion {
      * Retourne la liste des universités du rectorat
      * @return liste des universités du rectorat
      */
-    public String[] getUniversites() {
-        String[] list = null;
+    public UniversiteDetail[] getUniversites() {
+        UniversiteDetail[] list = null;
         try {
-            ResultSet res = this.makeRequest("select universite_id from rectorat_universite where mandant = '" + RectoratServeur.getInstance().getMandant() + "'");
+            ResultSet res = this.makeRequest("select universite_id, universite_name from rectorat_universite where mandant = '" + RectoratServeur.getInstance().getMandant() + "'");
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -50,9 +51,11 @@ public class RectoratDatabase extends SQLConnexion {
                     rowcount = res.getRow();
                     res.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
                 }
-                list = new String[rowcount];
+                list = new UniversiteDetail[rowcount];
                 while (rowcount > 0 && res.next()) {
-                    list[res.getRow() - 1] = res.getString("universite_id");;
+                    String id = res.getString("universite_id");
+                    String name = res.getString("universite_name");
+                    list[res.getRow() - 1] = new UniversiteDetail(id, name);
                 }
                 res.close();
             }

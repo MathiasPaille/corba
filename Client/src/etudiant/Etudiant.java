@@ -6,8 +6,10 @@ import gestionVoeu.EtudiantDetail;
 import gestionVoeu.Ministere;
 import gestionVoeu.MinistereHelper;
 import gestionVoeu.Rectorat;
+import gestionVoeu.RectoratDetail;
 import gestionVoeu.RectoratHelper;
 import gestionVoeu.Universite;
+import gestionVoeu.UniversiteDetail;
 import gestionVoeu.UniversiteHelper;
 import gestionVoeu.compteInconnu;
 import java.util.logging.Level;
@@ -28,7 +30,7 @@ public class Etudiant {
     private EtudiantDetail details;
     private Rectorat rectorat;
     private Ministere ministere;
-    private String[] rectorats;
+    private RectoratDetail[] rectorats;
     
     public static Etudiant getInstance(){
         return INSTANCE;
@@ -69,9 +71,9 @@ public class Etudiant {
 	}
     }
     
-    public String[] getUniversitesList(String rect){
+    public UniversiteDetail[] getUniversitesList(String rect){
         Rectorat res = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rect));
-        return res.recupererUniversite();
+        return res.recupererUniversites();
     }
     
     public DiplomeDetail[] getFormationsList(String univ){
@@ -95,7 +97,7 @@ public class Etudiant {
         return this.details;
     }
 
-    public String[] getRectorats() {
+    public RectoratDetail[] getRectorats() {
         return rectorats;
     }
     

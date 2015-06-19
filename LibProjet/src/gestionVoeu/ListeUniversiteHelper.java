@@ -23,7 +23,7 @@ public class ListeUniversiteHelper
      * @param a an any
      * @param t ListeUniversite value
      */
-    public static void insert(org.omg.CORBA.Any a, String[] t)
+    public static void insert(org.omg.CORBA.Any a, gestionVoeu.UniversiteDetail[] t)
     {
         a.insert_Streamable(new gestionVoeu.ListeUniversiteHolder(t));
     }
@@ -33,7 +33,7 @@ public class ListeUniversiteHelper
      * @param a an any
      * @return the extracted ListeUniversite value
      */
-    public static String[] extract(org.omg.CORBA.Any a)
+    public static gestionVoeu.UniversiteDetail[] extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -66,7 +66,7 @@ public class ListeUniversiteHelper
     {
         if (_tc == null) {
             org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-            _tc = orb.create_alias_tc(id(),"ListeUniversite",orb.create_sequence_tc(0,orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string)));
+            _tc = orb.create_alias_tc(id(),"ListeUniversite",orb.create_sequence_tc(0,gestionVoeu.UniversiteDetailHelper.type()));
         }
         return _tc;
     }
@@ -87,15 +87,15 @@ public class ListeUniversiteHelper
      * @param istream the input stream
      * @return the readed ListeUniversite value
      */
-    public static String[] read(org.omg.CORBA.portable.InputStream istream)
+    public static gestionVoeu.UniversiteDetail[] read(org.omg.CORBA.portable.InputStream istream)
     {
-        String[] new_one;
+        gestionVoeu.UniversiteDetail[] new_one;
         {
         int size7 = istream.read_ulong();
-        new_one = new String[size7];
+        new_one = new gestionVoeu.UniversiteDetail[size7];
         for (int i7=0; i7<new_one.length; i7++)
          {
-            new_one[i7] = istream.read_string();
+            new_one[i7] = gestionVoeu.UniversiteDetailHelper.read(istream);
 
          }
         }
@@ -108,12 +108,12 @@ public class ListeUniversiteHelper
      * @param ostream the output stream
      * @param value ListeUniversite value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, String[] value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, gestionVoeu.UniversiteDetail[] value)
     {
         ostream.write_ulong(value.length);
         for (int i7=0; i7<value.length; i7++)
         {
-            ostream.write_string(value[i7]);
+            gestionVoeu.UniversiteDetailHelper.write(ostream,value[i7]);
 
         }
     }

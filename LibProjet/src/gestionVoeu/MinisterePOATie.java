@@ -73,7 +73,7 @@ public class MinisterePOATie extends MinisterePOA
     /**
      * Operation getListRectorats
      */
-    public String[] getListRectorats()
+    public gestionVoeu.RectoratDetail[] getListRectorats()
     {
         return _tie.getListRectorats();
     }

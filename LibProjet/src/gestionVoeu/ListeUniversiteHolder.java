@@ -11,7 +11,7 @@ final public class ListeUniversiteHolder
     /**
      * Internal ListeUniversite value
      */
-    public String[] value;
+    public gestionVoeu.UniversiteDetail[] value;
 
     /**
      * Default constructor
@@ -23,7 +23,7 @@ final public class ListeUniversiteHolder
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public ListeUniversiteHolder(String[] initial)
+    public ListeUniversiteHolder(gestionVoeu.UniversiteDetail[] initial)
     {
         value = initial;
     }

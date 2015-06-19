@@ -39,14 +39,12 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
                 return _invoke_creerVoeux(_is, handler);
         } else if (opName.equals("modifierCandidatureEtat")) {
                 return _invoke_modifierCandidatureEtat(_is, handler);
-        } else if (opName.equals("recupererUniversite")) {
-                return _invoke_recupererUniversite(_is, handler);
+        } else if (opName.equals("recupererUniversites")) {
+                return _invoke_recupererUniversites(_is, handler);
         } else if (opName.equals("recupererVoeuxEtudiant")) {
                 return _invoke_recupererVoeuxEtudiant(_is, handler);
         } else if (opName.equals("recupererVoeuxMaster")) {
                 return _invoke_recupererVoeuxMaster(_is, handler);
-        } else if (opName.equals("redistribuerCandidature")) {
-                return _invoke_redistribuerCandidature(_is, handler);
         } else {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
         }
@@ -111,12 +109,12 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
         return _output;
     }
 
-    private org.omg.CORBA.portable.OutputStream _invoke_recupererUniversite(
+    private org.omg.CORBA.portable.OutputStream _invoke_recupererUniversites(
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
 
-        String[] _arg_result = recupererUniversite();
+        gestionVoeu.UniversiteDetail[] _arg_result = recupererUniversites();
 
         _output = handler.createReply();
         gestionVoeu.ListeUniversiteHelper.write(_output,_arg_result);
@@ -164,20 +162,6 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
             _output = handler.createExceptionReply();
             gestionVoeu.malformedInformationHelper.write(_output,_exception);
         }
-        return _output;
-    }
-
-    private org.omg.CORBA.portable.OutputStream _invoke_redistribuerCandidature(
-            final org.omg.CORBA.portable.InputStream _is,
-            final org.omg.CORBA.portable.ResponseHandler handler) {
-        org.omg.CORBA.portable.OutputStream _output;
-        int arg0_in = _is.read_long();
-        gestionVoeu.CandidatureDetail arg1_in = gestionVoeu.CandidatureDetailHelper.read(_is);
-
-        redistribuerCandidature(arg0_in, arg1_in);
-
-        _output = handler.createReply();
-
         return _output;
     }
 
