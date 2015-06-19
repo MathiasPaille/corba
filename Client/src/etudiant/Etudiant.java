@@ -10,18 +10,11 @@ import gestionVoeu.RectoratHelper;
 import gestionVoeu.Universite;
 import gestionVoeu.UniversiteHelper;
 import gestionVoeu.compteInconnu;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.InvalidName;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-import tools.ConverterArrayCORBA;
+import tools.DistantObjectManager;
 
 /**
  *
@@ -33,8 +26,6 @@ public class Etudiant {
     
     private CandidatureDetail[] listeVoeux;
     private EtudiantDetail details;
-    private ORB orb;
-    private org.omg.CosNaming.NamingContext nameRoot;
     private Rectorat rectorat;
     private Ministere ministere;
     private String[] rectorats;
@@ -52,17 +43,7 @@ public class Etudiant {
         
         try {
             
-            String[] args = new String[0];
-            // Intialisation de l'orb
-            this.orb = org.omg.CORBA.ORB.init(args,null);
-            // Recuperation du naming service
-            this.nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-                     
-            //recherche du rectorat
-            NameComponent[] rectoratToFind = new NameComponent[1];
-            rectoratToFind[0] = new NameComponent(infosConnexion[0], "");
-            org.omg.CORBA.Object distantRectorat = this.nameRoot.resolve(rectoratToFind);
-            this.rectorat = RectoratHelper.narrow(distantRectorat);
+            this.rectorat = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(infosConnexion[0]));
             
             boolean connected = false;
             while(!connected){
@@ -80,52 +61,30 @@ public class Etudiant {
             
             this.listeVoeux = this.rectorat.recupererVoeuxEtudiant(this.details.num_etudiant);
             
-            //recherche du rectorat
-            NameComponent[] ministereToFind = new NameComponent[1];
-            ministereToFind[0] = new NameComponent("Ministere", "");
-            org.omg.CORBA.Object ministereRectorat = this.nameRoot.resolve(ministereToFind);
-            this.ministere = MinistereHelper.narrow(ministereRectorat);
+            this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
             this.rectorats = this.ministere.getListRectorats();
 
-        } catch (org.omg.CORBA.ORBPackage.InvalidName | NotFound | CannotProceed | org.omg.CosNaming.NamingContextPackage.InvalidName | compteInconnu ex) {
+        } catch (compteInconnu ex) {
             Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
     
     public String[] getUniversitesList(String rect){
-        try {
-            //recherche du rectorat
-            NameComponent[] rectoratToFind = new NameComponent[1];
-            rectoratToFind[0] = new NameComponent(rect, "");
-            org.omg.CORBA.Object distantRectorat = this.nameRoot.resolve(rectoratToFind);
-            Rectorat res = RectoratHelper.narrow(distantRectorat);
-            return res.recupererUniversite();
-        } catch (NotFound | CannotProceed | InvalidName ex) {
-            Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return new String[0];
+        Rectorat res = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rect));
+        return res.recupererUniversite();
     }
     
     public DiplomeDetail[] getFormationsList(String univ){
-        try {
-            //recherche du rectorat
-            NameComponent[] universiteToFind = new NameComponent[1];
-            universiteToFind[0] = new NameComponent(univ, "");
-            org.omg.CORBA.Object distantUniversite = this.nameRoot.resolve(universiteToFind);
-            Universite res = UniversiteHelper.narrow(distantUniversite);
-            DiplomeDetail[] diplomes = ministere.getListDiplomes();
-            int[] diplomesReal = res.getAffiliations();
-            DiplomeDetail[] diplomesRecu = new DiplomeDetail[diplomesReal.length];
-            for(int i = 0; i < diplomesReal.length; i++){
-                for(DiplomeDetail d : diplomes){
-                    if(d.id == diplomesReal[i]) diplomesRecu[i] = d;
-                }
+        Universite res = UniversiteHelper.narrow(DistantObjectManager.getInstance().getReference(univ));
+        DiplomeDetail[] diplomes = ministere.getListDiplomes();
+        int[] diplomesReal = res.getAffiliations();
+        DiplomeDetail[] diplomesRecu = new DiplomeDetail[diplomesReal.length];
+        for(int i = 0; i < diplomesReal.length; i++){
+            for(DiplomeDetail d : diplomes){
+                if(d.id == diplomesReal[i]) diplomesRecu[i] = d;
             }
-            return diplomesRecu;
-        } catch (NotFound | CannotProceed | InvalidName ex) {
-            Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new DiplomeDetail[0];
+        return diplomesRecu;
     }
     
     public void ajoutDetails(EtudiantDetail det){

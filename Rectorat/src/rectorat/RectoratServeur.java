@@ -1,16 +1,8 @@
 package rectorat;
 
 import gestionVoeu.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POA;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
-import org.omg.PortableServer.POAPackage.ServantNotActive;
-import org.omg.PortableServer.POAPackage.WrongPolicy;
+import tools.DistantObjectManager;
 import tools.MandantDialog;
 
 /**
@@ -75,26 +67,7 @@ public class RectoratServeur {
 
     private RectoratServeur() {
         this.mandant = "";
-        //faire la connexion
-        try {
-            String[] args = new String[0];
-            
-            // Intialisation de l'orb
-            org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args,null);
-            // Recuperation du naming service
-            org.omg.CosNaming.NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-            
-            //Recherche du ministère
-            // Construction du nom a rechercher
-            org.omg.CosNaming.NameComponent[] nameToFind = new org.omg.CosNaming.NameComponent[1];
-            nameToFind[0] = new org.omg.CosNaming.NameComponent("Ministere","");
-            // Recherche aupres du naming service
-            org.omg.CORBA.Object distantMinistere = nameRoot.resolve(nameToFind);
-            // Casting de l'objet CORBA au type convertisseur euro
-            this.ministere = MinistereHelper.narrow(distantMinistere);
-        } catch (org.omg.CORBA.ORBPackage.InvalidName | NotFound | CannotProceed | org.omg.CosNaming.NamingContextPackage.InvalidName ex) {
-            Logger.getLogger(RectoratServeur.class.getName()).log(Level.SEVERE, null, ex);
-	}
+        this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
     }
     
     public void setMandant(String m){
@@ -114,35 +87,11 @@ public class RectoratServeur {
             RectoratServeur.getInstance().setMandant(MandantDialog.getMandant());
         }
         
-        try {
-            // create and initialize the ORB
-            ORB orb = ORB.init(args, null);
-
-            // get reference to rootpoa & activate the POAManager
-            POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-            rootpoa.the_POAManager().activate();
-
-            // create servant and register it with the ORB
-            RectoratImpl rectoratImpl = new RectoratImpl();
-            rectoratImpl.setORB(orb);
-
-            // get object reference from the servant
-            
-            org.omg.CORBA.Object ref = rootpoa.servant_to_reference(rectoratImpl);
-            
-            NamingContext nameRoot = org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-
-            org.omg.CosNaming.NameComponent[] nameToRegister = new org.omg.CosNaming.NameComponent[1];
-            nameToRegister[0] = new NameComponent(RectoratServeur.getInstance().getMandant(), "");
-            // Lier la référence de l'objet servant (instance de HelloImpl) à son nom symbolique    
-            nameRoot.rebind(nameToRegister, rootpoa.servant_to_reference(rectoratImpl));
-
-            System.out.println(" RectoratServer " + RectoratServeur.getInstance().getMandant() + " est prêt et attend une invocation de méthode");
-            // mise en attente des invocations client
-            orb.run();
-        } catch (org.omg.CORBA.ORBPackage.InvalidName | AdapterInactive | ServantNotActive | WrongPolicy | InvalidName | NotFound | CannotProceed ex) {
-            Logger.getLogger(RectoratServeur.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        RectoratImpl rectoratImpl = new RectoratImpl();
+        rectoratImpl.setORB(DistantObjectManager.getInstance().getORB());
+        DistantObjectManager.getInstance().ajoutReference(RectoratServeur.getInstance().getMandant(), rectoratImpl);
+        System.out.println(" RectoratServer " + RectoratServeur.getInstance().getMandant() + " est prêt et attend une invocation de méthode");
+        DistantObjectManager.getInstance().getORB().run();
 
         System.out.println("Server Exiting ...");
 
