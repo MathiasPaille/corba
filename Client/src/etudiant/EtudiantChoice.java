@@ -3,9 +3,12 @@ package etudiant;
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatVoeu;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.Component;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -82,15 +85,17 @@ public class EtudiantChoice extends javax.swing.JPanel {
                 } else {
                     lastMember = str2;
                 }
-                DefaultListModel modelFormation = new DefaultListModel();
+                DefaultListModel<IDValue> modelFormation = new DefaultListModel<>();
                 for(DiplomeDetail form : Etudiant.getInstance().getFormationsList(lastMember)){
-                    modelFormation.addElement(form.libelle);
+                    modelFormation.addElement(new IDValue(Integer.toString(form.id), form.libelle));
                 }
                 formationList.setModel(modelFormation);
             }
         }
         
     }
+    
+   
     
     public void addVoeuPanel(VoeuPanel pan){
         this.seeChoices.add(pan);
@@ -315,10 +320,40 @@ public class EtudiantChoice extends javax.swing.JPanel {
     private void addChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addChoiceActionPerformed
         String rectorat = (String) rectoratList.getSelectedValue();
         String university = (String) universityList.getSelectedValue();
-        String formation = (String) formationList.getSelectedValue();
-        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat + " - Université: " + university + " - Formation: " + formation);
+        IDValue formation = (IDValue) formationList.getSelectedValue();
+        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat + " - Université: " + university + " - Formation: " + formation.ID);
+        
     }//GEN-LAST:event_addChoiceActionPerformed
 
+     class IDValue {
+        public String ID;
+        public String value;
+        
+        public IDValue(String id, String value){
+            this.ID = id;
+            this.value = value;
+        }
+    }
+    
+    class IDValueCustomRenderer extends JLabel implements ListCellRenderer<IDValue> {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, IDValue element, int index, boolean isSelected, boolean cellHasFocus) {
+            if (isSelected) {
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
+            } else {
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
+            }
+            
+            setText(element.value);            
+            setFont(list.getFont());
+            
+            return this;
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addChoice;
