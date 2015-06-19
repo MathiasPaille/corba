@@ -1,5 +1,9 @@
 package tools;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javafx.scene.input.KeyCode;
+
 /**
  * Dialogue Custom d'entrée d'un mandant
  * @author Yvan
@@ -17,6 +21,21 @@ public class MandantDialog extends javax.swing.JDialog {
         super(parent, modal);
         mandant = "";
         initComponents();
+        this.mandantField.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent ke) {}
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                if(ke.getKeyCode() == KeyEvent.VK_ENTER){
+                    okButtonActionPerformed(null);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {}
+        });
     }
     
     private String showDialog(){

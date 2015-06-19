@@ -104,6 +104,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
     
     public void addVoeuPanel(VoeuPanel pan){
         this.seeChoices.add(pan);
+        this.seeChoices.repaint();
     }
     
     public void makeChoice(CandidatureDetail voeu, EtatVoeu choix){
@@ -327,7 +328,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
         IDValue university = (IDValue) universityList.getSelectedValue();
         IDValue formation = (IDValue) formationList.getSelectedValue();
         JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat.ID + " - Université: " + university.ID + " - Formation: " + formation.ID);
-        
+        Etudiant.getInstance().ajoutVoeu(Integer.parseInt(formation.ID), university.ID);
     }//GEN-LAST:event_addChoiceActionPerformed
 
      class IDValue {
@@ -341,6 +342,10 @@ public class EtudiantChoice extends javax.swing.JPanel {
     }
     
     class IDValueCustomRenderer extends JLabel implements ListCellRenderer<IDValue> {
+        
+        public IDValueCustomRenderer(){
+            setOpaque(true);
+        }
 
         @Override
         public Component getListCellRendererComponent(JList list, IDValue element, int index, boolean isSelected, boolean cellHasFocus) {

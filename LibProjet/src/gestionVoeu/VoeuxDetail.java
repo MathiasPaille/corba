@@ -15,12 +15,12 @@ public final class VoeuxDetail implements org.omg.CORBA.portable.IDLEntity
     /**
      * Struct member universite
      */
-    public int universite;
+    public String universite;
 
     /**
      * Struct member classement
      */
-    public short classement;
+    public int classement;
 
     /**
      * Struct member etu
@@ -40,7 +40,7 @@ public final class VoeuxDetail implements org.omg.CORBA.portable.IDLEntity
      * @param classement classement struct member
      * @param etu etu struct member
      */
-    public VoeuxDetail(int master, int universite, short classement, gestionVoeu.EtudiantDetail etu)
+    public VoeuxDetail(int master, String universite, int classement, gestionVoeu.EtudiantDetail etu)
     {
         this.master = master;
         this.universite = universite;

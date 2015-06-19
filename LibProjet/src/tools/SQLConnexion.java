@@ -50,4 +50,14 @@ public abstract class SQLConnexion {
         }
         return null;
     }
+    
+    public int makeUpdateOrDelete(String query){
+        if(connect == null || statement == null) return -1;
+        try{
+            return statement.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLConnexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 }

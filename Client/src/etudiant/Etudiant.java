@@ -11,7 +11,9 @@ import gestionVoeu.RectoratHelper;
 import gestionVoeu.Universite;
 import gestionVoeu.UniversiteDetail;
 import gestionVoeu.UniversiteHelper;
+import gestionVoeu.VoeuxDetail;
 import gestionVoeu.compteInconnu;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -74,6 +76,10 @@ public class Etudiant {
     public UniversiteDetail[] getUniversitesList(String rect){
         Rectorat res = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rect));
         return res.recupererUniversites();
+    }
+    
+    public void ajoutVoeu(int master, String universite){
+        this.rectorat.creerVoeux(new VoeuxDetail(master, universite, 1, this.getDetails()));
     }
     
     public DiplomeDetail[] getFormationsList(String univ){

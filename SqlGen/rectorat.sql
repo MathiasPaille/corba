@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 19 Juin 2015 à 17:10
+-- Généré le :  Ven 19 Juin 2015 à 18:28
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -85,12 +85,19 @@ CREATE TABLE IF NOT EXISTS `voeux` (
   `mandant` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `voeux_ine` int(11) NOT NULL,
   `voeux_master` int(5) NOT NULL,
-  `voeux_universite` int(5) NOT NULL,
+  `voeux_universite` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `voeux_classement` int(1) NOT NULL,
   `voeux_inscription` int(1) NOT NULL,
   `voeux_etat_voeu` int(1) NOT NULL,
   `voeux_decision` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Contenu de la table `voeux`
+--
+
+INSERT INTO `voeux` (`mandant`, `voeux_ine`, `voeux_master`, `voeux_universite`, `voeux_classement`, `voeux_inscription`, `voeux_etat_voeu`, `voeux_decision`) VALUES
+('rectorat1', 1111111111, 10, 'universite2', 1, 1, 0, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -80,10 +80,10 @@ public class VoeuxDetailHelper
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
                 _members[1] = new org.omg.CORBA.StructMember();
                 _members[1].name = "universite";
-                _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
+                _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[2] = new org.omg.CORBA.StructMember();
                 _members[2].name = "classement";
-                _members[2].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_short);
+                _members[2].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
                 _members[3] = new org.omg.CORBA.StructMember();
                 _members[3].name = "etu";
                 _members[3].type = gestionVoeu.EtudiantDetailHelper.type();
@@ -115,8 +115,8 @@ public class VoeuxDetailHelper
         gestionVoeu.VoeuxDetail new_one = new gestionVoeu.VoeuxDetail();
 
         new_one.master = istream.read_long();
-        new_one.universite = istream.read_long();
-        new_one.classement = istream.read_short();
+        new_one.universite = istream.read_string();
+        new_one.classement = istream.read_long();
         new_one.etu = gestionVoeu.EtudiantDetailHelper.read(istream);
 
         return new_one;
@@ -130,8 +130,8 @@ public class VoeuxDetailHelper
     public static void write(org.omg.CORBA.portable.OutputStream ostream, gestionVoeu.VoeuxDetail value)
     {
         ostream.write_long(value.master);
-        ostream.write_long(value.universite);
-        ostream.write_short(value.classement);
+        ostream.write_string(value.universite);
+        ostream.write_long(value.classement);
         gestionVoeu.EtudiantDetailHelper.write(ostream,value.etu);
     }
 

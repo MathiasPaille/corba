@@ -41,8 +41,8 @@ module gestionVoeu
 	//Structure d'un voeux pour un étudiant
 	struct VoeuxDetail{
 		long master;
-		long universite;
-		short classement;
+		string universite;
+		long classement;
 		EtudiantDetail etu;
 	};
 	

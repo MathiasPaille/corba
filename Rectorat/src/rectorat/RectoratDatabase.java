@@ -149,9 +149,10 @@ public class RectoratDatabase extends SQLConnexion {
      * @return la liste de candidature de l'étudiant 
      */
     public CandidatureDetail[] recupererVoeuxEtudiant(String voeux_ine) {
+        EtudiantDetail e = this.getUnEtudiant(voeux_ine);
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = '" + RectoratServeur.getInstance().getMandant() + "' and voeux.voeux_ine = '" + voeux_ine +"'");
+            ResultSet res = this.makeRequest("select * from voeux where mandant = '" + RectoratServeur.getInstance().getMandant() + "' and voeux_ine = '" + voeux_ine +"'");
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -162,13 +163,12 @@ public class RectoratDatabase extends SQLConnexion {
                 cc = new CandidatureDetail[rowcount];
                 while (rowcount > 0 && res.next()) {
                     Integer res_voe_master = res.getInt("voeux_master");
-                    Integer res_voe_universite = res.getInt("voeux_universite");
-                    Short res_voe_classement = res.getShort("voeux_classement");
+                    String res_voe_universite = res.getString("voeux_universite");
+                    Integer res_voe_classement = res.getInt("voeux_classement");
                     Integer res_voe_inscription = res.getInt("voeux_inscription");
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
 
-                    EtudiantDetail e = this.getUnEtudiant(voeux_ine);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(
@@ -206,8 +206,8 @@ public class RectoratDatabase extends SQLConnexion {
                 while (rowcount > 0 && res.next()) {
                     String res_voe_ine = res.getString("voeux_ine");
                     Integer res_voe_master = res.getInt("voeux_master");
-                    Integer res_voe_universite = res.getInt("voeux_universite");
-                    Short res_voe_classement = res.getShort("voeux_classement");
+                    String res_voe_universite = res.getString("voeux_universite");
+                    Integer res_voe_classement = res.getInt("voeux_classement");
                     Integer res_voe_inscription = res.getInt("voeux_inscription");
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
@@ -230,7 +230,16 @@ public class RectoratDatabase extends SQLConnexion {
      * @param monVoeux le voeux que l'on veut créer. Par défaut les états de bases sont= inscription:1:non_valide etatvoeu:0:créé decision:1:attente
      */
     public void creerVoeux(VoeuxDetail monVoeux) {
-            ResultSet res = this.makeRequest("INSERT INTO voeux (mandant, voeux_ine, voeux_master, voeux_universite, voeux_classement, voeux_inscription, voeux_etat_voeu, voeux_decision VALUES"
+            int res = this.makeUpdateOrDelete(
+                    "INSERT INTO voeux ("
+                            + "mandant,"
+                            + " voeux_ine,"
+                            + " voeux_master,"
+                            + " voeux_universite,"
+                            + " voeux_classement,"
+                            + " voeux_inscription,"
+                            + " voeux_etat_voeu,"
+                            + " voeux_decision) VALUES"
                     + " ('"
                         + RectoratServeur.getInstance().getMandant() 
                         +"', '"+ monVoeux.etu.num_etudiant 
@@ -248,7 +257,7 @@ public class RectoratDatabase extends SQLConnexion {
      * @param maCandidature la candidature passée en parametre doit contenir les nouveaux états
      */
     public void modifierCandidatureEtat(CandidatureDetail maCandidature) {
-            ResultSet res = this.makeRequest("UPDATE voeux SET "
+            int res = this.makeUpdateOrDelete("UPDATE voeux SET "
                     + "voeux_inscription = '" + maCandidature.etatInscription.value() 
                     + "', voeux_etat_voeu = '" + maCandidature.etatVoeu.value()
                     + "', voeux_decision = '" + maCandidature.etatDecision.value()
@@ -266,7 +275,7 @@ public class RectoratDatabase extends SQLConnexion {
      * @param maCandidature la candidature passée pour savoir ou modifier le mandant
      */
     public void redistribuerCandidature(String mandant, CandidatureDetail maCandidature) {
-            ResultSet res = this.makeRequest("UPDATE voeux SET "
+            int res = this.makeUpdateOrDelete("UPDATE voeux SET "
                     + "mandant = '" + mandant
                     + "', voeux_inscription = '" + maCandidature.etatInscription.value()
                     + "' where mandant = '" + RectoratServeur.getInstance().getMandant() 
