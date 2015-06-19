@@ -246,9 +246,9 @@ public class RectoratDatabase extends SQLConnexion {
                         +"', '"+ monVoeux.master 
                         +"', '"+ monVoeux.universite 
                         +"', '"+ monVoeux.classement 
-                        +"', '"+ 1 
-                        +"', '"+ 0 
-                        +"', '"+ 1 
+                        +"', '"+ EtatInscription._NON_VALIDE
+                        +"', '"+ EtatVoeu._CREE
+                        +"', '"+ EtatDecision._ATTENTE 
                     +"')");
     }
     
