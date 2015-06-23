@@ -39,7 +39,17 @@ public class VoeuPanel extends javax.swing.JPanel {
         }
         colorBack = new Color(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 100);
         this.setBackground(colorBack);
-        this.etudiantChoice.addVoeuPanel(this);
+        
+        StringBuilder strBld = new StringBuilder();
+        strBld.append("Diplôme : ");
+        strBld.append(Etudiant.getInstance().getFormationLibelle(candidatureDetail.voeuxDetail.master));
+        strBld.append(" - Université : ");
+        strBld.append(Etudiant.getInstance().getUniversiteLibelle(candidatureDetail.voeuxDetail.universite, candidatureDetail.voeuxDetail.rectorat));
+        strBld.append(" - Rectorat : ");
+        strBld.append(Etudiant.getInstance().getRectoratLibelle(candidatureDetail.voeuxDetail.rectorat));
+        
+        this.voeuDesc.setText(strBld.toString());
+        this.setEnabled(true);
     }
     
     private void desactiverButtons(){
@@ -65,17 +75,17 @@ public class VoeuPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        voeuDesc = new javax.swing.JLabel();
         nonDefButton = new javax.swing.JToggleButton();
         ouiDefButton = new javax.swing.JToggleButton();
         ouiMaisButton = new javax.swing.JToggleButton();
         nonMaisButton = new javax.swing.JToggleButton();
         classementLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        voeuDesc = new javax.swing.JTextArea();
 
-        setMaximumSize(new java.awt.Dimension(640, 36));
-        setMinimumSize(new java.awt.Dimension(640, 36));
-
-        voeuDesc.setText("voeuDesc");
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        setMaximumSize(new java.awt.Dimension(800, 70));
+        setMinimumSize(new java.awt.Dimension(800, 70));
 
         nonDefButton.setText("Non définitif");
         nonDefButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -111,6 +121,22 @@ public class VoeuPanel extends javax.swing.JPanel {
 
         classementLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        voeuDesc.setEditable(false);
+        voeuDesc.setBackground(new java.awt.Color(240, 240, 240));
+        voeuDesc.setColumns(20);
+        voeuDesc.setLineWrap(true);
+        voeuDesc.setRows(2);
+        voeuDesc.setWrapStyleWord(true);
+        voeuDesc.setAutoscrolls(false);
+        voeuDesc.setBorder(null);
+        voeuDesc.setMaximumSize(new java.awt.Dimension(164, 36));
+        voeuDesc.setMinimumSize(new java.awt.Dimension(164, 36));
+        jScrollPane1.setViewportView(voeuDesc);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,9 +144,9 @@ public class VoeuPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(classementLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(voeuDesc, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ouiDefButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -134,10 +160,13 @@ public class VoeuPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ouiDefButton)
                             .addComponent(nonDefButton))
@@ -145,12 +174,10 @@ public class VoeuPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nonMaisButton)
                             .addComponent(ouiMaisButton))
-                        .addGap(0, 2, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(voeuDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(classementLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(classementLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -174,10 +201,11 @@ public class VoeuPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel classementLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToggleButton nonDefButton;
     private javax.swing.JToggleButton nonMaisButton;
     private javax.swing.JToggleButton ouiDefButton;
     private javax.swing.JToggleButton ouiMaisButton;
-    private javax.swing.JLabel voeuDesc;
+    private javax.swing.JTextArea voeuDesc;
     // End of variables declaration//GEN-END:variables
 }

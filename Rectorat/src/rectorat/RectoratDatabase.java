@@ -164,12 +164,13 @@ public class RectoratDatabase extends SQLConnexion {
                 while (rowcount > 0 && res.next()) {
                     Integer res_voe_master = res.getInt("voeux_master");
                     String res_voe_universite = res.getString("voeux_universite");
+                    String res_voe_rectorat = res.getString("voeux_rectorat");
                     Integer res_voe_classement = res.getInt("voeux_classement");
                     Integer res_voe_inscription = res.getInt("voeux_inscription");
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
 
-                    VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
+                    VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_rectorat, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(
                             v,
@@ -207,13 +208,14 @@ public class RectoratDatabase extends SQLConnexion {
                     String res_voe_ine = res.getString("voeux_ine");
                     Integer res_voe_master = res.getInt("voeux_master");
                     String res_voe_universite = res.getString("voeux_universite");
+                    String res_voe_rectorat = res.getString("voeux_rectorat");
                     Integer res_voe_classement = res.getInt("voeux_classement");
                     Integer res_voe_inscription = res.getInt("voeux_inscription");
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
 
                     EtudiantDetail e = this.getUnEtudiant(res_voe_ine);
-                    VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_classement, e);
+                    VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_rectorat, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
                 }
@@ -236,6 +238,7 @@ public class RectoratDatabase extends SQLConnexion {
                             + " voeux_ine,"
                             + " voeux_master,"
                             + " voeux_universite,"
+                            + " voeux_rectorat,"
                             + " voeux_classement,"
                             + " voeux_inscription,"
                             + " voeux_etat_voeu,"
@@ -244,7 +247,8 @@ public class RectoratDatabase extends SQLConnexion {
                         + RectoratServeur.getInstance().getMandant() 
                         +"', '"+ monVoeux.etu.num_etudiant 
                         +"', '"+ monVoeux.master 
-                        +"', '"+ monVoeux.universite 
+                        +"', '"+ monVoeux.universite
+                        +"', '"+ monVoeux.rectorat
                         +"', '"+ monVoeux.classement 
                         +"', '"+ EtatInscription._NON_VALIDE
                         +"', '"+ EtatVoeu._CREE
@@ -266,6 +270,7 @@ public class RectoratDatabase extends SQLConnexion {
                     + "' and voeux_ine = '" + maCandidature.voeuxDetail.etu.num_etudiant
                     + "' and voeux_master = '" + maCandidature.voeuxDetail.master
                     + "' and voeux_universite = '" + maCandidature.voeuxDetail.universite
+                    + "' and voeux_rectorat = '" + maCandidature.voeuxDetail.rectorat
                     + "'");
     }
     
@@ -282,6 +287,7 @@ public class RectoratDatabase extends SQLConnexion {
                     + "' and voeux_ine = '" + maCandidature.voeuxDetail.etu.num_etudiant
                     + "' and voeux_master = '" + maCandidature.voeuxDetail.master
                     + "' and voeux_universite = '" + maCandidature.voeuxDetail.universite
+                    + "' and voeux_rectorat = '" + maCandidature.voeuxDetail.rectorat
                     + "'");
     }
     

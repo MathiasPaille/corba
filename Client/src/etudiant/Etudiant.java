@@ -13,7 +13,6 @@ import gestionVoeu.UniversiteDetail;
 import gestionVoeu.UniversiteHelper;
 import gestionVoeu.VoeuxDetail;
 import gestionVoeu.compteInconnu;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -33,6 +32,7 @@ public class Etudiant {
     private Rectorat rectorat;
     private Ministere ministere;
     private RectoratDetail[] rectorats;
+    private DiplomeDetail[] diplomes;
     
     public static Etudiant getInstance(){
         return INSTANCE;
@@ -67,6 +67,8 @@ public class Etudiant {
             
             this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
             this.rectorats = this.ministere.getListRectorats();
+            
+            this.diplomes = ministere.getListDiplomes();
 
         } catch (compteInconnu ex) {
             Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,21 +80,48 @@ public class Etudiant {
         return res.recupererUniversites();
     }
     
-    public void ajoutVoeu(int master, String universite){
-        this.rectorat.creerVoeux(new VoeuxDetail(master, universite, 1, this.getDetails()));
+    public void ajoutVoeu(int master, String universite, String rectorat, int classement){
+        this.rectorat.creerVoeux(new VoeuxDetail(master, universite, rectorat, classement, this.getDetails()));
     }
     
     public DiplomeDetail[] getFormationsList(String univ){
         Universite res = UniversiteHelper.narrow(DistantObjectManager.getInstance().getReference(univ));
-        DiplomeDetail[] diplomes = ministere.getListDiplomes();
         int[] diplomesReal = res.getAffiliations();
         DiplomeDetail[] diplomesRecu = new DiplomeDetail[diplomesReal.length];
         for(int i = 0; i < diplomesReal.length; i++){
-            for(DiplomeDetail d : diplomes){
+            for(DiplomeDetail d : this.diplomes){
                 if(d.id == diplomesReal[i]) diplomesRecu[i] = d;
             }
         }
         return diplomesRecu;
+    }
+    
+    public String getFormationLibelle(int formationID){
+        for(DiplomeDetail dd : this.diplomes){
+            if(dd.id == formationID){
+                return dd.libelle;
+            }
+        }
+        return "Diplôme inconnu";
+    }
+    
+    public String getUniversiteLibelle(String universiteID, String rectoratID){
+        UniversiteDetail[] ud = this.getUniversitesList(rectoratID);
+        for(UniversiteDetail u : ud){
+            if(u.id == null ? universiteID == null : u.id.equals(universiteID)){
+                return u.name;
+            }
+        }
+        return "Universite Inconnue";
+    }
+    
+    public String getRectoratLibelle(String rectoratID){
+        for(RectoratDetail rd : this.rectorats){
+            if(rd.id == null ? rectoratID == null : rd.id.equals(rectoratID)){
+                return rd.name;
+            }
+        }
+        return "Rectorat inconnu";
     }
     
     public void ajoutDetails(EtudiantDetail det){

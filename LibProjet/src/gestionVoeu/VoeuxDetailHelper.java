@@ -73,7 +73,7 @@ public class VoeuxDetailHelper
                     return org.omg.CORBA.ORB.init().create_recursive_tc(id());
                 _working = true;
                 org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[4];
+                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[5];
 
                 _members[0] = new org.omg.CORBA.StructMember();
                 _members[0].name = "master";
@@ -82,11 +82,14 @@ public class VoeuxDetailHelper
                 _members[1].name = "universite";
                 _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[2] = new org.omg.CORBA.StructMember();
-                _members[2].name = "classement";
-                _members[2].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
+                _members[2].name = "rectorat";
+                _members[2].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[3] = new org.omg.CORBA.StructMember();
-                _members[3].name = "etu";
-                _members[3].type = gestionVoeu.EtudiantDetailHelper.type();
+                _members[3].name = "classement";
+                _members[3].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_long);
+                _members[4] = new org.omg.CORBA.StructMember();
+                _members[4].name = "etu";
+                _members[4].type = gestionVoeu.EtudiantDetailHelper.type();
                 _tc = orb.create_struct_tc(id(),"VoeuxDetail",_members);
                 _working = false;
             }
@@ -116,6 +119,7 @@ public class VoeuxDetailHelper
 
         new_one.master = istream.read_long();
         new_one.universite = istream.read_string();
+        new_one.rectorat = istream.read_string();
         new_one.classement = istream.read_long();
         new_one.etu = gestionVoeu.EtudiantDetailHelper.read(istream);
 
@@ -131,6 +135,7 @@ public class VoeuxDetailHelper
     {
         ostream.write_long(value.master);
         ostream.write_string(value.universite);
+        ostream.write_string(value.rectorat);
         ostream.write_long(value.classement);
         gestionVoeu.EtudiantDetailHelper.write(ostream,value.etu);
     }

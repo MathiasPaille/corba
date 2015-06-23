@@ -42,6 +42,7 @@ module gestionVoeu
 	struct VoeuxDetail{
 		long master;
 		string universite;
+                string rectorat;
 		long classement;
 		EtudiantDetail etu;
 	};
