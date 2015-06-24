@@ -121,6 +121,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
                     lastMember = str2;
                 }
                 DefaultListModel<IDValue> modelFormation = new DefaultListModel<>();
+                formationList.setSelectedIndex(-1);
                 for(DiplomeDetail form : Etudiant.getInstance().getFormationsList(lastMember)){
                     modelFormation.addElement(new IDValue(Integer.toString(form.id), form.libelle));
                 }
