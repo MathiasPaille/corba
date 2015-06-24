@@ -1,0 +1,88 @@
+package universiteclient;
+
+import gestionVoeu.DiplomeDetail;
+import gestionVoeu.Ministere;
+import gestionVoeu.MinistereHelper;
+import gestionVoeu.Rectorat;
+import gestionVoeu.RectoratDetail;
+import gestionVoeu.RectoratHelper;
+import gestionVoeu.Universite;
+import gestionVoeu.UniversiteDetail;
+import gestionVoeu.UniversiteHelper;
+import tools.DistantObjectManager;
+import tools.MandantDialog;
+
+/**
+ *
+ * @author Yvan
+ */
+public class UniversiteClient {
+
+    private static final UniversiteClient INSTANCE = new UniversiteClient();
+    
+    private String mandantRectorat;
+    private String universiteMandant;
+    private DiplomeDetail[] diplomes;
+    private Ministere ministere;
+    private Universite universite;
+    
+    private UniversiteClient(){
+        this.universiteMandant = MandantDialog.getMandant("ID de l'université");
+        this.mandantRectorat = MandantDialog.getMandant("ID du rectorat");
+        this.universite = UniversiteHelper.narrow(DistantObjectManager.getInstance().getReference(universiteMandant));
+        this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
+        this.diplomes = ministere.getListDiplomes();
+    }
+    
+    public static UniversiteClient getInstance(){
+        return INSTANCE;
+    }
+
+    public String getRectoratMandant() {
+        return mandantRectorat;
+    }
+    
+    public String getUniversitetMandant() {
+        return universiteMandant;
+    }
+    
+    public String getUniversiteLibelle(){
+        Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(mandantRectorat));
+        UniversiteDetail[] uds = r.recupererUniversites();
+        for(UniversiteDetail ud : uds){
+            if(ud.id.equals(universiteMandant)){
+                return ud.name;
+            }
+        }
+        return "Université inconnue";
+    }
+    
+    public String getRectoratLibelle() {
+        RectoratDetail[] rds = ministere.getListRectorats();
+        for(RectoratDetail rd : rds){
+            if(rd.id.equals(mandantRectorat)){
+                return rd.name;
+            }
+        }
+        return "Rectorat inconnu";
+    }
+    
+    public DiplomeDetail[] getFormationsList(){
+        int[] diplomesReal = this.universite.getAffiliations();
+        DiplomeDetail[] diplomesRecu = new DiplomeDetail[diplomesReal.length];
+        for(int i = 0; i < diplomesReal.length; i++){
+            for(DiplomeDetail d : this.diplomes){
+                if(d.id == diplomesReal[i]) diplomesRecu[i] = d;
+            }
+        }
+        return diplomesRecu;
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        UniversiteChoice universiteChoice = new UniversiteChoice();
+    }
+    
+}

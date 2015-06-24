@@ -2,7 +2,6 @@ package tools;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javafx.scene.input.KeyCode;
 
 /**
  * Dialogue Custom d'entrée d'un mandant
@@ -17,10 +16,11 @@ public class MandantDialog extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    private MandantDialog(java.awt.Frame parent, boolean modal) {
+    private MandantDialog(java.awt.Frame parent, boolean modal, String title) {
         super(parent, modal);
         mandant = "";
         initComponents();
+        this.setTitle(title);
         this.mandantField.addKeyListener(new KeyListener() {
 
             @Override
@@ -49,7 +49,16 @@ public class MandantDialog extends javax.swing.JDialog {
      * @return le mandant
      */
     public static String getMandant(){
-        return new MandantDialog(null, true).showDialog();
+        return new MandantDialog(null, true, "Mandant").showDialog();
+    }
+    
+    /**
+     * Initialise un dialogue modal et bloquant
+     * @param title titre du dialogue
+     * @return le mandant
+     */
+    public static String getMandant(String title){
+        return new MandantDialog(null, true, title).showDialog();
     }
 
     /**
