@@ -119,7 +119,7 @@ module gestionVoeu
 		void creerVoeux(in VoeuxDetail monVoeux);
 		CandidatureList recupererVoeuxEtudiant(in string num_etu) raises (compteInconnu);
                 ListeUniversite recupererUniversites();
-                CandidatureList recupererVoeuxMaster(in long master) raises(diplomeInconnu);
+                CandidatureList recupererVoeuxMaster(in string universite, in long master) raises(diplomeInconnu);
                 void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises(malformedInformation);
 	};
 

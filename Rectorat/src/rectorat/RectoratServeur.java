@@ -29,8 +29,8 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public CandidatureDetail[] recupererVoeuxMaster(int master) throws diplomeInconnu {
-        return RectoratDatabase.getInstance().recupererVoeuxMaster(master);
+    public CandidatureDetail[] recupererVoeuxMaster(String universite, int master) throws diplomeInconnu {
+        return RectoratDatabase.getInstance().recupererVoeuxMaster(universite, master);
     }
 
     @Override

@@ -99,10 +99,10 @@ public class RectoratPOATie extends RectoratPOA
     /**
      * Operation recupererVoeuxMaster
      */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(String universite, int master)
         throws gestionVoeu.diplomeInconnu
     {
-        return _tie.recupererVoeuxMaster( master);
+        return _tie.recupererVoeuxMaster( universite,  master);
     }
 
     /**

@@ -1,10 +1,16 @@
 package universiteclient;
 
+import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
+import gestionVoeu.EtatDecision;
+import gestionVoeu.EtatVoeu;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import tools.IDValue;
 import tools.IDValueCustomRenderer;
 
@@ -14,10 +20,14 @@ import tools.IDValueCustomRenderer;
  */
 public class UniversiteChoice extends javax.swing.JFrame {
 
+    private ArrayList<CandidaturePanel> candidaturesList;
+    private CandidatureDetail[] candidatureDetail;
+    
     /**
      * Creates new form UniversiteChoice
      */
     public UniversiteChoice() {
+        this.candidaturesList = new ArrayList<>();
         initComponents();
         
         //initialiser les éléments
@@ -25,38 +35,52 @@ public class UniversiteChoice extends javax.swing.JFrame {
         this.rectoratLibelle.setText(UniversiteClient.getInstance().getRectoratLibelle());
         
         this.comboFormation.setRenderer(new IDValueCustomRenderer());
+        this.comboFormation.addActionListener(new ComboFormationListener());
         DefaultComboBoxModel<IDValue> modelFormation = new DefaultComboBoxModel<>();
         for(DiplomeDetail form : UniversiteClient.getInstance().getFormationsList()){
             modelFormation.addElement(new IDValue(Integer.toString(form.id), form.libelle));
         }
-        comboFormation.setModel(modelFormation);
+        this.comboFormation.setModel(modelFormation);
         
         //ouvrir la fenêtre
+        this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
     
-    class ComboFormationListener implements ListSelectionListener {
+    public int compteOuiDefinitif(){
+        int i = 0;
+        for(CandidatureDetail cd : this.candidatureDetail){
+            if(cd.etatVoeu.value()==EtatVoeu._OUI_DEFINITIF) i++;
+        }
+        return i;
+    }
+    
+    public void rafraichirVoeux(int id){
+        this.seeVoeux.removeAll();
+        this.candidaturesList = new ArrayList<>();
+        this.candidatureDetail = UniversiteClient.getInstance().getVoeux(id);
+        this.seeVoeux.add(Box.createRigidArea(new Dimension(0, 5)));
+        for(CandidatureDetail cd : this.candidatureDetail){
+            CandidaturePanel pan = new CandidaturePanel(cd, this);
+            this.candidaturesList.add(pan);
+            this.seeVoeux.add(pan);
+            this.seeVoeux.add(Box.createRigidArea(new Dimension(0, 5)));
+        }
+        this.nombreOuiDefLibelle.setText(this.compteOuiDefinitif()+"");
+    }
+    
+    class ComboFormationListener implements ActionListener {
         
-        private String lastMember = null;
-
         @Override
-        public void valueChanged(ListSelectionEvent lse) {
-            if(!lse.getValueIsAdjusting()){
-                String str = ((IDValue) comboFormation.getModel().getElementAt(lse.getFirstIndex())).ID;
-                String str2 = ((IDValue) comboFormation.getModel().getElementAt(lse.getLastIndex())).ID;
-                if(str == null ? lastMember != null : !str.equals(lastMember)){
-                    lastMember = str;
-                } else {
-                    lastMember = str2;
-                }
+        public void actionPerformed(ActionEvent ae) {
+            if(comboFormation.getSelectedIndex() >= 0){
+                String str = ((IDValue) comboFormation.getModel().getSelectedItem()).ID;
                 //utiliser lastMember
-                seeVoeux.removeAll();
-                
+                rafraichirVoeux(Integer.parseInt(str));
             }
         }
-        
     }
     
     /**
@@ -81,6 +105,9 @@ public class UniversiteChoice extends javax.swing.JFrame {
         buttonClore = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(960, 650));
+        setMinimumSize(new java.awt.Dimension(960, 650));
+        setResizable(false);
 
         jLabel1.setText("Université: ");
 
@@ -92,21 +119,21 @@ public class UniversiteChoice extends javax.swing.JFrame {
 
         jLabel5.setText("Formation: ");
 
+        comboFormation.setMaximumRowCount(10);
+
         jLabel6.setText("Nombre de Oui Défnitif dans la formation: ");
 
         nombreOuiDefLibelle.setText("jLabel7");
 
-        javax.swing.GroupLayout seeVoeuxLayout = new javax.swing.GroupLayout(seeVoeux);
-        seeVoeux.setLayout(seeVoeuxLayout);
-        seeVoeuxLayout.setHorizontalGroup(
-            seeVoeuxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 938, Short.MAX_VALUE)
-        );
-        seeVoeuxLayout.setVerticalGroup(
-            seeVoeuxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 543, Short.MAX_VALUE)
-        );
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(938, 543));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(938, 543));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(938, 543));
 
+        seeVoeux.setMaximumSize(new java.awt.Dimension(938, 454545454));
+        seeVoeux.setMinimumSize(new java.awt.Dimension(938, 0));
+        seeVoeux.setLayout(new javax.swing.BoxLayout(seeVoeux, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(seeVoeux);
 
         buttonClore.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -121,7 +148,7 @@ public class UniversiteChoice extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonClore, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -164,7 +191,7 @@ public class UniversiteChoice extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonClore)
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

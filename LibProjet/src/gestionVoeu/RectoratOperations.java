@@ -32,7 +32,7 @@ public interface RectoratOperations
     /**
      * Operation recupererVoeuxMaster
      */
-    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(int master)
+    public gestionVoeu.CandidatureDetail[] recupererVoeuxMaster(String universite, int master)
         throws gestionVoeu.diplomeInconnu;
 
     /**

@@ -141,10 +141,11 @@ public class Etudiant {
 
     /**
      * Launch the client
+     * @param args paramêtres du programme
      */
     public static void main(String[] args) {
         Etudiant.getInstance().init();
-        EtudiantChoice panel = new EtudiantChoice();            
+        EtudiantChoice panel = new EtudiantChoice();   
         JFrame frame = new JFrame();
         frame.add(panel);
         frame.pack();

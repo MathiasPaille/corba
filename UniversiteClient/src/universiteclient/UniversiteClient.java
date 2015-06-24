@@ -1,5 +1,6 @@
 package universiteclient;
 
+import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.Ministere;
 import gestionVoeu.MinistereHelper;
@@ -9,6 +10,11 @@ import gestionVoeu.RectoratHelper;
 import gestionVoeu.Universite;
 import gestionVoeu.UniversiteDetail;
 import gestionVoeu.UniversiteHelper;
+import gestionVoeu.diplomeInconnu;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tools.DistantObjectManager;
 import tools.MandantDialog;
 
@@ -76,6 +82,25 @@ public class UniversiteClient {
             }
         }
         return diplomesRecu;
+    }
+    
+    public CandidatureDetail[] getVoeux(int master){
+        ArrayList<CandidatureDetail> listeTot = new ArrayList<>();
+        RectoratDetail[] rds = ministere.getListRectorats();
+        for(RectoratDetail rd : rds){
+            try {
+                Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rd.id));
+                CandidatureDetail[] cds = r.recupererVoeuxMaster(this.universiteMandant, master);
+                listeTot.addAll(Arrays.asList(cds));
+            } catch (diplomeInconnu ex) {
+                Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        CandidatureDetail[] cdTotal = new CandidatureDetail[listeTot.size()];
+        for(int i = 0; i < listeTot.size(); i++){
+            cdTotal[i] = listeTot.get(i);
+        }
+        return cdTotal;
     }
     
     /**

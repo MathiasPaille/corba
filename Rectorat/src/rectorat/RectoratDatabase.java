@@ -189,13 +189,23 @@ public class RectoratDatabase extends SQLConnexion {
     
     /**
      * Récuperer les voeux avec un code master
+     * @param universite universite où récupérer les voeux
      * @param voeux_master permet de récuperer l'id du voeux master sur lequel on veut faire la selection
      * @return la liste des voeux correspondant au master
      */
-    public CandidatureDetail[] recupererVoeuxMaster(int voeux_master) {
+    public CandidatureDetail[] recupererVoeuxMaster(String universite, int voeux_master) {
         CandidatureDetail[] cc = null;
         try {
-            ResultSet res = this.makeRequest("select * from voeux where voeux.mandant = '" + RectoratServeur.getInstance().getMandant() + "' and voeux.voeux_master = '" + voeux_master + "'");
+            ResultSet res = this.makeRequest(
+                    "select * from voeux, etudiant where voeux.mandant = '"
+                            + RectoratServeur.getInstance().getMandant()
+                            + "' and voeux.voeux_universite = '"
+                            + universite
+                            + "' and voeux.voeux_master = '"
+                            + voeux_master
+                            + "' and etudiant.mandant = '"
+                            + RectoratServeur.getInstance().getMandant()
+                            + "' and etudiant.etu_ine = voeux.voeux_ine");
             if (res != null) {
                 int rowcount = 0;
                 //récupération de la taille du resultSet
@@ -213,8 +223,25 @@ public class RectoratDatabase extends SQLConnexion {
                     Integer res_voe_inscription = res.getInt("voeux_inscription");
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
+                    String res_etu_ine = res.getString("etu_ine");
+                    String res_etu_nom = res.getString("etu_nom");
+                    String res_etu_prenom = res.getString("etu_prenom");
+                    String res_etu_adresse = res.getString("etu_adresse");
+                    String res_etu_universite = res.getString("etu_universite");
+                    String res_etu_license = res.getString("etu_license");
+                    String res_etu_notes = res.getString("etu_notes");
 
-                    EtudiantDetail e = this.getUnEtudiant(res_voe_ine);
+                    semestreJson s = gson.fromJson(res_etu_notes, semestreJson.class);
+                    //list est la liste des moyennes de semestres
+                    SemestreDetail[] list = new SemestreDetail[6];
+                    list[0] = s.getS1();
+                    list[1] = s.getS2();
+                    list[2] = s.getS3();
+                    list[3] = s.getS4();
+                    list[4] = s.getS5();
+                    list[5] = s.getS6();
+
+                    EtudiantDetail e = new EtudiantDetail(res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, list);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_rectorat, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
