@@ -16,6 +16,8 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import tools.IDValue;
+import tools.IDValueCustomRenderer;
 
 /**
  *
@@ -350,41 +352,6 @@ public class EtudiantChoice extends javax.swing.JPanel {
         this.rectoratList.setSelectedIndex(0);
         this.refreshVoeuxAffiches();
     }//GEN-LAST:event_addChoiceActionPerformed
-
-     class IDValue {
-        public String ID;
-        public String value;
-        
-        public IDValue(String id, String value){
-            this.ID = id;
-            this.value = value;
-        }
-    }
-    
-    class IDValueCustomRenderer extends JLabel implements ListCellRenderer<IDValue> {
-        
-        public IDValueCustomRenderer(){
-            setOpaque(true);
-        }
-
-        @Override
-        public Component getListCellRendererComponent(JList list, IDValue element, int index, boolean isSelected, boolean cellHasFocus) {
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
-            
-            setText(element.value);            
-            setFont(list.getFont());
-            
-            return this;
-        }
-        
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addChoice;
     private javax.swing.JLabel adresseField;
