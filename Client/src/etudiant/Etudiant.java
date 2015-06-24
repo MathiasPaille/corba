@@ -45,34 +45,32 @@ public class Etudiant {
     public void init(){
         String[] infosConnexion = ConnexionDialog.getConnexionDetails(false);
         
-        try {
-            
-            this.rectorat = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(infosConnexion[0]));
-            
-            boolean connected = false;
-            while(!connected){
-                try {
-                    EtudiantDetail et = this.rectorat.connexion(infosConnexion[1], infosConnexion[2]);
-                    this.ajoutDetails(et);
-                    connected = true;
-                } catch (compteInconnu ex) {
-                    JOptionPane.showMessageDialog(null, ex.raison, "Problème de connexion", JOptionPane.ERROR_MESSAGE);
-                    String[] newInfosConnexion = ConnexionDialog.getConnexionDetails(true);
-                    infosConnexion[1] = newInfosConnexion[1];
-                    infosConnexion[2] = newInfosConnexion[2];
-                }
+        this.rectorat = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(infosConnexion[0]));
+        boolean connected = false;
+        while(!connected){
+            try {
+                EtudiantDetail et = this.rectorat.connexion(infosConnexion[1], infosConnexion[2]);
+                this.ajoutDetails(et);
+                connected = true;
+            } catch (compteInconnu ex) {
+                JOptionPane.showMessageDialog(null, ex.raison, "Problème de connexion", JOptionPane.ERROR_MESSAGE);
+                String[] newInfosConnexion = ConnexionDialog.getConnexionDetails(true);
+                infosConnexion[1] = newInfosConnexion[1];
+                infosConnexion[2] = newInfosConnexion[2];
             }
-            
+        }
+        this.refreshListVoeux();
+        this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
+        this.rectorats = this.ministere.getListRectorats();
+        this.diplomes = ministere.getListDiplomes();
+    }
+    
+    public void refreshListVoeux(){
+        try {
             this.listeVoeux = this.rectorat.recupererVoeuxEtudiant(this.details.num_etudiant);
-            
-            this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
-            this.rectorats = this.ministere.getListRectorats();
-            
-            this.diplomes = ministere.getListDiplomes();
-
         } catch (compteInconnu ex) {
             Logger.getLogger(Etudiant.class.getName()).log(Level.SEVERE, null, ex);
-	}
+        }
     }
     
     public UniversiteDetail[] getUniversitesList(String rect){
@@ -82,6 +80,7 @@ public class Etudiant {
     
     public void ajoutVoeu(int master, String universite, String rectorat, int classement){
         this.rectorat.creerVoeux(new VoeuxDetail(master, universite, rectorat, classement, this.getDetails()));
+        this.refreshListVoeux();
     }
     
     public DiplomeDetail[] getFormationsList(String univ){

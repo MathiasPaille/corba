@@ -13,7 +13,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -24,7 +23,8 @@ import javax.swing.event.ListSelectionListener;
  */
 public class EtudiantChoice extends javax.swing.JPanel {
     
-    public ArrayList<VoeuPanel> voeuxAffiches;
+    private ArrayList<VoeuPanel> voeuxAffiches;
+    private DefaultComboBoxModel<Integer> modelClassement;
 
     /**
      * Creates new form EtudiantChoiceAdd
@@ -39,20 +39,11 @@ public class EtudiantChoice extends javax.swing.JPanel {
         this.universiteField.setText(Etudiant.getInstance().getDetails().universite);
         this.licenseField.setText(Etudiant.getInstance().getDetails().license);
         
-        DefaultComboBoxModel<Integer> modelClassement = new DefaultComboBoxModel<>();
+        this.modelClassement = new DefaultComboBoxModel<>();
         for(int i = 1; i <= 5; i++){
             modelClassement.addElement(i);
         }
-        
-        this.seeChoices.add(Box.createRigidArea(new Dimension(0, 5)));
-        for (CandidatureDetail voeu : Etudiant.getInstance().getListeVoeux()) {
-            modelClassement.removeElement(voeu.voeuxDetail.classement);
-            VoeuPanel v = new VoeuPanel(voeu, this);
-            this.voeuxAffiches.add(v);
-            this.seeChoices.add(v);
-            this.seeChoices.add(Box.createRigidArea(new Dimension(0, 5)));
-//            this.seeChoices.repaint();
-        }
+        this.refreshVoeuxAffiches();
         this.comboClassement.setModel(modelClassement);
         
         this.rectoratList.setCellRenderer(new IDValueCustomRenderer());
@@ -65,6 +56,23 @@ public class EtudiantChoice extends javax.swing.JPanel {
         }
         this.rectoratList.setModel(modelRectorat);
         this.rectoratList.addListSelectionListener(new RectoratListListener());
+    }
+    
+    public final void refreshVoeuxAffiches(){
+        this.voeuxAffiches = new ArrayList<>();
+        for (CandidatureDetail voeu : Etudiant.getInstance().getListeVoeux()) {
+            modelClassement.removeElement(voeu.voeuxDetail.classement);
+            VoeuPanel v = new VoeuPanel(voeu, this);
+            this.voeuxAffiches.add(v);
+//            this.seeChoices.repaint();
+        }
+        this.seeChoices.removeAll();
+        this.voeuxAffiches.sort(null);
+        this.seeChoices.add(Box.createRigidArea(new Dimension(0, 5)));
+        for(VoeuPanel vp : this.voeuxAffiches){
+            this.seeChoices.add(vp);
+            this.seeChoices.add(Box.createRigidArea(new Dimension(0, 5)));
+        }
     }
     
     class RectoratListListener implements ListSelectionListener{
@@ -332,8 +340,15 @@ public class EtudiantChoice extends javax.swing.JPanel {
         IDValue university = (IDValue) universityList.getSelectedValue();
         IDValue formation = (IDValue) formationList.getSelectedValue();
         int classement = (int) comboClassement.getSelectedItem();
-        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat.ID + " - Université: " + university.ID + " - Formation: " + formation.ID);
+//        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat.ID + " - Université: " + university.ID + " - Formation: " + formation.ID);
         Etudiant.getInstance().ajoutVoeu(Integer.parseInt(formation.ID), university.ID, rectorat.ID, classement);
+        this.formationList.setModel(new DefaultListModel());
+        for(ListSelectionListener el : universityList.getListSelectionListeners()){
+            universityList.removeListSelectionListener(el);
+        }
+        this.universityList.setModel(new DefaultListModel());
+        this.rectoratList.setSelectedIndex(0);
+        this.refreshVoeuxAffiches();
     }//GEN-LAST:event_addChoiceActionPerformed
 
      class IDValue {

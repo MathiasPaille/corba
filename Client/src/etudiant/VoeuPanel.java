@@ -9,7 +9,7 @@ import java.awt.Color;
  *
  * @author Yvan
  */
-public class VoeuPanel extends javax.swing.JPanel {
+public class VoeuPanel extends javax.swing.JPanel implements Comparable{
     
     private CandidatureDetail candidatureDetail;
     private EtudiantChoice etudiantChoice;
@@ -66,6 +66,11 @@ public class VoeuPanel extends javax.swing.JPanel {
         ouiMaisButton.setEnabled(true);
     }
 
+    @Override
+    public int compareTo(Object t) {
+        return Integer.compare(this.candidatureDetail.voeuxDetail.classement, ((VoeuPanel) t).candidatureDetail.voeuxDetail.classement);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
