@@ -2,13 +2,13 @@ package universiteclient;
 
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
-import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatVoeu;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import tools.IDValue;
@@ -59,7 +59,7 @@ public class UniversiteChoice extends javax.swing.JFrame {
     
     public void rafraichirVoeux(int id){
         this.seeVoeux.removeAll();
-        this.candidaturesList = new ArrayList<>();
+        this.candidaturesList.clear();
         this.candidatureDetail = UniversiteClient.getInstance().getVoeux(id);
         this.seeVoeux.add(Box.createRigidArea(new Dimension(0, 5)));
         for(CandidatureDetail cd : this.candidatureDetail){
@@ -68,6 +68,8 @@ public class UniversiteChoice extends javax.swing.JFrame {
             this.seeVoeux.add(pan);
             this.seeVoeux.add(Box.createRigidArea(new Dimension(0, 5)));
         }
+        this.seeVoeux.repaint();
+        this.jScrollPane1.revalidate();
         this.nombreOuiDefLibelle.setText(this.compteOuiDefinitif()+"");
     }
     
@@ -78,6 +80,7 @@ public class UniversiteChoice extends javax.swing.JFrame {
             if(comboFormation.getSelectedIndex() >= 0){
                 String str = ((IDValue) comboFormation.getModel().getSelectedItem()).ID;
                 //utiliser lastMember
+                System.out.println(str);
                 rafraichirVoeux(Integer.parseInt(str));
             }
         }
@@ -123,7 +126,7 @@ public class UniversiteChoice extends javax.swing.JFrame {
 
         jLabel6.setText("Nombre de Oui Défnitif dans la formation: ");
 
-        nombreOuiDefLibelle.setText("jLabel7");
+        nombreOuiDefLibelle.setText(" ");
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -133,6 +136,7 @@ public class UniversiteChoice extends javax.swing.JFrame {
 
         seeVoeux.setMaximumSize(new java.awt.Dimension(938, 454545454));
         seeVoeux.setMinimumSize(new java.awt.Dimension(938, 0));
+        seeVoeux.setPreferredSize(new java.awt.Dimension(938, 543));
         seeVoeux.setLayout(new javax.swing.BoxLayout(seeVoeux, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(seeVoeux);
 

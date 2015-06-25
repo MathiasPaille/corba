@@ -215,6 +215,7 @@ public class RectoratDatabase extends SQLConnexion {
                 }
                 cc = new CandidatureDetail[rowcount];
                 while (rowcount > 0 && res.next()) {
+                    System.out.println(res.toString());
                     String res_voe_ine = res.getString("voeux_ine");
                     Integer res_voe_master = res.getInt("voeux_master");
                     String res_voe_universite = res.getString("voeux_universite");

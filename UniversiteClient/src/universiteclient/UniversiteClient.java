@@ -91,6 +91,7 @@ public class UniversiteClient {
             try {
                 Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rd.id));
                 CandidatureDetail[] cds = r.recupererVoeuxMaster(this.universiteMandant, master);
+                System.out.println("Récupération d'un rectorat : " + cds.length);
                 listeTot.addAll(Arrays.asList(cds));
             } catch (diplomeInconnu ex) {
                 Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
