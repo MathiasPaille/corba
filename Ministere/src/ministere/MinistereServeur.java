@@ -26,14 +26,40 @@ class MinistereImpl extends MinisterePOA {
     public RectoratDetail[] getListRectorats() {
         return MinistereDatabase.getInstance().getRectorats();
     }
+
+    @Override
+    public Phase getPhase() {
+        return MinistereServeur.getInstance().getPhaseActuelle();
+    }
 }
 
 public class MinistereServeur {
+    
+    private static final MinistereServeur INSTANCE = new MinistereServeur();
+    
+    private Phase phaseActuelle;
+    
+    private MinistereServeur(){
+        this.phaseActuelle = Phase.PHASE_1;
+    }
+    
+    public static MinistereServeur getInstance(){
+        return INSTANCE;
+    }
+    
+    public Phase getPhaseActuelle(){
+        return this.phaseActuelle;
+    }
+
+    public void setPhaseActuelle(Phase phaseActuelle) {
+        this.phaseActuelle = phaseActuelle;
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        PhaseFrame pf = new PhaseFrame();
         MinistereImpl ministereImpl = new MinistereImpl();
         ministereImpl.setORB(DistantObjectManager.getInstance().getORB());
         DistantObjectManager.getInstance().ajoutReference("Ministere", ministereImpl);

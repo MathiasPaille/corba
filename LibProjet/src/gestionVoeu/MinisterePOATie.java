@@ -78,4 +78,12 @@ public class MinisterePOATie extends MinisterePOA
         return _tie.getListRectorats();
     }
 
+    /**
+     * Operation getPhase
+     */
+    public gestionVoeu.Phase getPhase()
+    {
+        return _tie.getPhase();
+    }
+
 }

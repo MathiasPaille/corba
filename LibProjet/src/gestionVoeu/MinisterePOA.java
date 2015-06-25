@@ -37,6 +37,8 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
                 return _invoke_getListDiplomes(_is, handler);
         } else if (opName.equals("getListRectorats")) {
                 return _invoke_getListRectorats(_is, handler);
+        } else if (opName.equals("getPhase")) {
+                return _invoke_getPhase(_is, handler);
         } else {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
         }
@@ -65,6 +67,19 @@ public abstract class MinisterePOA extends org.omg.PortableServer.Servant
 
         _output = handler.createReply();
         gestionVoeu.ListeRectoratHelper.write(_output,_arg_result);
+
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getPhase(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+
+        gestionVoeu.Phase _arg_result = getPhase();
+
+        _output = handler.createReply();
+        gestionVoeu.PhaseHelper.write(_output,_arg_result);
 
         return _output;
     }

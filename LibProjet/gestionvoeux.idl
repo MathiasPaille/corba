@@ -9,6 +9,7 @@ module gestionVoeu
 	enum EtatDecision{ADMIS, ATTENTE, REFUSE};
 	enum EtatVoeu{CREE, ACCEPTE, OUI_DEFINITIF, OUI_MAIS, NON_MAIS, NON_DEFINITIF};
 	enum EtatInscription{VALIDE, NON_VALIDE, CLOTURE};
+        enum Phase{PHASE_1, PHASE_2, PHASE_3, PHASE_4, PHASE_5};
 
 	/*Detail d'un semestre avec :
 	* - numSemestre = sa position dans le temps (premier, second semestre...)
@@ -127,5 +128,6 @@ module gestionVoeu
 	interface Ministere{
 		DiplomeList getListDiplomes();
 		ListeRectorat getListRectorats();
+                Phase getPhase();
 	};
 };

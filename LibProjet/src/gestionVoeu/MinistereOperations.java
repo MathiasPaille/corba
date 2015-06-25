@@ -17,4 +17,9 @@ public interface MinistereOperations
      */
     public gestionVoeu.RectoratDetail[] getListRectorats();
 
+    /**
+     * Operation getPhase
+     */
+    public gestionVoeu.Phase getPhase();
+
 }
