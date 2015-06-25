@@ -32,7 +32,6 @@ public class VoeuPanel extends javax.swing.JPanel implements Comparable{
             case EtatVoeu._OUI_DEFINITIF: this.ouiDefButton.setBackground(colorBackButton); desactiverButtons(); break;
             case EtatVoeu._NON_MAIS: this.nonMaisButton.setBackground(colorBackButton); activerButtons(); break;
             case EtatVoeu._OUI_MAIS: this.ouiMaisButton.setBackground(colorBackButton); activerButtons(); break;
-            case EtatVoeu._ACCEPTE: activerButtons(); break;
             default: desactiverButtons(); break;
         }
         Color colorBack;

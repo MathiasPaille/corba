@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 import tools.DistantObjectManager;
 
 /**
- *
+ * Code métier pour l'interface étudiant
  * @author Yvan
  */
 public class Etudiant {
@@ -45,7 +45,10 @@ public class Etudiant {
     private Etudiant() {
         this.details = null;
     }
-
+    
+    /**
+     * Initialisation du client étudiant avec les infos de connexion récupérées sur le rectorat
+     */
     public void init() {
         String[] infosConnexion = ConnexionDialog.getConnexionDetails(false);
 
@@ -69,6 +72,9 @@ public class Etudiant {
         this.diplomes = ministere.getListDiplomes();
     }
 
+    /**
+     * permet de rafraichir la liste des voeux
+     */
     public void refreshListVoeux() {
         try {
             this.listeVoeux = this.rectorat.recupererVoeuxEtudiant(this.details.num_etudiant);
@@ -77,16 +83,33 @@ public class Etudiant {
         }
     }
 
+    /**
+     * Permet de récupérer la liste des universitées, utile pour selectionner les formations en fonction des universitées
+     * @param rect rectorat des universitées concernées
+     * @return liste d'universitées
+     */
     public UniversiteDetail[] getUniversitesList(String rect) {
         Rectorat res = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rect));
         return res.recupererUniversites();
     }
 
+    /**
+     * Permet d'envoyer le mecanisme d'ajout de voeux en base de données
+     * @param master numéro du master
+     * @param universite identifiant de l'université (par exemple : universite1)
+     * @param rectorat identifiant du rectorat (par exemple : rectorat1)
+     * @param classement classement du voeux selectionné
+     */
     public void ajoutVoeu(int master, String universite, String rectorat, int classement) {
         this.rectorat.creerVoeux(new VoeuxDetail(master, universite, rectorat, classement, this.getDetails()));
         this.refreshListVoeux();
     }
 
+    /**
+     * permet de retourner la liste des formations EN FONCTION DE LA LICENSE DE L'ETUDIANT : ne retourne pas les master dont l'étudiant n'a pas les prérequis
+     * @param univ universite de laquelle on veut les formations
+     * @return liste de formation trié avec les prerequis
+     */
     public DiplomeDetail[] getFormationsList(String univ) {
         Universite res = UniversiteHelper.narrow(DistantObjectManager.getInstance().getReference(univ));
         int[] diplomesReal = res.getAffiliations();
@@ -108,9 +131,23 @@ public class Etudiant {
                 }
             }
         }
-        return (DiplomeDetail[]) ArrayListDiplomesLesVrais.toArray(new DiplomeDetail[ArrayListDiplomesLesVrais.size()]);
+        return this.ArrayListDiplomesToTableau(ArrayListDiplomesLesVrais);
+    }
+    
+    /**
+     * Methode permettant la transformation d'une array list de DiplomeDetail en diplomedetail[]
+     * @param ddl c'est la arraylist de diplomes
+     * @return le tableau de diplome detail
+     */
+    public DiplomeDetail[] ArrayListDiplomesToTableau(ArrayList<DiplomeDetail> ddl) {
+        return (DiplomeDetail[]) ddl.toArray(new DiplomeDetail[ddl.size()]);
     }
 
+    /**
+     * Get le libellé d'une formation avec l'id de la formation
+     * @param formationID l'id de la formation
+     * @return le libellé de la formation
+     */
     public String getFormationLibelle(int formationID) {
         for (DiplomeDetail dd : this.diplomes) {
             if (dd.id == formationID) {
@@ -120,6 +157,12 @@ public class Etudiant {
         return "Diplôme inconnu";
     }
 
+    /**
+     * récupérer le libelle de l'universite
+     * @param universiteID id de l'universite
+     * @param rectoratID id du rectorat
+     * @return 
+     */
     public String getUniversiteLibelle(String universiteID, String rectoratID) {
         UniversiteDetail[] ud = this.getUniversitesList(rectoratID);
         for (UniversiteDetail u : ud) {
@@ -130,6 +173,11 @@ public class Etudiant {
         return "Universite Inconnue";
     }
 
+    /**
+     * récupérer le libelle du rectorat
+     * @param rectoratID id du rectorat
+     * @return le libelle du rectorat
+     */
     public String getRectoratLibelle(String rectoratID) {
         for (RectoratDetail rd : this.rectorats) {
             if (rd.id == null ? rectoratID == null : rd.id.equals(rectoratID)) {

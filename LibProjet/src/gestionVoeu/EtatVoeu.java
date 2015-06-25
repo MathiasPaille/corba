@@ -18,19 +18,9 @@ public final class EtatVoeu implements org.omg.CORBA.portable.IDLEntity
     public static final EtatVoeu CREE = new EtatVoeu(_CREE);
 
     /**
-     * Enum member ACCEPTE value 
-     */
-    public static final int _ACCEPTE = 1;
-
-    /**
-     * Enum member ACCEPTE
-     */
-    public static final EtatVoeu ACCEPTE = new EtatVoeu(_ACCEPTE);
-
-    /**
      * Enum member OUI_DEFINITIF value 
      */
-    public static final int _OUI_DEFINITIF = 2;
+    public static final int _OUI_DEFINITIF = 1;
 
     /**
      * Enum member OUI_DEFINITIF
@@ -40,7 +30,7 @@ public final class EtatVoeu implements org.omg.CORBA.portable.IDLEntity
     /**
      * Enum member OUI_MAIS value 
      */
-    public static final int _OUI_MAIS = 3;
+    public static final int _OUI_MAIS = 2;
 
     /**
      * Enum member OUI_MAIS
@@ -50,7 +40,7 @@ public final class EtatVoeu implements org.omg.CORBA.portable.IDLEntity
     /**
      * Enum member NON_MAIS value 
      */
-    public static final int _NON_MAIS = 4;
+    public static final int _NON_MAIS = 3;
 
     /**
      * Enum member NON_MAIS
@@ -60,7 +50,7 @@ public final class EtatVoeu implements org.omg.CORBA.portable.IDLEntity
     /**
      * Enum member NON_DEFINITIF value 
      */
-    public static final int _NON_DEFINITIF = 5;
+    public static final int _NON_DEFINITIF = 4;
 
     /**
      * Enum member NON_DEFINITIF
@@ -111,14 +101,12 @@ public final class EtatVoeu implements org.omg.CORBA.portable.IDLEntity
         case 0 :
             return CREE;
         case 1 :
-            return ACCEPTE;
-        case 2 :
             return OUI_DEFINITIF;
-        case 3 :
+        case 2 :
             return OUI_MAIS;
-        case 4 :
+        case 3 :
             return NON_MAIS;
-        case 5 :
+        case 4 :
             return NON_DEFINITIF;
         }
         throw new org.omg.CORBA.BAD_OPERATION();
@@ -135,14 +123,12 @@ public final class EtatVoeu implements org.omg.CORBA.portable.IDLEntity
         case 0 :
             return "CREE";
         case 1 :
-            return "ACCEPTE";
-        case 2 :
             return "OUI_DEFINITIF";
-        case 3 :
+        case 2 :
             return "OUI_MAIS";
-        case 4 :
+        case 3 :
             return "NON_MAIS";
-        case 5 :
+        case 4 :
             return "NON_DEFINITIF";
         }
         throw new org.omg.CORBA.BAD_OPERATION();
