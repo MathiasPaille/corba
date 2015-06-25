@@ -1,7 +1,10 @@
 package universiteclient;
 
 import gestionVoeu.CandidatureDetail;
+import gestionVoeu.EtatDecision;
+import gestionVoeu.Phase;
 import gestionVoeu.Quartile;
+import java.awt.Color;
 
 /**
  *
@@ -44,7 +47,21 @@ public class CandidaturePanel extends javax.swing.JPanel {
         this.s4moyenLabel.setText(cd.voeuxDetail.etu.listeSeum[3].moyenObtention.toString());
         this.s5moyenLabel.setText(cd.voeuxDetail.etu.listeSeum[4].moyenObtention.toString());
         this.s6moyenLabel.setText(cd.voeuxDetail.etu.listeSeum[5].moyenObtention.toString());
-        
+        Color backGray = Color.DARK_GRAY;
+        switch(cd.etatDecision.value()){
+            case EtatDecision._ADMIS: this.accepterButton.setBackground(backGray); break;
+            case EtatDecision._ATTENTE: this.enAttenteButton.setBackground(backGray); break;
+            case EtatDecision._REFUSE: this.refuserButton.setBackground(backGray); break;
+        }
+        if(UniversiteClient.getInstance().getPhase().equals(Phase.PHASE_2) || UniversiteClient.getInstance().getPhase().equals(Phase.PHASE_4)){
+            this.accepterButton.setEnabled(true);
+            this.enAttenteButton.setEnabled(true);
+            this.refuserButton.setEnabled(true);
+        } else {
+            this.accepterButton.setEnabled(false);
+            this.enAttenteButton.setEnabled(false);
+            this.refuserButton.setEnabled(false);
+        }
         this.setVisible(true);
     }
     

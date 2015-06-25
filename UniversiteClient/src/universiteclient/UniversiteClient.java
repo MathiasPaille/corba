@@ -4,6 +4,7 @@ import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.Ministere;
 import gestionVoeu.MinistereHelper;
+import gestionVoeu.Phase;
 import gestionVoeu.Rectorat;
 import gestionVoeu.RectoratDetail;
 import gestionVoeu.RectoratHelper;
@@ -102,6 +103,10 @@ public class UniversiteClient {
             cdTotal[i] = listeTot.get(i);
         }
         return cdTotal;
+    }
+    
+    public Phase getPhase(){
+        return this.ministere.getPhase();
     }
     
     /**

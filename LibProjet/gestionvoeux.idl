@@ -7,9 +7,9 @@ module gestionVoeu
 	enum Quartile{PREMIER_QUART, DEUXIEME_QUART, TROISIEME_QUART, QUATRIEME_QUART};
 	enum MoyenObtention{PREMIERE_SESSION, SECONDE_SESSION, REDOUBLEMENT};
 	enum EtatDecision{ADMIS, ATTENTE, REFUSE};
-	enum EtatVoeu{CREE, ACCEPTE, OUI_DEFINITIF, OUI_MAIS, NON_MAIS, NON_DEFINITIF};
+	enum EtatVoeu{CREE, OUI_DEFINITIF, OUI_MAIS, NON_MAIS, NON_DEFINITIF};
 	enum EtatInscription{VALIDE, NON_VALIDE, CLOTURE};
-        enum Phase{PHASE_1, PHASE_2, PHASE_3, PHASE_4, PHASE_5};
+        enum Phase{PHASE_1, PHASE_2, PHASE_3, PHASE_4};
 
 	/*Detail d'un semestre avec :
 	* - numSemestre = sa position dans le temps (premier, second semestre...)
@@ -121,7 +121,7 @@ module gestionVoeu
 		CandidatureList recupererVoeuxEtudiant(in string num_etu) raises (compteInconnu);
                 ListeUniversite recupererUniversites();
                 CandidatureList recupererVoeuxMaster(in string universite, in long master) raises(diplomeInconnu);
-                void modifierCandidatureEtat(in CandidatureDetail maCandidature) raises(malformedInformation);
+                void modifierCandidatureEtat(in CandidatureDetail maCandidature, in EtatVoeu ev, in EtatDecision ed, in EtatInscription ei) raises(malformedInformation);
 	};
 
 	//interface pour permettre le workflow de ministere (echange de candidature et de voeux) et savoir quelle université fait quel master

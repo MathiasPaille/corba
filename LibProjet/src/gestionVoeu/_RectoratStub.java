@@ -292,7 +292,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature, gestionVoeu.EtatVoeu ev, gestionVoeu.EtatDecision ed, gestionVoeu.EtatInscription ei)
         throws gestionVoeu.malformedInformation
     {
         while(true)
@@ -304,6 +304,9 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("modifierCandidatureEtat",true);
                     gestionVoeu.CandidatureDetailHelper.write(_output,maCandidature);
+                    gestionVoeu.EtatVoeuHelper.write(_output,ev);
+                    gestionVoeu.EtatDecisionHelper.write(_output,ed);
+                    gestionVoeu.EtatInscriptionHelper.write(_output,ei);
                     _input = this._invoke(_output);
                     return;
                 }
@@ -334,7 +337,7 @@ public class _RectoratStub extends org.omg.CORBA.portable.ObjectImpl
                 gestionVoeu.RectoratOperations _self = (gestionVoeu.RectoratOperations) _so.servant;
                 try
                 {
-                    _self.modifierCandidatureEtat( maCandidature);
+                    _self.modifierCandidatureEtat( maCandidature,  ev,  ed,  ei);
                     return;
                 }
                 finally

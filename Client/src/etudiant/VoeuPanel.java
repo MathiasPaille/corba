@@ -3,6 +3,7 @@ package etudiant;
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatVoeu;
+import gestionVoeu.Phase;
 import java.awt.Color;
 
 /**
@@ -24,13 +25,16 @@ public class VoeuPanel extends javax.swing.JPanel implements Comparable{
         this.etudiantChoice = parent;
         initComponents();
         this.classementLabel.setText(""+this.candidatureDetail.voeuxDetail.classement);
-        Color colorFont;
+        Color colorBackButton = Color.DARK_GRAY;
         switch(candidatureDetail.etatVoeu.value()){
-            case EtatVoeu._CREE: colorFont = Color.BLUE; desactiverButtons(); break;
-            case EtatVoeu._ACCEPTE: colorFont = Color.GREEN; activerButtons(); break;
-            default: colorFont = Color.BLACK; desactiverButtons(); break;
+            case EtatVoeu._CREE: desactiverButtons(); break;
+            case EtatVoeu._NON_DEFINITIF: this.nonDefButton.setBackground(colorBackButton); desactiverButtons(); break;
+            case EtatVoeu._OUI_DEFINITIF: this.ouiDefButton.setBackground(colorBackButton); desactiverButtons(); break;
+            case EtatVoeu._NON_MAIS: this.nonMaisButton.setBackground(colorBackButton); activerButtons(); break;
+            case EtatVoeu._OUI_MAIS: this.ouiMaisButton.setBackground(colorBackButton); activerButtons(); break;
+            case EtatVoeu._ACCEPTE: activerButtons(); break;
+            default: desactiverButtons(); break;
         }
-        this.voeuDesc.setForeground(colorFont);
         Color colorBack;
         switch(candidatureDetail.etatDecision.value()){
             case EtatDecision._ADMIS: colorBack = Color.GREEN; break;
@@ -49,7 +53,6 @@ public class VoeuPanel extends javax.swing.JPanel implements Comparable{
         strBld.append(Etudiant.getInstance().getRectoratLibelle(candidatureDetail.voeuxDetail.rectorat));
         
         this.voeuDesc.setText(strBld.toString());
-        this.setEnabled(true);
     }
     
     private void desactiverButtons(){
@@ -60,10 +63,14 @@ public class VoeuPanel extends javax.swing.JPanel implements Comparable{
     }
     
     private void activerButtons(){
-        nonDefButton.setEnabled(true);
-        nonMaisButton.setEnabled(true);
-        ouiDefButton.setEnabled(true);
-        ouiMaisButton.setEnabled(true);
+        if(Etudiant.getInstance().getPhase().equals(Phase.PHASE_3) || Etudiant.getInstance().getPhase().equals(Phase.PHASE_4)){
+            nonDefButton.setEnabled(true);
+            nonMaisButton.setEnabled(true);
+            ouiDefButton.setEnabled(true);
+            ouiMaisButton.setEnabled(true);
+        } else {
+            desactiverButtons();
+        }
     }
 
     @Override

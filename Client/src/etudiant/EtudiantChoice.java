@@ -3,17 +3,14 @@ package etudiant;
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatVoeu;
+import gestionVoeu.Phase;
 import gestionVoeu.RectoratDetail;
 import gestionVoeu.UniversiteDetail;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import tools.IDValue;
@@ -58,6 +55,11 @@ public class EtudiantChoice extends javax.swing.JPanel {
         }
         this.rectoratList.setModel(modelRectorat);
         this.rectoratList.addListSelectionListener(new RectoratListListener());
+        if(Etudiant.getInstance().getPhase().equals(Phase.PHASE_1)){
+            this.addChoice.setEnabled(true);
+        } else {
+            this.addChoice.setEnabled(false);
+        }
     }
     
     public final void refreshVoeuxAffiches(){
@@ -66,7 +68,6 @@ public class EtudiantChoice extends javax.swing.JPanel {
             modelClassement.removeElement(voeu.voeuxDetail.classement);
             VoeuPanel v = new VoeuPanel(voeu, this);
             this.voeuxAffiches.add(v);
-//            this.seeChoices.repaint();
         }
         this.seeChoices.removeAll();
         this.voeuxAffiches.sort(null);
@@ -132,7 +133,7 @@ public class EtudiantChoice extends javax.swing.JPanel {
     }
     
     public void makeChoice(CandidatureDetail voeu, EtatVoeu choix){
-        
+        Etudiant.getInstance().faireVoeu(voeu, choix);
     }
 
     /**
@@ -343,7 +344,6 @@ public class EtudiantChoice extends javax.swing.JPanel {
         IDValue university = (IDValue) universityList.getSelectedValue();
         IDValue formation = (IDValue) formationList.getSelectedValue();
         int classement = (int) comboClassement.getSelectedItem();
-//        JOptionPane.showMessageDialog(null, "Rectorat: "+ rectorat.ID + " - Université: " + university.ID + " - Formation: " + formation.ID);
         Etudiant.getInstance().ajoutVoeu(Integer.parseInt(formation.ID), university.ID, rectorat.ID, classement);
         this.formationList.setModel(new DefaultListModel());
         for(ListSelectionListener el : universityList.getListSelectionListeners()){

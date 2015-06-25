@@ -3,12 +3,12 @@ package universiteclient;
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatVoeu;
+import gestionVoeu.Phase;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import tools.IDValue;
@@ -41,7 +41,8 @@ public class UniversiteChoice extends javax.swing.JFrame {
             modelFormation.addElement(new IDValue(Integer.toString(form.id), form.libelle));
         }
         this.comboFormation.setModel(modelFormation);
-        
+        this.buttonClore.setEnabled(UniversiteClient.getInstance().getPhase().equals(Phase.PHASE_4));
+            
         //ouvrir la fenêtre
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

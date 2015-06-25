@@ -150,10 +150,13 @@ public abstract class RectoratPOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
         gestionVoeu.CandidatureDetail arg0_in = gestionVoeu.CandidatureDetailHelper.read(_is);
+        gestionVoeu.EtatVoeu arg1_in = gestionVoeu.EtatVoeuHelper.read(_is);
+        gestionVoeu.EtatDecision arg2_in = gestionVoeu.EtatDecisionHelper.read(_is);
+        gestionVoeu.EtatInscription arg3_in = gestionVoeu.EtatInscriptionHelper.read(_is);
 
         try
         {
-            modifierCandidatureEtat(arg0_in);
+            modifierCandidatureEtat(arg0_in, arg1_in, arg2_in, arg3_in);
 
             _output = handler.createReply();
 

@@ -1,7 +1,19 @@
 package rectorat;
 
-import gestionVoeu.*;
-import org.omg.CORBA.*;
+import gestionVoeu.CandidatureDetail;
+import gestionVoeu.EtatDecision;
+import gestionVoeu.EtatInscription;
+import gestionVoeu.EtatVoeu;
+import gestionVoeu.EtudiantDetail;
+import gestionVoeu.Ministere;
+import gestionVoeu.MinistereHelper;
+import gestionVoeu.RectoratPOA;
+import gestionVoeu.UniversiteDetail;
+import gestionVoeu.VoeuxDetail;
+import gestionVoeu.compteInconnu;
+import gestionVoeu.diplomeInconnu;
+import gestionVoeu.malformedInformation;
+import org.omg.CORBA.ORB;
 import tools.DistantObjectManager;
 import tools.MandantDialog;
 
@@ -39,8 +51,67 @@ class RectoratImpl extends RectoratPOA {
     }
 
     @Override
-    public void modifierCandidatureEtat(CandidatureDetail maCandidature) throws malformedInformation {
-        RectoratDatabase.getInstance().modifierCandidatureEtat(maCandidature);
+    public void modifierCandidatureEtat(CandidatureDetail maCandidature, EtatVoeu ev, EtatDecision ed, EtatInscription ei) throws malformedInformation {
+        if(!maCandidature.etatVoeu.equals(ev)){
+            switch(ev.value()){
+                case EtatVoeu._NON_DEFINITIF :
+                    this.nonDefinitif(maCandidature.voeuxDetail.etu.num_etudiant); break;
+                case EtatVoeu._OUI_DEFINITIF :
+                    this.ouiDefinitif(maCandidature); break;
+                case EtatVoeu._OUI_MAIS : 
+                    this.voeuMais(maCandidature, EtatVoeu.OUI_MAIS); break;
+                case EtatVoeu._NON_MAIS :
+                    this.voeuMais(maCandidature, EtatVoeu.NON_MAIS); break;
+            }
+        } else if(!maCandidature.etatDecision.equals(ed)) {
+            this.decisionVoeu(maCandidature, ed);
+        } else if(!maCandidature.etatInscription.equals(ei)){
+            if(ei.equals(EtatInscription.CLOTURE)){
+                maCandidature.etatInscription = ei;
+                RectoratDatabase.getInstance().modifierCandidatureEtat(maCandidature);
+            }
+        }
+    }
+    
+    private void decisionVoeu(CandidatureDetail candid, EtatDecision ed){
+        candid.etatDecision = ed;
+        RectoratDatabase.getInstance().modifierCandidatureEtat(candid);
+    }
+    
+    private void voeuMais(CandidatureDetail candid, EtatVoeu voeuMais){
+        CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(candid.voeuxDetail.etu.num_etudiant);
+        for(CandidatureDetail cd : cds){
+            if(cd.voeuxDetail.classement > candid.voeuxDetail.classement){
+                cd.etatVoeu = EtatVoeu.NON_DEFINITIF;
+                cd.etatInscription = EtatInscription.CLOTURE;
+                RectoratDatabase.getInstance().modifierCandidatureEtat(cd);
+            } else if(cd.voeuxDetail.classement == candid.voeuxDetail.classement) {
+                cd.etatVoeu = voeuMais;
+                RectoratDatabase.getInstance().modifierCandidatureEtat(candid);
+            }
+        }
+    }
+    
+    private void ouiDefinitif(CandidatureDetail candid){
+        CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(candid.voeuxDetail.etu.num_etudiant);
+        for(CandidatureDetail cd : cds){
+            if(cd.equals(candid)){
+                cd.etatVoeu = EtatVoeu.OUI_DEFINITIF;
+            } else {
+                cd.etatVoeu = EtatVoeu.NON_DEFINITIF;
+            }
+            cd.etatInscription = EtatInscription.CLOTURE;
+            RectoratDatabase.getInstance().modifierCandidatureEtat(cd);
+        }
+    }
+    
+    private void nonDefinitif(String ine){
+        CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(ine);
+        for(CandidatureDetail cd : cds){
+            cd.etatVoeu = EtatVoeu.NON_DEFINITIF;
+            cd.etatInscription = EtatInscription.CLOTURE;
+            RectoratDatabase.getInstance().modifierCandidatureEtat(cd);
+        }
     }
 
     @Override

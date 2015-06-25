@@ -48,16 +48,6 @@ public final class Phase implements org.omg.CORBA.portable.IDLEntity
     public static final Phase PHASE_4 = new Phase(_PHASE_4);
 
     /**
-     * Enum member PHASE_5 value 
-     */
-    public static final int _PHASE_5 = 4;
-
-    /**
-     * Enum member PHASE_5
-     */
-    public static final Phase PHASE_5 = new Phase(_PHASE_5);
-
-    /**
      * Internal member value 
      */
     private final int _Phase_value;
@@ -106,8 +96,6 @@ public final class Phase implements org.omg.CORBA.portable.IDLEntity
             return PHASE_3;
         case 3 :
             return PHASE_4;
-        case 4 :
-            return PHASE_5;
         }
         throw new org.omg.CORBA.BAD_OPERATION();
     }
@@ -128,8 +116,6 @@ public final class Phase implements org.omg.CORBA.portable.IDLEntity
             return "PHASE_3";
         case 3 :
             return "PHASE_4";
-        case 4 :
-            return "PHASE_5";
         }
         throw new org.omg.CORBA.BAD_OPERATION();
     }

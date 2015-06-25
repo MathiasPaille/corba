@@ -108,10 +108,10 @@ public class RectoratPOATie extends RectoratPOA
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature, gestionVoeu.EtatVoeu ev, gestionVoeu.EtatDecision ed, gestionVoeu.EtatInscription ei)
         throws gestionVoeu.malformedInformation
     {
-        _tie.modifierCandidatureEtat( maCandidature);
+        _tie.modifierCandidatureEtat( maCandidature,  ev,  ed,  ei);
     }
 
 }

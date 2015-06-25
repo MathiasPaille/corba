@@ -23,7 +23,6 @@ public class PhaseFrame extends javax.swing.JFrame {
         model.addElement(new IDValue(Phase._PHASE_2+"", Phase.PHASE_2.toString()));
         model.addElement(new IDValue(Phase._PHASE_3+"", Phase.PHASE_3.toString()));
         model.addElement(new IDValue(Phase._PHASE_4+"", Phase.PHASE_4.toString()));
-        model.addElement(new IDValue(Phase._PHASE_5+"", Phase.PHASE_5.toString()));
         this.comboBoxPhase.setModel(model);
         this.rafraichirPhaseActuelle();
         this.pack();

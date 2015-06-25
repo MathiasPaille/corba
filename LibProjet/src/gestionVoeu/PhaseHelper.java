@@ -43,12 +43,11 @@ public class PhaseHelper
     {
         if (_tc == null) {
             org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-            String []_members = new String[5];
+            String []_members = new String[4];
             _members[0] = "PHASE_1";
             _members[1] = "PHASE_2";
             _members[2] = "PHASE_3";
             _members[3] = "PHASE_4";
-            _members[4] = "PHASE_5";
             _tc = orb.create_enum_tc(id(),"Phase",_members);
         }
         return _tc;

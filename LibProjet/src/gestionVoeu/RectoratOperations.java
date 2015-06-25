@@ -38,7 +38,7 @@ public interface RectoratOperations
     /**
      * Operation modifierCandidatureEtat
      */
-    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature)
+    public void modifierCandidatureEtat(gestionVoeu.CandidatureDetail maCandidature, gestionVoeu.EtatVoeu ev, gestionVoeu.EtatDecision ed, gestionVoeu.EtatInscription ei)
         throws gestionVoeu.malformedInformation;
 
 }
