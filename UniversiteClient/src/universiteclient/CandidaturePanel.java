@@ -127,11 +127,11 @@ public class CandidaturePanel extends javax.swing.JPanel {
 
         s3quartProgress.setForeground(new java.awt.Color(51, 70, 255));
 
-        s5quartProgress.setForeground(new java.awt.Color(51, 30, 255));
+        s5quartProgress.setForeground(new java.awt.Color(51, 30, 122));
 
         s4quartProgress.setForeground(new java.awt.Color(51, 70, 255));
 
-        s6quartProgress.setForeground(new java.awt.Color(51, 30, 255));
+        s6quartProgress.setForeground(new java.awt.Color(51, 30, 122));
 
         s3noteLabel.setText("jLabel12");
 
