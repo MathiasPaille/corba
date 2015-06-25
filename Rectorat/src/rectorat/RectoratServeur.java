@@ -73,11 +73,21 @@ class RectoratImpl extends RectoratPOA {
         }
     }
     
+    /**
+     * permet de modifier l'état de decision de la fac envers un voeux
+     * @param candid candidature concerné par la modification
+     * @param ed etat de decision a modifier
+     */
     private void decisionVoeu(CandidatureDetail candid, EtatDecision ed){
         candid.etatDecision = ed;
         RectoratDatabase.getInstance().modifierCandidatureEtat(candid);
     }
     
+    /**
+     * Permet de setter a cloture et annuler les candidatures d'un classement inferieur au "mais" selectionné
+     * @param candid candidature concernée par le mais
+     * @param voeuMais etat voeu mais selectionné pour savoir si c'est un oui mais ou un non mais
+     */
     private void voeuMais(CandidatureDetail candid, EtatVoeu voeuMais){
         CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(candid.voeuxDetail.etu.num_etudiant);
         for(CandidatureDetail cd : cds){
@@ -92,6 +102,10 @@ class RectoratImpl extends RectoratPOA {
         }
     }
     
+    /**
+     * Permet de cloturer les inscriptions en cloturant tout les voeux et en n'en gardant qu'un a oui definitif
+     * @param candid candidature concernée par le oui definitif
+     */
     private void ouiDefinitif(CandidatureDetail candid){
         CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(candid.voeuxDetail.etu.num_etudiant);
         for(CandidatureDetail cd : cds){
@@ -105,6 +119,10 @@ class RectoratImpl extends RectoratPOA {
         }
     }
     
+    /**
+     * Permet de cloturer toutes les inscriptions et de les considérer toute comme refusées par l'étudiant
+     * @param ine ine de l'étudiant qui n'a plus "d'avenir"
+     */
     private void nonDefinitif(String ine){
         CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(ine);
         for(CandidatureDetail cd : cds){
