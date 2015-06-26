@@ -2,6 +2,7 @@ package universiteclient;
 
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.EtatDecision;
+import gestionVoeu.EtatVoeu;
 import gestionVoeu.Phase;
 import gestionVoeu.Quartile;
 import java.awt.Color;
@@ -58,14 +59,17 @@ public class CandidaturePanel extends javax.swing.JPanel {
             this.enAttenteButton.setEnabled(false);
             this.refuserButton.setEnabled(false);
         }
+        if(this.cd.etatVoeu.equals(EtatVoeu.OUI_DEFINITIF)){
+            this.setBackground(Color.GREEN);
+        }
         this.setVisible(true);
     }
     
     private void colorerButtons(){
-        this.accepterButton.setBackground(Color.LIGHT_GRAY);
-        this.accepterButton.setBackground(Color.LIGHT_GRAY);
-        this.accepterButton.setBackground(Color.LIGHT_GRAY);
-        Color backGray = Color.DARK_GRAY;
+        this.accepterButton.setBackground(null);
+        this.enAttenteButton.setBackground(null);
+        this.refuserButton.setBackground(null);
+        Color backGray = Color.LIGHT_GRAY;
         switch(cd.etatDecision.value()){
             case EtatDecision._ADMIS: this.accepterButton.setBackground(backGray); break;
             case EtatDecision._ATTENTE: this.enAttenteButton.setBackground(backGray); break;

@@ -96,7 +96,6 @@ public class UniversiteClient {
             try {
                 Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(rd.id));
                 CandidatureDetail[] cds = r.recupererVoeuxMaster(this.universiteMandant, master);
-                System.out.println("Récupération d'un rectorat : " + cds.length);
                 listeTot.addAll(Arrays.asList(cds));
             } catch (diplomeInconnu ex) {
                 Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,16 +113,18 @@ public class UniversiteClient {
     }
     
     public void choixCandidature(CandidatureDetail cd, EtatDecision ed){
+        Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(cd.voeuxDetail.etu.rectorat_ref));
         try {
-            this.rectorat.modifierCandidatureEtat(cd, cd.etatVoeu, ed, cd.etatInscription);
+            r.modifierCandidatureEtat(cd, cd.etatVoeu, ed, cd.etatInscription);
         } catch (malformedInformation ex) {
             Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public void cloreCandidature(CandidatureDetail cd){
+        Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(cd.voeuxDetail.etu.rectorat_ref));
         try {
-            this.rectorat.modifierCandidatureEtat(cd, cd.etatVoeu, cd.etatDecision, EtatInscription.CLOTURE);
+            r.modifierCandidatureEtat(cd, cd.etatVoeu, cd.etatDecision, EtatInscription.CLOTURE);
         } catch (malformedInformation ex) {
             Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
         }

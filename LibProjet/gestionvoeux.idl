@@ -30,6 +30,7 @@ module gestionVoeu
 
 	//Structure d'un étudiant
 	struct EtudiantDetail{
+                string rectorat_ref;
 		string num_etudiant;
 		string nom;
 		string prenom;

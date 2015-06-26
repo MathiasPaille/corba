@@ -81,7 +81,6 @@ public class UniversiteChoice extends javax.swing.JFrame {
             if(comboFormation.getSelectedIndex() >= 0){
                 String str = ((IDValue) comboFormation.getModel().getSelectedItem()).ID;
                 //utiliser lastMember
-                System.out.println(str);
                 rafraichirVoeux(Integer.parseInt(str));
             }
         }

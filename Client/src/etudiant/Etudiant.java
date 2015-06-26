@@ -111,6 +111,7 @@ public class Etudiant {
      * @return liste de formation trié avec les prerequis
      */
     public DiplomeDetail[] getFormationsList(String univ) {
+        this.refreshListVoeux();
         Universite res = UniversiteHelper.narrow(DistantObjectManager.getInstance().getReference(univ));
         int[] diplomesReal = res.getAffiliations();
         //DiplomeDetail[] diplomesRecu = new DiplomeDetail[diplomesReal.length];

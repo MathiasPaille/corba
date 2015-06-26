@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import tools.IDValue;
@@ -134,6 +135,12 @@ public class EtudiantChoice extends javax.swing.JPanel {
     
     public void makeChoice(CandidatureDetail voeu, EtatVoeu choix){
         Etudiant.getInstance().faireVoeu(voeu, choix);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                refreshVoeuxAffiches();
+            }
+        });
     }
 
     /**

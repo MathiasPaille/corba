@@ -8,6 +8,11 @@ package gestionVoeu;
 public final class EtudiantDetail implements org.omg.CORBA.portable.IDLEntity
 {
     /**
+     * Struct member rectorat_ref
+     */
+    public String rectorat_ref;
+
+    /**
      * Struct member num_etudiant
      */
     public String num_etudiant;
@@ -50,6 +55,7 @@ public final class EtudiantDetail implements org.omg.CORBA.portable.IDLEntity
 
     /**
      * Constructor with fields initialization
+     * @param rectorat_ref rectorat_ref struct member
      * @param num_etudiant num_etudiant struct member
      * @param nom nom struct member
      * @param prenom prenom struct member
@@ -58,8 +64,9 @@ public final class EtudiantDetail implements org.omg.CORBA.portable.IDLEntity
      * @param license license struct member
      * @param listeSeum listeSeum struct member
      */
-    public EtudiantDetail(String num_etudiant, String nom, String prenom, String adresse, String universite, String license, gestionVoeu.SemestreDetail[] listeSeum)
+    public EtudiantDetail(String rectorat_ref, String num_etudiant, String nom, String prenom, String adresse, String universite, String license, gestionVoeu.SemestreDetail[] listeSeum)
     {
+        this.rectorat_ref = rectorat_ref;
         this.num_etudiant = num_etudiant;
         this.nom = nom;
         this.prenom = prenom;

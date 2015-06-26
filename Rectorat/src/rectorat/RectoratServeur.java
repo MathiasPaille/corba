@@ -97,7 +97,7 @@ class RectoratImpl extends RectoratPOA {
                 RectoratDatabase.getInstance().modifierCandidatureEtat(cd);
             } else if(cd.voeuxDetail.classement == candid.voeuxDetail.classement) {
                 cd.etatVoeu = voeuMais;
-                RectoratDatabase.getInstance().modifierCandidatureEtat(candid);
+                RectoratDatabase.getInstance().modifierCandidatureEtat(cd);
             }
         }
     }
@@ -109,7 +109,7 @@ class RectoratImpl extends RectoratPOA {
     private void ouiDefinitif(CandidatureDetail candid){
         CandidatureDetail[] cds = RectoratDatabase.getInstance().recupererVoeuxEtudiant(candid.voeuxDetail.etu.num_etudiant);
         for(CandidatureDetail cd : cds){
-            if(cd.equals(candid)){
+            if(cd.voeuxDetail.classement == candid.voeuxDetail.classement){
                 cd.etatVoeu = EtatVoeu.OUI_DEFINITIF;
             } else {
                 cd.etatVoeu = EtatVoeu.NON_DEFINITIF;

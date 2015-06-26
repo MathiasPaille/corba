@@ -73,29 +73,32 @@ public class EtudiantDetailHelper
                     return org.omg.CORBA.ORB.init().create_recursive_tc(id());
                 _working = true;
                 org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[7];
+                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[8];
 
                 _members[0] = new org.omg.CORBA.StructMember();
-                _members[0].name = "num_etudiant";
+                _members[0].name = "rectorat_ref";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[1] = new org.omg.CORBA.StructMember();
-                _members[1].name = "nom";
+                _members[1].name = "num_etudiant";
                 _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[2] = new org.omg.CORBA.StructMember();
-                _members[2].name = "prenom";
+                _members[2].name = "nom";
                 _members[2].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[3] = new org.omg.CORBA.StructMember();
-                _members[3].name = "adresse";
+                _members[3].name = "prenom";
                 _members[3].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[4] = new org.omg.CORBA.StructMember();
-                _members[4].name = "universite";
+                _members[4].name = "adresse";
                 _members[4].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[5] = new org.omg.CORBA.StructMember();
-                _members[5].name = "license";
+                _members[5].name = "universite";
                 _members[5].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
                 _members[6] = new org.omg.CORBA.StructMember();
-                _members[6].name = "listeSeum";
-                _members[6].type = gestionVoeu.SemestreListHelper.type();
+                _members[6].name = "license";
+                _members[6].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
+                _members[7] = new org.omg.CORBA.StructMember();
+                _members[7].name = "listeSeum";
+                _members[7].type = gestionVoeu.SemestreListHelper.type();
                 _tc = orb.create_struct_tc(id(),"EtudiantDetail",_members);
                 _working = false;
             }
@@ -123,6 +126,7 @@ public class EtudiantDetailHelper
     {
         gestionVoeu.EtudiantDetail new_one = new gestionVoeu.EtudiantDetail();
 
+        new_one.rectorat_ref = istream.read_string();
         new_one.num_etudiant = istream.read_string();
         new_one.nom = istream.read_string();
         new_one.prenom = istream.read_string();
@@ -141,6 +145,7 @@ public class EtudiantDetailHelper
      */
     public static void write(org.omg.CORBA.portable.OutputStream ostream, gestionVoeu.EtudiantDetail value)
     {
+        ostream.write_string(value.rectorat_ref);
         ostream.write_string(value.num_etudiant);
         ostream.write_string(value.nom);
         ostream.write_string(value.prenom);

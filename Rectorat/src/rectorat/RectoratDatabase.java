@@ -77,6 +77,7 @@ public class RectoratDatabase extends SQLConnexion {
             ResultSet res = this.makeRequest("select * from etudiant where mandant = '" + RectoratServeur.getInstance().getMandant() + "' and etu_ine = '" + etu_ine + "'");
             if (res != null) {
                 while (res.next()) {
+                    String res_etu_rectorat_ref = res.getString("mandant");
                     String res_etu_ine = res.getString("etu_ine");
                     String res_etu_nom = res.getString("etu_nom");
                     String res_etu_prenom = res.getString("etu_prenom");
@@ -95,7 +96,7 @@ public class RectoratDatabase extends SQLConnexion {
                     list[4] = s.getS5();
                     list[5] = s.getS6();
 
-                    e = new EtudiantDetail(res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, list);
+                    e = new EtudiantDetail(res_etu_rectorat_ref, res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, list);
                 }
                 res.close();
             }
@@ -215,7 +216,6 @@ public class RectoratDatabase extends SQLConnexion {
                 }
                 cc = new CandidatureDetail[rowcount];
                 while (rowcount > 0 && res.next()) {
-                    System.out.println(res.toString());
                     String res_voe_ine = res.getString("voeux_ine");
                     Integer res_voe_master = res.getInt("voeux_master");
                     String res_voe_universite = res.getString("voeux_universite");
@@ -224,6 +224,7 @@ public class RectoratDatabase extends SQLConnexion {
                     Integer res_voe_inscription = res.getInt("voeux_inscription");
                     Integer res_voe_etat_voeu = res.getInt("voeux_etat_voeu");
                     Integer res_voe_decision = res.getInt("voeux_decision");
+                    String res_etu_rectorat_ref = res.getString("mandant");
                     String res_etu_ine = res.getString("etu_ine");
                     String res_etu_nom = res.getString("etu_nom");
                     String res_etu_prenom = res.getString("etu_prenom");
@@ -242,7 +243,7 @@ public class RectoratDatabase extends SQLConnexion {
                     list[4] = s.getS5();
                     list[5] = s.getS6();
 
-                    EtudiantDetail e = new EtudiantDetail(res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, list);
+                    EtudiantDetail e = new EtudiantDetail(res_etu_rectorat_ref, res_etu_ine, res_etu_nom, res_etu_prenom, res_etu_adresse, res_etu_universite, res_etu_license, list);
                     VoeuxDetail v = new VoeuxDetail(res_voe_master, res_voe_universite, res_voe_rectorat, res_voe_classement, e);
 
                     cc[res.getRow() - 1] = new CandidatureDetail(v, EtatInscription.from_int(res_voe_inscription), EtatVoeu.from_int(res_voe_etat_voeu), EtatDecision.from_int(res_voe_decision));
