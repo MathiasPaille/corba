@@ -47,12 +47,8 @@ public class CandidaturePanel extends javax.swing.JPanel {
         this.s4moyenLabel.setText(cd.voeuxDetail.etu.listeSeum[3].moyenObtention.toString());
         this.s5moyenLabel.setText(cd.voeuxDetail.etu.listeSeum[4].moyenObtention.toString());
         this.s6moyenLabel.setText(cd.voeuxDetail.etu.listeSeum[5].moyenObtention.toString());
-        Color backGray = Color.DARK_GRAY;
-        switch(cd.etatDecision.value()){
-            case EtatDecision._ADMIS: this.accepterButton.setBackground(backGray); break;
-            case EtatDecision._ATTENTE: this.enAttenteButton.setBackground(backGray); break;
-            case EtatDecision._REFUSE: this.refuserButton.setBackground(backGray); break;
-        }
+        this.colorerButtons();
+        
         if(UniversiteClient.getInstance().getPhase().equals(Phase.PHASE_2) || UniversiteClient.getInstance().getPhase().equals(Phase.PHASE_4)){
             this.accepterButton.setEnabled(true);
             this.enAttenteButton.setEnabled(true);
@@ -63,6 +59,18 @@ public class CandidaturePanel extends javax.swing.JPanel {
             this.refuserButton.setEnabled(false);
         }
         this.setVisible(true);
+    }
+    
+    private void colorerButtons(){
+        this.accepterButton.setBackground(Color.LIGHT_GRAY);
+        this.accepterButton.setBackground(Color.LIGHT_GRAY);
+        this.accepterButton.setBackground(Color.LIGHT_GRAY);
+        Color backGray = Color.DARK_GRAY;
+        switch(cd.etatDecision.value()){
+            case EtatDecision._ADMIS: this.accepterButton.setBackground(backGray); break;
+            case EtatDecision._ATTENTE: this.enAttenteButton.setBackground(backGray); break;
+            case EtatDecision._REFUSE: this.refuserButton.setBackground(backGray); break;
+        }
     }
     
     private int quartileToInt(Quartile quart){
@@ -175,10 +183,25 @@ public class CandidaturePanel extends javax.swing.JPanel {
         s6moyenLabel.setText("jLabel23");
 
         accepterButton.setText("Accepter");
+        accepterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accepterButtonActionPerformed(evt);
+            }
+        });
 
         enAttenteButton.setText("En attente");
+        enAttenteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enAttenteButtonActionPerformed(evt);
+            }
+        });
 
         refuserButton.setText("Refuser");
+        refuserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refuserButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -317,6 +340,24 @@ public class CandidaturePanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void accepterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accepterButtonActionPerformed
+        UniversiteClient.getInstance().choixCandidature(cd, EtatDecision.ADMIS);
+        this.cd.etatDecision = EtatDecision.ADMIS;
+        this.colorerButtons();
+    }//GEN-LAST:event_accepterButtonActionPerformed
+
+    private void enAttenteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enAttenteButtonActionPerformed
+        UniversiteClient.getInstance().choixCandidature(cd, EtatDecision.ATTENTE);
+        this.cd.etatDecision = EtatDecision.ATTENTE;
+        this.colorerButtons();
+    }//GEN-LAST:event_enAttenteButtonActionPerformed
+
+    private void refuserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refuserButtonActionPerformed
+        UniversiteClient.getInstance().choixCandidature(cd, EtatDecision.REFUSE);
+        this.cd.etatDecision = EtatDecision.REFUSE;
+        this.colorerButtons();
+    }//GEN-LAST:event_refuserButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -357,16 +357,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Accepter"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accepterButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="enAttenteButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="En attente"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enAttenteButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="refuserButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Refuser"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="refuserButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

@@ -144,6 +144,11 @@ public class UniversiteChoice extends javax.swing.JFrame {
         buttonClore.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         buttonClore.setForeground(new java.awt.Color(255, 0, 0));
         buttonClore.setText("CLORE LES INSCRIPTIONS !!!!!!!!!!!!!!!!");
+        buttonClore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCloreActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,6 +207,14 @@ public class UniversiteChoice extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonCloreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCloreActionPerformed
+        for(CandidatureDetail cd : this.candidatureDetail){
+            UniversiteClient.getInstance().cloreCandidature(cd);
+        }
+        this.rafraichirVoeux(Integer.parseInt(((IDValue) comboFormation.getModel().getSelectedItem()).ID));
+    }//GEN-LAST:event_buttonCloreActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonClore;
     private javax.swing.JComboBox comboFormation;

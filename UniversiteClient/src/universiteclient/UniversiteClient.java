@@ -2,6 +2,8 @@ package universiteclient;
 
 import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
+import gestionVoeu.EtatDecision;
+import gestionVoeu.EtatInscription;
 import gestionVoeu.Ministere;
 import gestionVoeu.MinistereHelper;
 import gestionVoeu.Phase;
@@ -12,6 +14,7 @@ import gestionVoeu.Universite;
 import gestionVoeu.UniversiteDetail;
 import gestionVoeu.UniversiteHelper;
 import gestionVoeu.diplomeInconnu;
+import gestionVoeu.malformedInformation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -32,12 +35,14 @@ public class UniversiteClient {
     private DiplomeDetail[] diplomes;
     private Ministere ministere;
     private Universite universite;
+    private Rectorat rectorat;
     
     private UniversiteClient(){
         this.universiteMandant = MandantDialog.getMandant("ID de l'université");
         this.mandantRectorat = MandantDialog.getMandant("ID du rectorat");
         this.universite = UniversiteHelper.narrow(DistantObjectManager.getInstance().getReference(universiteMandant));
         this.ministere = MinistereHelper.narrow(DistantObjectManager.getInstance().getReference("Ministere"));
+        this.rectorat = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(mandantRectorat));
         this.diplomes = ministere.getListDiplomes();
     }
     
@@ -54,8 +59,7 @@ public class UniversiteClient {
     }
     
     public String getUniversiteLibelle(){
-        Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(mandantRectorat));
-        UniversiteDetail[] uds = r.recupererUniversites();
+        UniversiteDetail[] uds = this.rectorat.recupererUniversites();
         for(UniversiteDetail ud : uds){
             if(ud.id.equals(universiteMandant)){
                 return ud.name;
@@ -107,6 +111,22 @@ public class UniversiteClient {
     
     public Phase getPhase(){
         return this.ministere.getPhase();
+    }
+    
+    public void choixCandidature(CandidatureDetail cd, EtatDecision ed){
+        try {
+            this.rectorat.modifierCandidatureEtat(cd, cd.etatVoeu, ed, cd.etatInscription);
+        } catch (malformedInformation ex) {
+            Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void cloreCandidature(CandidatureDetail cd){
+        try {
+            this.rectorat.modifierCandidatureEtat(cd, cd.etatVoeu, cd.etatDecision, EtatInscription.CLOTURE);
+        } catch (malformedInformation ex) {
+            Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
