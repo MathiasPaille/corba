@@ -4,6 +4,7 @@ import gestionVoeu.CandidatureDetail;
 import gestionVoeu.DiplomeDetail;
 import gestionVoeu.EtatDecision;
 import gestionVoeu.EtatInscription;
+import gestionVoeu.EtatVoeu;
 import gestionVoeu.Ministere;
 import gestionVoeu.MinistereHelper;
 import gestionVoeu.Phase;
@@ -124,7 +125,8 @@ public class UniversiteClient {
     public void cloreCandidature(CandidatureDetail cd){
         Rectorat r = RectoratHelper.narrow(DistantObjectManager.getInstance().getReference(cd.voeuxDetail.etu.rectorat_ref));
         try {
-            r.modifierCandidatureEtat(cd, cd.etatVoeu, cd.etatDecision, EtatInscription.CLOTURE);
+            if(!cd.etatVoeu.equals(EtatVoeu.OUI_DEFINITIF)) r.modifierCandidatureEtat(cd, cd.etatVoeu, EtatDecision.REFUSE, EtatInscription.CLOTURE);
+            else r.modifierCandidatureEtat(cd, cd.etatVoeu, cd.etatDecision, EtatInscription.CLOTURE);
         } catch (malformedInformation ex) {
             Logger.getLogger(UniversiteClient.class.getName()).log(Level.SEVERE, null, ex);
         }
