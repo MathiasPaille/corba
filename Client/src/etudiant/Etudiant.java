@@ -25,6 +25,7 @@ import tools.DistantObjectManager;
 
 /**
  * Code métier pour l'interface étudiant
+ *
  * @author Yvan
  */
 public class Etudiant {
@@ -45,9 +46,10 @@ public class Etudiant {
     private Etudiant() {
         this.details = null;
     }
-    
+
     /**
-     * Initialisation du client étudiant avec les infos de connexion récupérées sur le rectorat
+     * Initialisation du client étudiant avec les infos de connexion récupérées
+     * sur le rectorat
      */
     public void init() {
         String[] infosConnexion = ConnexionDialog.getConnexionDetails(false);
@@ -84,7 +86,9 @@ public class Etudiant {
     }
 
     /**
-     * Permet de récupérer la liste des universitées, utile pour selectionner les formations en fonction des universitées
+     * Permet de récupérer la liste des universitées, utile pour selectionner
+     * les formations en fonction des universitées
+     *
      * @param rect rectorat des universitées concernées
      * @return liste d'universitées
      */
@@ -95,6 +99,7 @@ public class Etudiant {
 
     /**
      * Permet d'envoyer le mecanisme d'ajout de voeux en base de données
+     *
      * @param master numéro du master
      * @param universite identifiant de l'université (par exemple : universite1)
      * @param rectorat identifiant du rectorat (par exemple : rectorat1)
@@ -106,7 +111,10 @@ public class Etudiant {
     }
 
     /**
-     * permet de retourner la liste des formations EN FONCTION DE LA LICENSE DE L'ETUDIANT : ne retourne pas les master dont l'étudiant n'a pas les prérequis
+     * permet de retourner la liste des formations EN FONCTION DE LA LICENSE DE
+     * L'ETUDIANT : ne retourne pas les master dont l'étudiant n'a pas les
+     * prérequis
+     *
      * @param univ universite de laquelle on veut les formations
      * @return liste de formation trié avec les prerequis
      */
@@ -126,6 +134,14 @@ public class Etudiant {
                             monBoul = true;
                         }
                     }
+                    //Si on a déjà selectionné le voeux, on ne le prends pas en compte
+                    for (CandidatureDetail cd : this.listeVoeux) {
+                        if (cd.voeuxDetail.universite.equals(univ)) {
+                            if (cd.voeuxDetail.master == d.id) {
+                                monBoul = false;
+                            }
+                        }
+                    }
                     if (monBoul) {
                         ArrayListDiplomesLesVrais.add(d);
                     }
@@ -134,9 +150,11 @@ public class Etudiant {
         }
         return this.ArrayListDiplomesToTableau(ArrayListDiplomesLesVrais);
     }
-    
+
     /**
-     * Methode permettant la transformation d'une array list de DiplomeDetail en diplomedetail[]
+     * Methode permettant la transformation d'une array list de DiplomeDetail en
+     * diplomedetail[]
+     *
      * @param ddl c'est la arraylist de diplomes
      * @return le tableau de diplome detail
      */
@@ -146,6 +164,7 @@ public class Etudiant {
 
     /**
      * Get le libellé d'une formation avec l'id de la formation
+     *
      * @param formationID l'id de la formation
      * @return le libellé de la formation
      */
@@ -160,9 +179,10 @@ public class Etudiant {
 
     /**
      * récupérer le libelle de l'universite
+     *
      * @param universiteID id de l'universite
      * @param rectoratID id du rectorat
-     * @return 
+     * @return
      */
     public String getUniversiteLibelle(String universiteID, String rectoratID) {
         UniversiteDetail[] ud = this.getUniversitesList(rectoratID);
@@ -176,6 +196,7 @@ public class Etudiant {
 
     /**
      * récupérer le libelle du rectorat
+     *
      * @param rectoratID id du rectorat
      * @return le libelle du rectorat
      */
@@ -207,8 +228,8 @@ public class Etudiant {
     public Phase getPhase() {
         return this.ministere.getPhase();
     }
-    
-    public void faireVoeu(CandidatureDetail cd, EtatVoeu ev){
+
+    public void faireVoeu(CandidatureDetail cd, EtatVoeu ev) {
         try {
             this.rectorat.modifierCandidatureEtat(cd, ev, cd.etatDecision, cd.etatInscription);
         } catch (malformedInformation ex) {
