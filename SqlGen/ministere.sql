@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 19 Juin 2015 à 18:28
+-- Généré le :  Ven 26 Juin 2015 à 03:24
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `ministere`
 --
-CREATE DATABASE IF NOT EXISTS `ministere` DEFAULT CHARACTER SET latin1 COLLATE latin1_general_ci;
+CREATE DATABASE IF NOT EXISTS `ministere` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `ministere`;
 
 -- --------------------------------------------------------
@@ -42,15 +42,15 @@ CREATE TABLE IF NOT EXISTS `diplomes` (
 
 INSERT INTO `diplomes` (`id`, `libelle`, `dip_prerequis`) VALUES
 (1, 'MIAGE', '{"requis":["L3 MIAGE","Licence pro"]}'),
-(2, 'STAPS', '{"requis":["Glandage","L3 Dressage de pingouins"]}'),
-(3, 'Management Spécialité Administration des Entreprises', '{"requis":["Licence manager","Licence assistant manager","Licence grh"]}'),
-(4, 'Droit', '{"requis":["Licence droit"]}'),
-(5, 'Psychologie', '{"requis":["Licence psychologie"]}'),
+(2, 'STAPS', '{"requis":["L3 MIAGE","L3 Dressage de pingouins"]}'),
+(3, 'Management Spécialité Administration des Entreprises', '{"requis":["Licence manager","Licence assistant manager","Licence grh","L3 MIAGE"]}'),
+(4, 'Droit', '{"requis":["Licence droit,"L3 MIAGE""]}'),
+(5, 'Psychologie', '{"requis":["Licence psychologie","L3 MIAGE"]}'),
 (6, 'Biologie', '{"requis":["Licence biologie","Licence pro"]}'),
-(7, 'Nanorobotique et augmentation humaine appliquée', '{"requis":["Licence nanorobotique","Licence pro"]}'),
+(7, 'Nanorobotique et augmentation humaine appliquée', '{"requis":["Licence nanorobotique","L3 MIAGE","Licence pro"]}'),
 (8, 'Arts plastiques', '{"requis":["Licence arts"]}'),
-(9, 'Histoire de la musique', '{"requis":["Licence hard-rock","Licence blues"]}'),
-(10, 'Ornithorynquologie', '{"requis":["Licence Ornithorynquologie","Licence pro"]}'),
+(9, 'Histoire de la musique', '{"requis":["Licence hard-rock","L3 MIAGE","Licence blues"]}'),
+(10, 'Ornithorynquologie', '{"requis":["Licence Ornithorynquologie","L3 MIAGE","Licence pro"]}'),
 (11, 'Cinéma', '{"requis":["Licence cinema"]}');
 
 -- --------------------------------------------------------
